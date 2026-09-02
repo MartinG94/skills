@@ -1,0 +1,228 @@
+{
+  "process": [
+    {
+      "type": "startEvent",
+      "id": "start_solicitud",
+      "label": "Solicitud de alquiler recibida",
+      "eventDefinition": "messageEventDefinition",
+      "lane": "Lane_Ventas"
+    },
+    {
+      "type": "serviceTask",
+      "id": "task_check_stock",
+      "label": "Consultar disponibilidad en ERP",
+      "lane": "Lane_Ventas"
+    },
+    {
+      "type": "exclusiveGateway",
+      "id": "gw_check_stock",
+      "label": "¿Hay stock en fechas?",
+      "has_join": false,
+      "lane": "Lane_Ventas",
+      "branches": [
+        {
+          "condition": "Sin stock",
+          "path": [
+            {
+              "type": "sendTask",
+              "id": "task_send_nostock",
+              "label": "Enviar aviso de no disponibilidad",
+              "lane": "Lane_Ventas"
+            },
+            {
+              "type": "endEvent",
+              "id": "end_nostock",
+              "label": "Fin: Rechazado por falta de stock",
+              "lane": "Lane_Ventas"
+            }
+          ]
+        },
+        {
+          "condition": "Con stock",
+          "path": []
+        }
+      ]
+    },
+    {
+      "type": "userTask",
+      "id": "task_draft_quote",
+      "label": "Confeccionar cotización formal",
+      "lane": "Lane_Ventas"
+    },
+    {
+      "type": "sendTask",
+      "id": "task_send_quote",
+      "label": "Enviar cotización al cliente",
+      "lane": "Lane_Ventas"
+    },
+    {
+      "type": "intermediateCatchEvent",
+      "id": "wait_quote_response",
+      "label": "Esperar respuesta cliente (48h)",
+      "eventDefinition": "timerEventDefinition",
+      "lane": "Lane_Ventas"
+    },
+    {
+      "type": "exclusiveGateway",
+      "id": "gw_quote_response",
+      "label": "¿Respuesta en plazo?",
+      "has_join": false,
+      "lane": "Lane_Ventas",
+      "branches": [
+        {
+          "condition": "Rechazada o vencida",
+          "path": [
+            {
+              "type": "userTask",
+              "id": "task_cancel_quote",
+              "label": "Registrar cancelación en ERP",
+              "lane": "Lane_Ventas"
+            },
+            {
+              "type": "endEvent",
+              "id": "end_cancelled",
+              "label": "Fin: Solicitud cancelada",
+              "lane": "Lane_Ventas"
+            }
+          ]
+        },
+        {
+          "condition": "Aprobada",
+          "path": []
+        }
+      ]
+    },
+    {
+      "type": "userTask",
+      "id": "task_eval_credit",
+      "label": "Evaluar situación crediticia del cliente",
+      "lane": "Lane_Creditos"
+    },
+    {
+      "type": "exclusiveGateway",
+      "id": "gw_credit_check",
+      "label": "¿Calificación crediticia apta?",
+      "has_join": true,
+      "lane": "Lane_Creditos",
+      "branches": [
+        {
+          "condition": "Calificación B/C (Requiere anticipo)",
+          "path": [
+            {
+              "type": "sendTask",
+              "id": "task_req_advance",
+              "label": "Exigir anticipo 100% y garantía",
+              "lane": "Lane_Creditos"
+            },
+            {
+              "type": "userTask",
+              "id": "task_check_advance",
+              "label": "Verificar acreditación de pago (24h)",
+              "lane": "Lane_Creditos"
+            },
+            {
+              "type": "exclusiveGateway",
+              "id": "gw_advance_paid",
+              "label": "¿Pago acreditado?",
+              "has_join": false,
+              "lane": "Lane_Creditos",
+              "branches": [
+                {
+                  "condition": "No acreditado",
+                  "path": [
+                    {
+                      "type": "userTask",
+                      "id": "task_reject_credit",
+                      "label": "Rechazar operación comercial",
+                      "lane": "Lane_Creditos"
+                    },
+                    {
+                      "type": "endEvent",
+                      "id": "end_credit_rejected",
+                      "label": "Fin: Crédito rechazado",
+                      "lane": "Lane_Creditos"
+                    }
+                  ]
+                },
+                {
+                  "condition": "Acreditado",
+                  "path": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "condition": "Calificación A (Apta 30 días)",
+          "path": []
+        }
+      ]
+    },
+    {
+      "type": "userTask",
+      "id": "task_approve_deal",
+      "label": "Aprobar y consolidar operación",
+      "lane": "Lane_Creditos"
+    },
+    {
+      "type": "parallelGateway",
+      "id": "gw_parallel_exec",
+      "label": "Fork concurrente facturación y taller",
+      "lane": "Lane_Admin",
+      "branches": [
+        [
+          {
+            "type": "serviceTask",
+            "id": "task_gen_invoice",
+            "label": "Solicitar CAE a AFIP (RG 4291)",
+            "lane": "Lane_Admin"
+          },
+          {
+            "type": "sendTask",
+            "id": "task_send_invoice",
+            "label": "Emitir y enviar factura electrónica",
+            "lane": "Lane_Admin"
+          }
+        ],
+        [
+          {
+            "type": "manualTask",
+            "id": "task_prep_machine",
+            "label": "Acondicionar máquina en depósito",
+            "lane": "Lane_Taller"
+          },
+          {
+            "type": "userTask",
+            "id": "task_inspect_machine",
+            "label": "Ejecutar inspección técnica obligatoria",
+            "lane": "Lane_Taller"
+          },
+          {
+            "type": "userTask",
+            "id": "task_coord_freight",
+            "label": "Coordinar flete y despacho",
+            "lane": "Lane_Taller"
+          },
+          {
+            "type": "receiveTask",
+            "id": "task_receive_remito",
+            "label": "Recepcionar remito firmado",
+            "lane": "Lane_Taller"
+          },
+          {
+            "type": "userTask",
+            "id": "task_register_delivery",
+            "label": "Registrar entrega efectiva en ERP",
+            "lane": "Lane_Taller"
+          }
+        ]
+      ]
+    },
+    {
+      "type": "endEvent",
+      "id": "end_success",
+      "label": "Fin: Alquiler activo y entregado",
+      "lane": "Lane_Taller"
+    }
+  ]
+}
