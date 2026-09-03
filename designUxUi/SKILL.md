@@ -1,6 +1,7 @@
 ---
 name: designUxUi
-description: Diseña, implementa, refactoriza y valida interfaces frontend web profesionales y componentes UI generativos (HTML, Tailwind CSS, widgets interactivos inline con <agent-embed> o páginas completas en localhost). Integra formalmente la especificación DESIGN.md de Google Labs para gobernanza de sistemas de diseño, tokens visuales, validación WCAG AA y exportación automática a Tailwind v3/v4.
+description: >-
+  Diseña, implementa, refactoriza y valida interfaces frontend web profesionales, sistemas de diseño y componentes UI generativos (HTML, Tailwind CSS, widgets interactivos inline con <agent-embed> o páginas completas en localhost). Integra formalmente la especificación DESIGN.md de Google Labs (creación anti-slop con taste-design, extracción e ingeniería inversa de tokens desde código existente con extract-design-md, auditoría de contrastes WCAG AA con @google/design.md y exportación automática a Tailwind v3/v4 y DTCG).
 ---
 
 # Diseñar UX/UI y Componentes Generativos (`designUxUi`)
