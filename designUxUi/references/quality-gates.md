@@ -30,7 +30,7 @@ Registra qué escenario se ejecutó y su resultado. Una revisión del código no
 
 - Inspecciona al menos un viewport estrecho, uno intermedio y uno amplio, además de redimensionar a través de los puntos donde cambie el layout; no valides solo los extremos.
 - Varía también la altura cuando existan regiones `sticky`/`fixed`, overlays o teclado virtual, y comprueba que ninguna acción quede atrapada fuera del viewport.
-- Comprueba jerarquía, alineación, ritmo, densidad, foco visual y consistencia.
+- Comprueba jerarquía, alineación, ritmo, densidad, foco visual y consistencia con los tokens de `DESIGN.md` (colores de acento, fondos, tipografía y radios definidos).
 - Busca recortes, superposición, scroll horizontal, contenido fuera de pantalla, saltos de layout, líneas huérfanas y assets borrosos.
 - Prueba contenido largo, zoom y aumento de texto cuando sean relevantes.
 - Si el layout oculta o abrevia etiquetas, confirma que el nombre y el contexto sigan presentes para tecnologías de asistencia.
@@ -52,6 +52,11 @@ Si existe un scanner configurado, ejecútalo como complemento. No declares confo
 
 ## Gate 5: ingeniería
 
+- **Validación del Sistema de Diseño (`DESIGN.md`)**: Si el proyecto define tokens en `DESIGN.md`, ejecutar:
+  ```powershell
+  npx -p @google/design.md designmd lint DESIGN.md
+  ```
+  Asegurar 0 errores en `broken-ref` y `contrast-ratio` (mínimo 4.5:1 para texto normal, 3:1 para controles y texto grande).
 - Ejecuta build, typecheck, lint y tests existentes que cubran el cambio.
 - Revisa consola del navegador, errores no capturados, warnings relevantes, requests fallidos y 404.
 - Comprueba rutas directas y refresh cuando haya routing.
