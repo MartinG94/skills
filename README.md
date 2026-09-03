@@ -4,10 +4,13 @@ Repositorio centralizado de **Agent Skills** modulares, especializadas y basadas
 
 Estas habilidades están diseñadas para ser consumidas y ejecutadas por agentes de Inteligencia Artificial (compatibles con **Google Antigravity**, **Claude Code**, **Cursor**, **Windsurf**, agentes basados en OpenAI y frameworks agénticos avanzados) conforme al estándar de carpetas `SKILL.md`.
 
+> 📘 **Playbook Maestro**: Consultá el [**Instructivo de Implementación Exitosa de Sistemas de Información (Paso 0 a Producción)**](GUIA_IMPLEMENTACION_SISTEMAS.md), que orquesta el ciclo de vida completo integrando las 22 skills del repositorio con compuertas de calidad (*Quality Gates*).
+
 ---
 
 ## 📌 Contenido
 
+- [Instructivo Operativo End-to-End](GUIA_IMPLEMENTACION_SISTEMAS.md)
 - [Visión General y Propósito](#-visión-general-y-propósito)
 - [Mapa del Ciclo de Vida de Software](#-mapa-del-ciclo-de-vida-de-software)
 - [Catálogo de Skills](#-catálogo-de-skills)
