@@ -204,7 +204,7 @@ El repositorio cuenta actualmente con **22 skills especializadas**, distribuidas
 | [**domainDesign**](domainDesign/SKILL.md) | Modelado de Dominio Rico, Arquitectura Limpia/Hexagonal (Ports & Adapters) y Diagramas de Clases de Diseño (DCD). | Domain-Driven Design (DDD Táctico), Value Objects inmutables, Tell Don't Ask, DCD UML, DTOs y Mappers desacoplados. | `SKILL.md` |
 | [**ormMaster**](ormMaster/SKILL.md) | Persistencia objeto-relacional avanzada, gestión del ciclo de vida de entidades y optimización transaccional. | JPA/Hibernate, EF Core, mitigación de consultas $N+1$ (Fetch Joins, Entity Graphs), concurrencia optimista (`@Version`), transacciones ACID. | `SKILL.md` |
 | [**apiDesign**](apiDesign/SKILL.md) | Diseño y especificación de contratos de APIs RESTful idiomáticas, seguras y robustas. | Modelo de Madurez de Richardson, semántica e idempotencia HTTP, OpenAPI 3.x, respuestas canónicas RFC 7807/9457 (*Problem Details*). | `SKILL.md` |
-| [**backendTesting**](backendTesting/SKILL.md) | Estrategia de pruebas automatizadas y artesanía de testing orientada a objetos. | Pirámide de Pruebas, patrón AAA (Arrange-Act-Assert), taxonomía de Test Doubles (Meszaros: Stubs, Mocks, Fakes), diseño para testabilidad. | `SKILL.md` |
+| [**backendTesting**](backendTesting/SKILL.md) | Estrategia de pruebas automatizadas y artesanía de testing orientada a objetos. | Pirámide de Pruebas, patrón AAA (Arrange-Act-Assert), taxonomía de Test Doubles (Meszaros: Stubs, Mocks, Fakes), soporte políglota (.NET, Java, Python). | `SKILL.md`, `README.md` |
 
 ---
 

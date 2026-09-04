@@ -98,7 +98,7 @@ El código que resulta difícil de probar revela defectos intrínsecos de diseñ
    - ❌ Anti-patrón: `private EmailService _service = new EmailService();` dentro del caso de uso.
    - ✅ Correcto: `public RegistrarUsuario(IEmailService service) { _service = service; }`
 2. **Abstracción de Fuentes No Deterministas**:
-   - **Tiempo / Fechas**: Nunca invocar directamente `DateTime.Now`, `new Date()` o `Instant.now()` en la lógica de dominio. Inyectar un proveedor de tiempo abstracto (`Clock` en Java o `TimeProvider` en .NET).
+   - **Tiempo / Fechas**: Nunca invocar directamente `DateTime.Now`, `new Date()`, `Instant.now()` o `datetime.now()` en la lógica de dominio. Inyectar un proveedor de tiempo abstracto (`Clock` en Java, `TimeProvider` en .NET o un `Protocol` / `Callable[[], datetime]` en Python).
    - **Identificadores Aleatorios**: Si se generan UUIDs en el caso de uso, inyectar un generador de IDs para permitir aserciones deterministas.
 3. **Favorecer Fakes Ligeros sobre Cadenas Monstruosas de Mocks**:
    - Si un test requiere 15 líneas de `when(...).thenReturn(...)` para configurar mocks, la clase bajo prueba viola el Principio de Responsabilidad Única (SRP).
@@ -245,11 +245,188 @@ class ConfirmarPedidoInteractorTest {
 
 ---
 
+### 6.3. Prueba Unitaria Pura de Dominio (Python >3.10 / pytest)
+
+```python
+"""Pruebas unitarias de dominio puro (Python >3.10 + pytest)."""
+
+from decimal import Decimal
+from uuid import uuid4
+import pytest
+
+from backend.dominio.entidades import DireccionEntrega, EstadoPedido, ItemPedido, Pedido
+from backend.dominio.excepciones import ReglaNegocioError
+from backend.dominio.value_objects import Dinero
+
+
+class TestPedidoDominio:
+
+    def test_confirmar_cuando_total_supera_limite_credito_debe_lanzar_excepcion_y_mantener_borrador(self) -> None:
+        # 1. Arrange (Preparar)
+        pedido = Pedido(
+            id=uuid4(),
+            cliente_id=uuid4(),
+            direccion_entrega=DireccionEntrega(calle="Av. Colón 123", ciudad="Córdoba", codigo_postal="5000"),
+        )
+        item = ItemPedido(sku="SKU-001", descripcion="Notebook Gamer", cantidad=1, precio_unitario=Dinero(Decimal("150000.00"), "ARS"))
+        pedido.agregar_item(item)
+
+        limite_credito_insuficiente = Dinero(Decimal("50000.00"), "ARS")
+
+        # 2. Act & 3. Assert (Ejecutar y Verificar)
+        with pytest.raises(ReglaNegocioError, match=r"excede el límite de crédito"):
+            pedido.confirmar(limite_credito=limite_credito_insuficiente)
+
+        # Invariante: el estado no debe haber transitado a CONFIRMADO
+        assert pedido.estado == EstadoPedido.BORRADOR
+
+    def test_calcular_total_con_multiples_items_debe_sumar_subtotales_con_precision_exacta(self) -> None:
+        # 1. Arrange
+        pedido = Pedido(
+            id=uuid4(),
+            cliente_id=uuid4(),
+            direccion_entrega=DireccionEntrega(calle="San Martín 456", ciudad="Rosario", codigo_postal="2000"),
+        )
+        pedido.agregar_item(ItemPedido(sku="SKU-1", descripcion="Mouse", cantidad=2, precio_unitario=Dinero(Decimal("10.50"), "USD")))
+        pedido.agregar_item(ItemPedido(sku="SKU-2", descripcion="Teclado", cantidad=1, precio_unitario=Dinero(Decimal("50.25"), "USD")))
+
+        # 2. Act
+        total = pedido.calcular_total()
+
+        # 3. Assert
+        assert total.monto == Decimal("71.25")
+        assert total.moneda == "USD"
+```
+
+---
+
+### 6.4. Prueba de Caso de Uso con Protocolos y Mocks Aislados (Python >3.10 / pytest + unittest.mock)
+
+```python
+"""Prueba de orquestación de caso de uso con puertos desacoplados (Python >3.10)."""
+
+from dataclasses import dataclass
+from decimal import Decimal
+from typing import Protocol
+from unittest.mock import create_autospec
+from uuid import UUID, uuid4
+import pytest
+
+from backend.dominio.entidades import DireccionEntrega, EstadoPedido, ItemPedido, Pedido
+from backend.dominio.value_objects import Dinero
+
+
+# --- Puertos Secundarios (typing.Protocol para Arquitectura Limpia/Hexagonal) ---
+class PedidoRepositoryPort(Protocol):
+    def obtener_por_id(self, pedido_id: UUID) -> Pedido | None: ...
+    def guardar(self, pedido: Pedido) -> None: ...
+
+
+class ServicioCreditoPort(Protocol):
+    def consultar_limite_credito(self, cliente_id: UUID) -> Dinero: ...
+
+
+# --- DTOs de Entrada y Salida ---
+@dataclass(frozen=True, slots=True)
+class ConfirmarPedidoCommand:
+    pedido_id: UUID
+    cliente_id: UUID
+
+
+@dataclass(frozen=True, slots=True)
+class PedidoDetalleDto:
+    pedido_id: UUID
+    estado: str
+    total: Decimal
+    moneda: str
+
+
+# --- Caso de Uso / Interactor Bajo Prueba ---
+class ConfirmarPedidoInteractor:
+    def __init__(self, pedido_repo: PedidoRepositoryPort, servicio_credito: ServicioCreditoPort) -> None:
+        self._pedido_repo = pedido_repo
+        self._servicio_credito = servicio_credito
+
+    def ejecutar(self, command: ConfirmarPedidoCommand) -> PedidoDetalleDto:
+        pedido = self._pedido_repo.obtener_por_id(command.pedido_id)
+        if pedido is None:
+            raise ValueError(f"Pedido {command.pedido_id} no encontrado")
+
+        limite = self._servicio_credito.consultar_limite_credito(command.cliente_id)
+        pedido.confirmar(limite)
+        self._pedido_repo.guardar(pedido)
+
+        total = pedido.calcular_total()
+        return PedidoDetalleDto(
+            pedido_id=pedido.id,
+            estado=pedido.estado.value,
+            total=total.monto,
+            moneda=total.moneda,
+        )
+
+
+# --- Suite de Pruebas ---
+class TestConfirmarPedidoInteractor:
+
+    @pytest.fixture
+    def mock_repo(self) -> PedidoRepositoryPort:
+        # create_autospec previene 'mock drift' garantizando que sólo se invoquen métodos del Protocol
+        return create_autospec(PedidoRepositoryPort, instance=True)
+
+    @pytest.fixture
+    def mock_servicio_credito(self) -> ServicioCreditoPort:
+        return create_autospec(ServicioCreditoPort, instance=True)
+
+    @pytest.fixture
+    def interactor(self, mock_repo: PedidoRepositoryPort, mock_servicio_credito: ServicioCreditoPort) -> ConfirmarPedidoInteractor:
+        return ConfirmarPedidoInteractor(pedido_repo=mock_repo, servicio_credito=mock_servicio_credito)
+
+    def test_confirmar_pedido_con_credito_suficiente_debe_confirmar_y_guardar(
+        self,
+        interactor: ConfirmarPedidoInteractor,
+        mock_repo: PedidoRepositoryPort,
+        mock_servicio_credito: ServicioCreditoPort,
+    ) -> None:
+        # 1. Arrange
+        cliente_id = uuid4()
+        pedido_id = uuid4()
+
+        # Usamos la entidad REAL del dominio, NUNCA un mock de Pedido
+        pedido_real = Pedido(
+            id=pedido_id,
+            cliente_id=cliente_id,
+            direccion_entrega=DireccionEntrega(calle="Av. Siempre Viva 742", ciudad="Springfield", codigo_postal="1234"),
+        )
+        pedido_real.agregar_item(ItemPedido(sku="SKU-A", descripcion="Monitor", cantidad=1, precio_unitario=Dinero(Decimal("300.00"), "USD")))
+
+        # Programamos los Stubs sobre los puertos secundarios
+        mock_repo.obtener_por_id.return_value = pedido_real
+        mock_servicio_credito.consultar_limite_credito.return_value = Dinero(Decimal("1000.00"), "USD")
+
+        command = ConfirmarPedidoCommand(pedido_id=pedido_id, cliente_id=cliente_id)
+
+        # 2. Act
+        resultado = interactor.ejecutar(command)
+
+        # 3. Assert
+        assert resultado is not None
+        assert resultado.estado == "Confirmado"
+        assert resultado.total == Decimal("300.00")
+        assert resultado.moneda == "USD"
+
+        # Verificamos que el repositorio persistió el pedido con el nuevo estado
+        mock_repo.guardar.assert_called_once()
+        pedido_guardado: Pedido = mock_repo.guardar.call_args[0][0]
+        assert pedido_guardado.estado == EstadoPedido.CONFIRMADO
+```
+
+---
+
 ## 7. Checklist de Calidad para Suites de Testing
 
 - [ ] ¿Las pruebas unitarias corren en menos de 10 milisegundos y no hacen llamadas a red, disco o BD?
 - [ ] ¿Se utiliza siempre el patrón AAA (Arrange - Act - Assert) con nomenclatura explícita?
 - [ ] ¿Las entidades de dominio y Value Objects se instancian de forma real en lugar de mockearse?
-- [ ] ¿Se aíslan las fechas y horas inyectando abstracciones de reloj (`TimeProvider` / `Clock`)?
+- [ ] ¿Se aíslan las fechas y horas inyectando abstracciones de reloj (`TimeProvider` / `Clock` / `Protocol`)?
 - [ ] ¿Los tests son deterministas e independientes entre sí, sin depender de variables globales o estáticas mutables?
 - [ ] ¿Las pruebas de integración de persistencia se ejecutan contra bases de datos reales o contenedores efímeros?
