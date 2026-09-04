@@ -653,7 +653,7 @@ sequenceDiagram
     Bob-->>John: Jolly good!
 ```
 
-### Start and Increment values (v<MERMAID_RELEASE_VERSION>+)
+### Start and Increment values (version-dependent; verify renderer support)
 
 It is possible to specify a starting value and an increment value for automatic numbering. Both the starting value and increment value can include decimals up to the hundredths place.
 
@@ -821,7 +821,7 @@ text.actor {
 It is possible to adjust the margins for rendering the sequence diagram.
 
 This is done by defining `mermaid.sequenceConfig` or by the CLI to use a json file with the configuration.
-How to use the CLI is described in the [mermaidCLI](../config/mermaidCLI.md) page.
+Mermaid CLI usage is version-dependent; its upstream page is not bundled in this snapshot.
 `mermaid.sequenceConfig` can be set to a JSON string with config parameters or the corresponding object.
 
 ```javascript

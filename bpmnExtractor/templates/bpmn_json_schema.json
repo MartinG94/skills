@@ -1,283 +1,176 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "BPMN Process Intermediate Representation (BPMN-IR)",
-  "description": "Canonical tree-like JSON representation for BPMN 2.0 processes.",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "BPMN-IR single-process model",
+  "description": "Tree representation for one non-executable white-box process with lanes and sequence flows. It does not model collaborations, message flows, BPMNDI or engine extensions.",
   "type": "object",
-  "required": [
-    "process"
-  ],
+  "required": ["id", "name", "process"],
   "properties": {
+    "id": { "$ref": "#/$defs/id" },
+    "name": { "type": "string", "minLength": 1, "pattern": ".*\\S.*" },
     "process": {
       "type": "array",
-      "items": {
-        "$ref": "#/definitions/BPMNElement"
-      },
-      "minItems": 1
+      "minItems": 2,
+      "items": { "$ref": "#/$defs/element" }
     }
   },
-  "definitions": {
-    "TaskType": {
+  "additionalProperties": false,
+  "$defs": {
+    "id": {
       "type": "string",
-      "enum": [
-        "task",
-        "userTask",
-        "serviceTask",
-        "sendTask",
-        "receiveTask",
-        "businessRuleTask",
-        "manualTask",
-        "scriptTask"
-      ]
+      "pattern": "^[A-Za-z_][A-Za-z0-9_.-]*$"
     },
-    "EventType": {
+    "lane": {
       "type": "string",
-      "enum": [
-        "startEvent",
-        "endEvent",
-        "intermediateThrowEvent",
-        "intermediateCatchEvent"
-      ]
+      "pattern": "^[A-Za-z_][A-Za-z0-9_.-]*$"
     },
-    "EventDefinitionType": {
-      "type": "string",
-      "enum": [
-        "timerEventDefinition",
-        "messageEventDefinition"
-      ]
-    },
-    "BPMNTask": {
+    "task": {
       "type": "object",
-      "required": [
-        "type",
-        "id",
-        "label"
-      ],
+      "required": ["type", "id", "label"],
       "properties": {
         "type": {
-          "$ref": "#/definitions/TaskType"
+          "enum": ["task", "userTask", "serviceTask", "sendTask", "receiveTask", "businessRuleTask", "manualTask", "scriptTask"]
         },
-        "id": {
-          "type": "string"
-        },
-        "label": {
-          "type": "string"
-        },
-        "lane": {
-          "type": "string",
-          "description": "Optional lane or role assignment"
-        }
+        "id": { "$ref": "#/$defs/id" },
+        "label": { "type": "string", "minLength": 1, "pattern": ".*\\S.*" },
+        "lane": { "$ref": "#/$defs/lane" }
       },
       "additionalProperties": false
     },
-    "BPMNEvent": {
+    "event": {
       "type": "object",
-      "required": [
-        "type",
-        "id"
-      ],
+      "required": ["type", "id", "label"],
       "properties": {
         "type": {
-          "$ref": "#/definitions/EventType"
+          "enum": ["startEvent", "endEvent", "intermediateThrowEvent", "intermediateCatchEvent"]
         },
-        "id": {
-          "type": "string"
-        },
-        "label": {
-          "type": "string"
-        },
-        "eventDefinition": {
-          "$ref": "#/definitions/EventDefinitionType"
-        },
-        "lane": {
-          "type": "string",
-          "description": "Optional lane or role assignment"
-        }
+        "id": { "$ref": "#/$defs/id" },
+        "label": { "type": "string", "minLength": 1, "pattern": ".*\\S.*" },
+        "eventDefinition": { "enum": ["timerEventDefinition", "messageEventDefinition"] },
+        "lane": { "$ref": "#/$defs/lane" }
       },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "type": { "enum": ["endEvent", "intermediateThrowEvent"] }
+            }
+          },
+          "then": {
+            "properties": {
+              "eventDefinition": { "const": "messageEventDefinition" }
+            }
+          }
+        }
+      ],
       "additionalProperties": false
     },
-    "ExclusiveGatewayBranch": {
+    "exclusiveBranch": {
       "type": "object",
-      "required": [
-        "condition",
-        "path"
-      ],
+      "required": ["path"],
       "properties": {
-        "condition": {
-          "type": "string"
-        },
+        "condition": { "type": "string", "minLength": 1, "pattern": ".*\\S.*" },
         "path": {
           "type": "array",
-          "items": {
-            "$ref": "#/definitions/BPMNElement"
-          }
+          "items": { "$ref": "#/$defs/element" }
         },
         "next": {
-          "type": [
-            "string",
-            "null"
-          ]
-        }
+          "oneOf": [{ "$ref": "#/$defs/id" }, { "type": "null" }]
+        },
+        "is_default": { "type": "boolean", "default": false }
       },
+      "oneOf": [
+        { "required": ["condition"] },
+        {
+          "required": ["is_default"],
+          "properties": { "is_default": { "const": true } }
+        }
+      ],
       "additionalProperties": false
     },
-    "ExclusiveGateway": {
+    "inclusiveBranch": {
       "type": "object",
-      "required": [
-        "type",
-        "id",
-        "label",
-        "has_join",
-        "branches"
-      ],
+      "required": ["path"],
       "properties": {
-        "type": {
-          "type": "string",
-          "enum": [
-            "exclusiveGateway"
-          ]
-        },
-        "id": {
-          "type": "string"
-        },
-        "label": {
-          "type": "string"
-        },
-        "has_join": {
-          "type": "boolean"
-        },
-        "branches": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/ExclusiveGatewayBranch"
-          },
-          "minItems": 2
-        },
-        "lane": {
-          "type": "string"
-        }
-      },
-      "additionalProperties": false
-    },
-    "InclusiveGatewayBranch": {
-      "type": "object",
-      "required": [
-        "path"
-      ],
-      "properties": {
-        "condition": {
-          "type": "string"
-        },
+        "condition": { "type": "string", "minLength": 1, "pattern": ".*\\S.*" },
         "path": {
           "type": "array",
-          "items": {
-            "$ref": "#/definitions/BPMNElement"
-          }
+          "items": { "$ref": "#/$defs/element" }
         },
         "next": {
-          "type": [
-            "string",
-            "null"
-          ]
+          "oneOf": [{ "$ref": "#/$defs/id" }, { "type": "null" }]
         },
-        "is_default": {
-          "type": "boolean",
-          "default": false
+        "is_default": { "type": "boolean", "default": false }
+      },
+      "oneOf": [
+        { "required": ["condition"] },
+        {
+          "required": ["is_default"],
+          "properties": { "is_default": { "const": true } }
         }
+      ],
+      "additionalProperties": false
+    },
+    "exclusiveGateway": {
+      "type": "object",
+      "required": ["type", "id", "has_join", "branches"],
+      "properties": {
+        "type": { "const": "exclusiveGateway" },
+        "id": { "$ref": "#/$defs/id" },
+        "label": { "type": "string" },
+        "has_join": { "type": "boolean" },
+        "branches": {
+          "type": "array",
+          "minItems": 2,
+          "items": { "$ref": "#/$defs/exclusiveBranch" }
+        },
+        "lane": { "$ref": "#/$defs/lane" }
       },
       "additionalProperties": false
     },
-    "InclusiveGateway": {
+    "inclusiveGateway": {
       "type": "object",
-      "required": [
-        "type",
-        "id",
-        "label",
-        "has_join",
-        "branches"
-      ],
+      "required": ["type", "id", "has_join", "branches"],
       "properties": {
-        "type": {
-          "type": "string",
-          "enum": [
-            "inclusiveGateway"
-          ]
-        },
-        "id": {
-          "type": "string"
-        },
-        "label": {
-          "type": "string"
-        },
-        "has_join": {
-          "type": "boolean"
-        },
+        "type": { "const": "inclusiveGateway" },
+        "id": { "$ref": "#/$defs/id" },
+        "label": { "type": "string" },
+        "has_join": { "type": "boolean" },
         "branches": {
           "type": "array",
-          "items": {
-            "$ref": "#/definitions/InclusiveGatewayBranch"
-          },
-          "minItems": 2
+          "minItems": 2,
+          "items": { "$ref": "#/$defs/inclusiveBranch" }
         },
-        "lane": {
-          "type": "string"
-        }
+        "lane": { "$ref": "#/$defs/lane" }
       },
       "additionalProperties": false
     },
-    "ParallelGateway": {
+    "parallelGateway": {
       "type": "object",
-      "required": [
-        "type",
-        "id",
-        "branches"
-      ],
+      "required": ["type", "id", "branches"],
       "properties": {
-        "type": {
-          "type": "string",
-          "enum": [
-            "parallelGateway"
-          ]
-        },
-        "id": {
-          "type": "string"
-        },
-        "label": {
-          "type": "string"
-        },
+        "type": { "const": "parallelGateway" },
+        "id": { "$ref": "#/$defs/id" },
+        "label": { "type": "string" },
         "branches": {
           "type": "array",
+          "minItems": 2,
           "items": {
             "type": "array",
-            "items": {
-              "$ref": "#/definitions/BPMNElement"
-            },
-            "minItems": 1
-          },
-          "minItems": 2
+            "minItems": 1,
+            "items": { "$ref": "#/$defs/element" }
+          }
         },
-        "lane": {
-          "type": "string"
-        }
+        "lane": { "$ref": "#/$defs/lane" }
       },
       "additionalProperties": false
     },
-    "BPMNElement": {
+    "element": {
       "oneOf": [
-        {
-          "$ref": "#/definitions/BPMNTask"
-        },
-        {
-          "$ref": "#/definitions/BPMNEvent"
-        },
-        {
-          "$ref": "#/definitions/ExclusiveGateway"
-        },
-        {
-          "$ref": "#/definitions/InclusiveGateway"
-        },
-        {
-          "$ref": "#/definitions/ParallelGateway"
-        }
+        { "$ref": "#/$defs/task" },
+        { "$ref": "#/$defs/event" },
+        { "$ref": "#/$defs/exclusiveGateway" },
+        { "$ref": "#/$defs/inclusiveGateway" },
+        { "$ref": "#/$defs/parallelGateway" }
       ]
     }
   }

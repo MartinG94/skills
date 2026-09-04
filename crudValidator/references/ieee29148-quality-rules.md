@@ -1,63 +1,31 @@
-# Guía de Calidad y Linteo de Requerimientos (ISO/IEC/IEEE 29148:2018 / IEEE 830 / INCOSE)
+# Revisión de enunciados que sustentan una matriz CRUD
 
-Este documento detalla las métricas, patrones sintácticos, heurísticas de detección y reglas de corrección aplicadas por el motor de linteo de requerimientos.
+Usa esta referencia solo si se pide revisar la calidad de RF/CU además de construir la matriz. Es una revisión heurística: no certifica cumplimiento con IEEE, ISO ni INCOSE.
 
----
+## Comprobaciones
 
-## 1. Catálogo Exhaustivo de Reglas del Linter
+| Aspecto | Pregunta | Tratamiento |
+| --- | --- | --- |
+| Identidad | ¿El enunciado tiene un ID estable? | registrar ausencia; no renumerar sin autorización |
+| Alcance | ¿Se sabe qué sistema o CU asume el comportamiento? | usar `TBD` y preguntar |
+| Responsabilidad | ¿Puede distinguirse actor, sistema y elemento de dominio? | pedir aclaración si afecta la celda CRUD |
+| Acción observable | ¿Se entiende qué información se crea, usa, cambia o finaliza? | no deducir una operación por una palabra aislada |
+| Condiciones | ¿Las condiciones y alternativas relevantes están expresadas? | registrar el flujo o condición faltante |
+| Consistencia | ¿Otros RF/CU usan el concepto con el mismo significado? | conservar versiones y exponer conflicto |
+| Verificabilidad | ¿Existe un resultado observable? | formular criterio pendiente sin inventar métrica |
+| Trazabilidad | ¿Existe fuente/localizador? | marcar el hallazgo como no sustentado |
 
-### LINT-01: Atomicidad y Responsabilidad Única (Atomicity)
-- **Definición:** Todo enunciado de requerimiento debe expresar una y solo una meta, capacidad o función del sistema.
-- **Patrones de Detección:**
-  - Presencia de conjunciones copulativas o adversativas coordinando cláusulas verbales principales: ` y `, ` además `, ` así como también `, ` junto con `, ` por otra parte `, ` no obstante `, ` pero `.
-  - Presencia de listas enumeradas dentro del mismo párrafo de requerimiento.
-- **Riesgo:** Imposibilidad de estimar, priorizar y testear independientemente las capacidades.
-- **Heurística de Remediación:**
-  - Dividir la declaración en sub-requerimientos con sufijos decimales (`RF-01.1`, `RF-01.2`, `RF-01.3`).
-  - Asignar a cada uno un único verbo transitivo principal en infinitivo.
+## Límites de las heurísticas
 
----
+- Una conjunción no demuestra que el requisito no sea atómico; revisa si expresa una sola capacidad inseparable.
+- La voz pasiva no es un defecto si la responsabilidad queda inequívoca en el contexto.
+- No sustituyas automáticamente `debe`, `debería` o `puede`; conserva la intención y consulta cuando la obligatoriedad sea ambigua.
+- Palabras como “rápido” o “adecuado” requieren criterio observable, pero el valor debe provenir de una decisión válida.
+- Una reescritura propuesta es una sugerencia separada del requisito aprobado.
 
-### LINT-02: Verificabilidad y Objetividad (Testability / Verifiability)
-- **Definición:** Un requerimiento es verificable si y solo si existe un proceso finito, cuantitativo y costo-efectivo mediante el cual una persona o máquina puede demostrar que el software satisface la condición.
-- **Lista Negra de Términos Ambiguos / Vagos (Forbidden Weak Words):**
-  - *Adjetivos de rendimiento subjetivos:* `rápido`, `inmediato`, `en tiempo real`, `instantáneo`, `ultrarrápido`.
-  - *Adjetivos de usabilidad no medibles:* `fácil`, `intuitivo`, `amigable`, `sencillo`, `autoexplicativo`, `cómodo`, `moderno`.
-  - *Adjetivos de calidad abstractos:* `eficiente`, `óptimo`, `robusto`, `adecuado`, `apropiado`, `flexible`, `escalable`, `seguro`.
-  - *Locuciones elípticas de escape:* `etc.`, `y/o`, `entre otros`, `incluyendo pero no limitado a`, `según corresponda`, `a criterio del usuario`.
-- **Heurística de Remediación:**
-  - Para Usabilidad: Especificar tiempo máximo de tarea (Time-on-Task), tasa máxima de errores (% error rate) o escala SUS (System Usability Scale).
-  - Para Rendimiento: Especificar percentil de latencia (ej. $P_{95} \le 800	ext{ ms}$) bajo carga concurrente nominal ($N$ peticiones/seg).
+## Salida opcional
 
----
+| Artefacto | Observación | Evidencia | Efecto sobre CRUD | Pregunta / propuesta | Estado |
+| --- | --- | --- | --- | --- | --- |
 
-### LINT-03: Voz Pasiva y Agencia del Sujeto (Passive Voice & Responsible Actor)
-- **Definición:** El sujeto gramatical de la oración debe ser explícitamente el sistema, un subsistema nombrado o un actor humano específico con rol reconocido.
-- **Patrones de Detección:**
-  - Estructuras pasivas con "ser" + participio: `serán procesados`, `será enviado`, `es calculado`.
-  - Construcciones de pasiva refleja: `se registrará`, `se emitirán`, `se validará`, `se autoriza`.
-- **Riesgo:** Ambigüedad en la asignación de responsabilidades arquitectónicas (¿lo valida el frontend, la API gateway, el microservicio de negocio o un batch?).
-- **Heurística de Remediación:**
-  - Transformar a la estructura: `[Sujeto / Actor / Subsistema] + debe + [Verbo Transitivo] + [Objeto Directo] + [Condición/Parámetro]`.
-
----
-
-### LINT-04: Rigor Modal Normativo (Modal Precision - RFC 2119 / ISO 29148)
-- **Definición:** Se debe utilizar exclusivamente la taxonomía modal estandarizada:
-  - **DEBE (`SHALL` / `MUST`):** Obligación estricta ineludible.
-  - **DEBERÍA (`SHOULD`):** Recomendación deseable sujeta a análisis de factibilidad.
-  - **PUEDE (`MAY`):** Permisión u opción opcional.
-- **Patrones Prohibidos:** `debería`, `podría`, `sería bueno que`, `se recomienda que`, `está previsto que`.
-- **Heurística de Remediación:**
-  - Sustituir por *"El sistema debe..."* o *"El [Actor] debe poder..."*.
-
----
-
-### LINT-05: Coherencia y Ausencia de Contradicciones (Consistency)
-- **Definición:** Ningún requerimiento o regla de negocio debe entrar en conflicto lógico o temporal con otro requerimiento del catálogo.
-- **Patrones de Detección:**
-  - Solapamientos en rangos numéricos o de fechas.
-  - Reglas de descuento o penalización con condiciones disyuntivas no jerarquizadas.
-  - Precondiciones en Casos de Uso que exigen estados inalcanzables.
-- **Heurística de Remediación:**
-  - Crear matriz de decisión booleana y declarar reglas de precedencia explícitas.
+No agregues una puntuación global ni un umbral de aprobación sin un método acordado por el usuario.

@@ -558,7 +558,7 @@ Mermaid also introduces 2 special shapes to enhance your flowcharts: **icon** an
 
 ### Icon Shape
 
-You can use the `icon` shape to include an icon in your flowchart. To use icons, you need to register the icon pack first. Follow the instructions to [add custom icons](../config/icons.md). The syntax for defining an icon shape is as follows:
+You can use the `icon` shape to include an icon in your flowchart after registering an icon pack. Registration is version-dependent and documented upstream; the syntax for defining an icon shape is as follows:
 
 ```mermaid-example
 flowchart TD
@@ -1288,7 +1288,7 @@ There are two ways to display these FontAwesome icons:
 
 ### Register FontAwesome icon packs (v11.7.0+)
 
-You can register your own FontAwesome icon pack following the ["Registering icon packs" instructions](../config/icons.md).
+You can register your own FontAwesome icon pack using Mermaid's version-specific upstream configuration instructions, which are not bundled in this snapshot.
 
 Supported prefixes: `fa`, `fab`, `fas`, `far`, `fal`, `fad`.
 

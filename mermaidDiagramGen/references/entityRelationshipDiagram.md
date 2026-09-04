@@ -409,9 +409,9 @@ erDiagram
 
 ### Layout
 
-The layout of the diagram is handled by [`render()`](../config/setup/mermaid/interfaces/Mermaid.md#render). The default layout is dagre.
+The layout of the diagram is handled by Mermaid's `render()` API. The default layout is dagre.
 
-For larger or more-complex diagrams, you can alternatively apply the ELK (Eclipse Layout Kernel) layout using your YAML frontmatter's `config`. For more information, see [Customizing ELK Layout](../intro/syntax-reference.md#customizing-elk-layout).
+For larger or more-complex diagrams, you can alternatively apply the ELK (Eclipse Layout Kernel) layout using YAML frontmatter configuration. Verify the exact option against the installed Mermaid version; the upstream configuration guide is not included here.
 
 ```yaml
 ---

@@ -1,7 +1,7 @@
 ---
 version: "alpha"
 name: "EditorialStudioTaste"
-description: "Sistema de diseño premium con estética de estudio de arquitectura y altos estándares tipográficos"
+description: "Punto de partida editorial neutro para adaptar cuando no existe una identidad visual previa"
 colors:
   primary: "#121214"
   secondary: "#52525B"
@@ -12,17 +12,17 @@ colors:
   text-white: "#FFFFFF"
 typography:
   display:
-    fontFamily: "Geist, Cabinet Grotesk, sans-serif"
+    fontFamily: "Geist, system-ui, sans-serif"
     fontSize: "2.5rem"
     fontWeight: "700"
     letterSpacing: "-0.03em"
   h1:
-    fontFamily: "Geist, Cabinet Grotesk, sans-serif"
+    fontFamily: "Geist, system-ui, sans-serif"
     fontSize: "2rem"
     fontWeight: "600"
     letterSpacing: "-0.02em"
   body:
-    fontFamily: "Geist, sans-serif"
+    fontFamily: "Geist, system-ui, sans-serif"
     fontSize: "0.9375rem"
     fontWeight: "400"
     lineHeight: "1.6"
@@ -64,34 +64,34 @@ components:
 ---
 
 ## Overview
-Estética inspirada en un estudio de diseño contemporáneo y publicación editorial de alta gama. El espacio negativo es generoso y los elementos respiran sin apretujarse. Se evitan por completo los clichés de diseño de inteligencia artificial.
+Plantilla inicial con tono editorial sobrio. Debe adaptarse a la audiencia, el contenido y la marca del producto; no usarla si ya existe un sistema de diseño. Los valores del frontmatter son propuestas editables, no requisitos universales.
 
 ## Colors
-- **Primary (#121214):** Carbón profundo mate (Zinc-950) para titulares y texto primario. Cero negro absoluto.
+- **Primary (#121214):** Carbón profundo para titulares y texto primario en esta propuesta.
 - **Secondary (#52525B):** Neutro pizarra equilibrado para metadatos, subtítulos y elementos de apoyo.
-- **Accent (#1E3A8A):** Azul marino profundo de alta distinción como único color de interacción.
-- **Background (#FAFAFA):** Lienzo neutro roto que elimina la fatiga del blanco puro.
+- **Accent (#1E3A8A):** Azul marino usado como acento principal; agregar o reemplazar colores si la semántica o la marca lo requieren.
+- **Background (#FAFAFA):** Lienzo neutro claro para esta dirección visual.
 - **Surface (#FFFFFF):** Tarjetas nítidas delimitadas por un borde sutil de 1px.
 
 ## Typography
-Uso exclusivo de Geist y Cabinet Grotesk con espaciado entre letras track-tight en titulares para dar sensación de precisión arquitectónica. Las cifras y valores numéricos se renderizan en JetBrains Mono.
+Geist puede usarse si está disponible y autorizada; `system-ui` es el fallback. La monospace se reserva para cifras o código cuando mejore la lectura. Sustituir estas familias por las de la marca o del proyecto existente.
 
 ## Layout
-Composición asimétrica en secciones principales (Split 60/40). Cuadrículas tipo bento-box con proporciones calibradas en lugar de filas de 3 tarjetas repetidas.
+Usar composición asimétrica en secciones donde exista una prioridad editorial real. Para elementos equivalentes, una grilla regular puede comunicar mejor la comparación.
 
 ## Elevation & Depth
-Superficies planas con bordes de precisión de 1px (`#E4E4E7`). Sombras hiper-difuminadas casi imperceptibles, sin resplandores de color.
+Superficies planas con bordes de 1px (`#E4E4E7`) como punto de partida. Ajustar sombras y profundidad a la plataforma y al sistema existente.
 
 ## Shapes
-Radios contenidos (6px a 10px) que otorgan solidez y madurez formal sin caer en redondeos excesivos.
+Radios de 6px a 10px en esta propuesta; reemplazarlos por los tokens del producto si existen.
 
 ## Components
-- **button-primary:** Respuesta táctil al presionar (`active:translate-y-[1px]`), sin sombras brillantes ni efectos de rebote artificial.
+- **button-primary:** Respuesta visual al presionar, expresada con el mecanismo del stack existente; un desplazamiento vertical de 1px es solo una opción.
 - **card:** Tarjetas estructuradas con espaciado interno amplio (24px) y jerarquía clara.
 
 ## Do's and Don'ts
-- **HACER:** Mantener la relación de contraste WCAG AA siempre por encima de 4.5:1.
-- **HACER:** Usar tipografías con carácter (Geist / Cabinet Grotesk / Outfit).
-- **NO HACER:** Agregar emojis decorativos en títulos o controles.
-- **NO HACER:** Usar negro puro `#000000`, sombras de neón o gradientes violetas.
-- **NO HACER:** Generar métricas o datos ficticios de rendimiento si no provienen de requerimientos reales.
+- **HACER:** Verificar los umbrales de contraste aplicables a texto, componentes y estados.
+- **HACER:** Confirmar que las fuentes estén disponibles, licenciadas y tengan fallback.
+- **HACER:** Adaptar tokens y composición a contenido, marca y accesibilidad.
+- **NO HACER:** Reemplazar un sistema existente solo para aplicar esta estética.
+- **NO HACER:** Generar métricas, testimonios o datos ficticios si no provienen de fuentes reales.

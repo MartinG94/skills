@@ -121,7 +121,7 @@ radar-beta
 
 ## Configuration
 
-Please refer to the [configuration](/config/schema-docs/config-defs-radar-diagram-config.html) guide for details.
+Radar options are version-dependent; consult the configuration schema for the installed Mermaid renderer. That upstream schema is not bundled here.
 
 | Parameter       | Description                              | Default Value |
 | --------------- | ---------------------------------------- | ------------- |

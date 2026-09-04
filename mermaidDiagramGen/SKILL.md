@@ -1,198 +1,114 @@
 ---
-name: mermaidDiagramGen
+name: mermaid-diagram-gen
 description: >-
-  Diseña, genera y valida diagramas Mermaid.js precisos, visualmente optimizados y formalmente
-  correctos (flujos, secuencia, arquitectura C4, cloud architecture, bloques, clases, ERD, GitGraph,
-  Gantt, mindmaps, kanban, timelines, etc.) y sintetiza Máquinas de Estados UML 2.5 (stateDiagram-v2)
-  con Matrices de Transición de Estados (MTE), detección de deadlocks y análisis de ciclo de vida.
+  Genera, corrige y valida diagramas Mermaid a partir de contenido ya definido: flujos, secuencias,
+  clases, ERD, estados, arquitectura, cronogramas y otras familias soportadas. También puede expresar
+  una máquina de estados y una MTE cuando el ciclo de vida está documentado. Usar para elegir sintaxis,
+  renderizar o depurar Mermaid; no usar como autoridad para inventar dominio, arquitectura o requisitos.
 ---
 
-# Generador de Diagramas Mermaid y Síntesis de Estados (`mermaidDiagramGen`)
+# Generación y validación Mermaid
 
-## Visión General
-Esta skill capacita al agente para diseñar, estructurar, verificar y generar diagramas formales en **Mermaid.js** utilizando el catálogo de especificaciones oficiales alojado localmente en `references/`. Incluye capacidades avanzadas de **Síntesis Formal de Máquinas de Estados y Ciclo de Vida de Dominio (UML 2.5 / PUD / ASI)** y un linter pre-vuelo para prevenir errores sintácticos comunes de renderizado.
+Transformá semántica provista por el usuario o por una skill especialista en un único diagrama legible. Separá siempre tres afirmaciones distintas: sintaxis Mermaid válida, semántica consistente con la fuente y fidelidad a UML u otra notación.
 
-## Referencias Locales de Sintaxis
-Los manuales y especificaciones detalladas de cada tipo de diagrama se encuentran en el directorio [references/](./references/):
-- En caso de requerir detalles avanzados de sintaxis, parámetros de layout o directivas de configuración, el agente debe consultar directamente el archivo correspondiente en `references/` aplicando el principio de *Progressive Disclosure*.
+## Límites
 
----
+- Esta skill es autoridad de **representación**, no del contenido. Casos de uso, dominio, arquitectura, procesos o responsabilidades se deciden en sus skills respectivas.
+- No completes nodos, relaciones, cardinalidades, transiciones, métricas ni tecnologías por simetría visual.
+- No llames “UML formal” a una representación Mermaid si la sintaxis no cubre toda la semántica usada.
+- No garantices compilación solo por inspección. Decí `render validado` únicamente si ejecutaste un renderer e informá su versión/entorno; de otro modo, `preflight textual aprobado, render no ejecutado`.
+- Generá un formato y una vista por defecto. Variantes o el código fuente más una imagen se entregan solo si se piden o facilitan una decisión real.
 
-## 1. Catálogo de Especificaciones de Diagramas
+## Seleccionar modo
 
-A continuación se indexan las 30 especificaciones de Mermaid disponibles en la skill, organizadas por dominio:
+1. `generate` — crear Mermaid desde una especificación o inventario de elementos.
+2. `repair` — corregir un bloque que no renderiza, preservando su significado.
+3. `review` — evaluar legibilidad, sintaxis y fidelidad sin editar.
+4. `state-model` — derivar DTE/MTE desde eventos y estados documentados; no se activa por el solo hecho de que una entidad sea persistente.
 
-### 1.1. Arquitectura y Sistemas
-- [c4.md](./references/c4.md): Modelo C4 para arquitectura de software (`C4Context`, `C4Container`, `C4Component`, `C4Deployment`).
-- [architecture.md](./references/architecture.md): Diagramas de arquitectura cloud/infraestructura (servicios, grupos, conexiones, tuning de layout `fcose`).
-- [block.md](./references/block.md): Diagramas de bloques posicionales (control preciso de columnas, anchos de bloque y bloques compuestos).
-- [packet.md](./references/packet.md): Formato de paquetes binarios de red y distribución de bits/bytes.
+## Flujo de trabajo
 
-### 1.2. Comportamiento, Procesos y Flujos
-- [flowchart.md](./references/flowchart.md): Diagramas de flujo (`flowchart TB/LR`), subgrafos, estilos de enlace y nuevas formas v11.3+ (`@{ shape: ... }`).
-- [sequenceDiagram.md](./references/sequenceDiagram.md): Diagramas de secuencia UML (mensajes síncronos/asíncronos, activaciones `+/-`, bloques `loop`, `alt`, `opt`, `par`, `critical`, `autonumber`).
-- [zenuml.md](./references/zenuml.md): Sintaxis ZenUML para secuencias complejas expresadas como lógica procedimental.
-- [stateDiagram.md](./references/stateDiagram.md): Máquinas de estados UML (`stateDiagram-v2`), estados compuestos, bifurcaciones/uniones (`fork`/`join`) y notas.
-- [userJourney.md](./references/userJourney.md): Mapas de viaje de usuario (*User Journey*), etapas, actores y puntuación de experiencia.
+### 1. Fijar el contrato
 
-### 1.3. Modelado de Datos y Estructura
-- [classDiagram.md](./references/classDiagram.md): Diagramas de clases orientados a objetos (visibilidad `+`/`-`/`#`/`~`, tipos, métodos, genéricos `~T~`, relaciones de herencia, composición y agregación).
-- [entityRelationshipDiagram.md](./references/entityRelationshipDiagram.md): Diagramas Entidad-Relación (`erDiagram`), entidades, atributos, claves primarias/foráneas (`PK`/`FK`) y cardinalidades.
-- [requirementDiagram.md](./references/requirementDiagram.md): Diagramas de requisitos formales SysML (requisitos, elementos, relaciones `satisfies`, `verifies`, `derives`).
-- [treeView.md](./references/treeView.md): Estructuras jerárquicas y vistas en árbol.
+Determiná propósito, audiencia, tipo de diagrama, dirección preferida, renderer/versión si se conoce y nivel de detalle. Si falta la versión, evitá sintaxis experimental salvo que el usuario la pida.
 
-### 1.4. Gestión, Estrategia y Planificación
-- [gantt.md](./references/gantt.md): Cronogramas de proyecto Gantt (secciones, tareas activas, críticas, completadas, hitos `milestone`).
-- [gitgraph.md](./references/gitgraph.md): Flujos Git (`gitGraph`), ramas (`branch`), confirmaciones (`commit`), fusiones (`merge`) y `cherry-pick`.
-- [kanban.md](./references/kanban.md): Tableros Kanban de seguimiento de tareas por columnas de estado.
-- [timeline.md](./references/timeline.md): Líneas de tiempo cronológicas estructuradas por períodos y eventos.
-- [mindmap.md](./references/mindmap.md): Mapas conceptuales jerárquicos con nodos de diversas formas e iconos.
-- [wardley.md](./references/wardley.md): Mapas de Wardley (posicionamiento en cadena de valor vs. etapas de evolución).
-- [cynefin.md](./references/cynefin.md): Matriz de marco Cynefin (sistemas claros, complicados, complejos y caóticos).
-- [ishikawa.md](./references/ishikawa.md): Diagramas de espina de pescado (causa-efecto / 6M).
+### 2. Construir un inventario semántico
 
-### 1.5. Análisis, Métricas y Cuadrantes
-- [quadrantChart.md](./references/quadrantChart.md): Gráficos de cuadrantes 2x2 (matrices de priorización, análisis DAFO/SWOT).
-- [xyChart.md](./references/xyChart.md): Gráficos estadísticos cartesianos XY (barras, líneas horizontales/verticales).
-- [pie.md](./references/pie.md): Gráficos circulares de distribución proporcional.
-- [radar.md](./references/radar.md): Gráficos de radar multivariables (evaluación de competencias/métricas).
-- [sankey.md](./references/sankey.md): Diagramas de Sankey para balance y flujo de energía, costos o tráfico.
-- [treemap.md](./references/treemap.md): Mapas de árbol de áreas proporcionales anidadas.
-- [venn.md](./references/venn.md): Diagramas de conjuntos de Venn e intersecciones.
-- [eventmodeling.md](./references/eventmodeling.md): Modelado de eventos en sistemas orientados a eventos (comandos, eventos, vistas de lectura).
-- [examples.md](./references/examples.md): Colección de ejemplos y patrones de implementación rápida.
+Antes del código, enumerá internamente los elementos y relaciones con su fuente. Marcá `TBD` donde una decisión afecte el diagrama. En modo `repair`, conservá un mapa `original → corrección` y no cambies nombres o relaciones para hacer más cómodo el layout.
 
----
+### 3. Cargar una referencia bajo demanda
 
-## 2. Síntesis Formal de Máquinas de Estados y Ciclo de Vida (UML 2.5)
+Leé solo el documento correspondiente de `references/`:
 
-### 2.1. Principio de Identidad de Ciclo de Vida
-Cada entidad persistente y transaccional del dominio (ej. `Pedido`, `Factura`, `Turno`, `Contrato`, `Envio`, `Expediente`) posee **una única máquina de estados de comportamiento** que rige sus transiciones válidas:
+| Necesidad | Referencia |
+|---|---|
+| flujo/BPMN preview | [flowchart.md](references/flowchart.md) |
+| secuencia | [sequenceDiagram.md](references/sequenceDiagram.md) |
+| estados | [stateDiagram.md](references/stateDiagram.md) |
+| clases | [classDiagram.md](references/classDiagram.md) |
+| ERD | [entityRelationshipDiagram.md](references/entityRelationshipDiagram.md) |
+| C4 | [c4.md](references/c4.md) |
+| requisitos | [requirementDiagram.md](references/requirementDiagram.md) |
 
-```mermaid
-stateDiagram-v2
-    [*] --> Creado: registrarPedido()
-    Creado --> EnRevision: solicitarAprobacion() [monto > 0]
-    EnRevision --> Aprobado: aprobar() [tieneFondos == true]
-    EnRevision --> Rechazado: rechazar(motivo)
-    Aprobado --> EnPreparacion: iniciarArmado()
-    EnPreparacion --> Despachado: despachar(guia)
-    Despachado --> Entregado: confirmarRecepcion()
-    Despachado --> Devuelto: registrarDevolucion(motivo)
-    
-    Creado --> Cancelado: cancelar()
-    EnRevision --> Cancelado: cancelar()
-    
-    Entregado --> [*]
-    Rechazado --> [*]
-    Cancelado --> [*]
-    Devuelto --> [*]
-```
+Para otra familia, elegí por nombre en `references/`. Los documentos son un snapshot local y pueden contener enlaces upstream no incluidos; no sigas esos enlaces como si fueran recursos instalados.
 
-### 2.2. Matriz de Transición de Estados (MTE)
-Para cada modelo de estados sintetizado, generar siempre la matriz formal de verificación:
+### 4. Generar la vista mínima
 
-| Estado Actual | Evento Disparador (Trigger) | Condición de Guarda `[Guarda]` | Acción / Efecto Transaccional | Estado Siguiente |
-| :--- | :--- | :--- | :--- | :--- |
-| `INICIAL [*]` | `registrarPedido()` | Datos requeridos completos | Crear entidad en memoria | `Creado` |
-| `Creado` | `solicitarAprobacion()` | `[monto > 0]` | Notificar al supervisor | `EnRevision` |
-| `EnRevision` | `aprobar()` | `[tieneFondos == true]` | Reservar stock y generar orden | `Aprobado` |
-| `EnRevision` | `rechazar()` | `[motivo != null]` | Enviar email de rechazo | `Rechazado` |
-| `Aprobado` | `iniciarArmado()` | N/A | Asignar operador de depósito | `EnPreparacion` |
+- IDs estables, únicos y simples; etiquetas humanas separadas de los IDs.
+- Agrupación solo cuando expresa un límite real.
+- Etiquetas y aristas breves; notas para detalle excepcional.
+- Estilos mínimos y con contraste; no ocultes significado solo en color.
+- Escapá comillas y caracteres que el tipo de diagrama trate como sintaxis.
+- No uses `autonumber`, visibilidad de clases, PK/FK, cardinalidades o estados finales si la fuente no los necesita o no los define.
 
-### 2.3. Linter Formal de Ciclo de Vida y Detección de Defectos
-Antes de emitir el diagrama de estados, auditar:
-1. **Estados Inalcanzables (Orphan States)**: Todo estado intermedio debe tener al menos una transición entrante alcanzable desde `[*]`.
-2. **Deadlocks no intencionados**: Todo estado que no sea final `[*]` debe tener al menos una transición de salida válida.
-3. **Determinismo**: No pueden existir dos transiciones salientes desde el mismo estado con el mismo evento a menos que las guardas sean mutuamente excluyentes (ej. `[x > 0]` y `[x <= 0]`).
-4. **Sintaxis de Transición**: Usar siempre el formato estándar UML: `EventoDisparador [CondicionGuarda] / Accion()`.
+### 5. Validar
 
----
+Ejecutá tres capas:
 
-## 3. Reglas Críticas de Sintaxis Mermaid (Prevención de Errores)
+1. **Preflight textual:** fence correcto, encabezado válido, IDs únicos, referencias existentes, bloques balanceados y palabras reservadas según la familia.
+2. **Render:** si hay renderer disponible, compilá exactamente el bloque entregado. No corrijas el contenido semántico para silenciar el parser.
+3. **Fidelidad:** compará cada nodo y relación con el inventario; explicá pérdidas de semántica debidas a Mermaid.
 
-Al generar cualquier bloque Mermaid, aplicar estrictamente las siguientes reglas sintácticas para asegurar renderizado sin errores:
+Si el render falla, informá el error exacto, aplicá la corrección mínima y volvé a ejecutar. Si no hay renderer, no simules el resultado.
 
-### 3.1. Nodos y Etiquetas con Caracteres Especiales
-- **Delimitación Obligatoria con Comillas**: Si el texto de un nodo contiene paréntesis `()`, corchetes `[]`, llaves `{}`, barras `/` o comillas, **siempre** envolver el texto entre comillas dobles:
-  ```mermaid
-  %% INCORRECTO: A[Proceso (fase 1)] --> B{¿Es válido [S/N]?}
-  %% CORRECTO:
-  A["Proceso (fase 1)"] --> B{"¿Es válido [S/N]?"}
-  ```
-- **Markdown Strings (Mermaid v11+)**: Para dar formato con negrita o saltos de línea elegantes, usar la sintaxis de markdown string `["`texto con **negrita**`"]`:
-  ```mermaid
-  A["`**Paso Crítico**
-  Línea secundaria explicativa`"]
-  ```
+## Modo máquina de estados
 
-### 3.2. Palabras Reservadas en Diagramas de Flujo (`flowchart`)
-- **La trampa de la palabra `end`**: La palabra `end` en minúscula dentro de un nodo o subgrafo colapsa el parser de Mermaid. Usar siempre `End`, `END` o comillas dobles:
-  ```mermaid
-  %% INCORRECTO: A --> end
-  %% CORRECTO:
-  A --> End
-  A --> idEnd["end"]
-  ```
-- **Evitar palabras clave como IDs de nodo**: No nombrar identificadores de nodo con `subgraph`, `graph`, `flowchart`, `style`, `classDef`, `click`.
+Usalo solo para un objeto con estados observables y comportamiento dependiente del estado, o cuando la consigna exige DTE/MTE.
 
-### 3.3. Aristas y Conectores
-- **La trampa de prefijos `o` y `x`**: Si la etiqueta o el nodo de destino inicia con `o` o `x`, un conector sin espacios pegado al texto puede interpretarse como punta especial (`---o` o `---x`). Dejar siempre espacio:
-  ```mermaid
-  %% INCORRECTO: A---orden
-  %% CORRECTO:
-  A --- orden
-  A -->|orden| B
-  ```
+1. Extraé estado inicial si está definido, estados, eventos, guardas, efectos y destinos.
+2. Cada fila de la MTE conserva un localizador de evidencia o `TBD`.
+3. Detectá estados inalcanzables, eventos duplicados con guardas solapadas y estados sin salida **solo dentro de la cobertura provista**.
+4. Un estado sin salida puede ser terminal aunque no se dibuje `[*]`; confirmá la intención antes de marcar deadlock.
+5. No fuerces una máquina por entidad, historial temporal, patrón State ni una transición final universal.
 
-### 3.4. Diagramas de Secuencia (`sequenceDiagram`)
-- **Dos puntos `:` en mensajes**: La sintaxis de secuencia usa `:` para separar el mensaje del receptor. Si el mensaje contiene dos puntos (ej. `HTTP 200: OK`), reemplazar por guión o codificar en entidad HTML:
-  ```mermaid
-  %% INCORRECTO: Backend-->>Frontend: HTTP 200: Respuesta Exitosa
-  %% CORRECTO:
-  Backend-->>Frontend: HTTP 200 - Respuesta Exitosa
-  ```
-- **Actores y Participantes**: Declarar participantes explícitamente al inicio si se requiere alias legible:
-  ```mermaid
-  sequenceDiagram
-      autonumber
-      participant C as Cliente Web
-      participant A as API Gateway
-      participant D as Base de Datos
-      C->>+A: POST /auth/login
-      A->>+D: findUserByEmail()
-      D-->>-A: userRecord
-      A-->>-C: 200 OK (JWT)
-  ```
+Formato MTE opcional:
 
-### 3.5. Subgrafos y Direccionalidad
-- Especificar la dirección interna dentro de los subgrafos para mantener diagramas limpios y legibles:
-  ```mermaid
-  flowchart TB
-      subgraph Frontend["Capa de Presentación"]
-          direction LR
-          UI1["Dashboard"] --> UI2["Formulario"]
-      end
-  ```
+| Estado origen | Evento | Guarda | Efecto | Estado destino | Evidencia |
+|---|---|---|---|---|---|
 
-### 3.6. Directivas de Estilo y Tema
-- Para garantizar legibilidad en entornos oscuros o claros, utilizar la directiva `%%{init: ...}%%` cuando sea necesario personalizar fuentes o temas:
-  ```mermaid
-  %%{init: {'theme': 'neutral', 'themeVariables': { 'fontSize': '14px' }}}%%
-  ```
+Usá la forma `evento [guarda] / efecto` únicamente para las partes conocidas. Omitir una parte desconocida es preferible a inventarla.
 
----
+## Reparaciones frecuentes
 
-## 4. Checklist de Verificación Pre-Vuelo para el Agente
+- `end` como ID o token ambiguo en flowcharts: cambiá el ID, no la etiqueta de negocio.
+- caracteres especiales en una etiqueta: citá/escapá según la referencia de esa familia.
+- prefijos `o`/`x` pegados a conectores: agregá separación o un ID explícito.
+- dos puntos o saltos en mensajes de secuencia: aplicá la sintaxis documentada sin alterar el mensaje.
+- subgraph/bloque sin cierre: balanceá la estructura.
 
-Antes de presentar un diagrama al usuario, verificar:
+No apliques todas estas reglas preventivamente: verificá que el parser y la versión realmente las requieran.
 
-- [ ] **Tipo de Diagrama Adecuado**: ¿Se seleccionó el tipo idóneo del catálogo de 30 especificaciones según el problema?
-- [ ] **Comillas en Etiquetas Complejas**: ¿Todos los nodos con caracteres de puntuación, paréntesis o corchetes están entre comillas dobles `["..."]`?
-- [ ] **Ausencia de `end` en Minúscula**: ¿Se verificó que no exista la palabra `end` suelta en nodos de flowcharts?
-- [ ] **Aristas Limpias**: ¿Las aristas tienen los espacios necesarios para evitar ambigüedades con terminadores especiales (`---o`, `---x`)?
-- [ ] **Identificadores Únicos y Seguros**: ¿Los identificadores de nodos usan caracteres alfanuméricos simples (ej. `node1`, `srvAuth`, `gwCheck`) sin espacios ni caracteres especiales?
-- [ ] **Secuencias con Autonumber**: ¿Los diagramas de secuencia incluyen `autonumber` y flechas tipadas correctas (`->>`, `-->>`, `-x`)?
-- [ ] **Clases y ERD con Tipos y Relaciones**: ¿Los diagramas de clases tienen visibilidad y los ERD cardinalidades válidas (`||--o{`, etc.)?
-- [ ] **Máquinas de Estados Deterministas**: ¿Si es un `stateDiagram-v2`, incluye inicio `[*]`, fin `[*]`, guardas `[condicion]` y matriz MTE asociada?
-- [ ] **Compilabilidad Garantizada**: ¿El bloque abre con ````mermaid` y cierra limpiamente sin texto markdown interceptado?
+## Contrato de salida
+
+- En `generate`, `repair` y `state-model`, entregá `### Diagrama` con un único bloque `mermaid` y luego `### Validación`: tipo y propósito; fuente semántica/cobertura; renderer y versión o `no disponible`; resultado (`render validado`, `preflight textual` o error pendiente); y supuestos o pérdidas de fidelidad.
+- En `repair`, agregá una lista corta de correcciones.
+- En `review`, entregá hallazgos con localizadores y cambios propuestos. Incluí un bloque corregido solo si el usuario lo pide o si es necesario para demostrar una reparación; no reimprimas el diagrama sin necesidad.
+
+## Control final
+
+- ¿El tipo elegido responde a la pregunta del usuario?
+- ¿Cada elemento proviene de la fuente y no del gusto del generador?
+- ¿Se cargó solo la referencia necesaria?
+- ¿El bloque entregado es el mismo que se validó?
+- ¿Se distingue sintaxis, semántica y fidelidad notacional?
+- ¿La salida evita vistas y tablas redundantes?

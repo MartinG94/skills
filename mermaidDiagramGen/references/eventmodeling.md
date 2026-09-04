@@ -1,4 +1,4 @@
-# Event Modeling Diagram (v<MERMAID_RELEASE_VERSION>+)
+# Event Modeling Diagram (version-dependent; verify renderer support)
 
 ## Introduction
 

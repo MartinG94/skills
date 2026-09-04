@@ -1,172 +1,145 @@
-﻿---
-name: requirementsExtractor
-description: >-
-  Extrae, desambigua y estructura requerimientos de software formales y trazables a partir de
-  transcripciones de entrevistas, minutas de reunión, notas de relevamiento y discursos no estructurados
-  de stakeholders. Clasifica rigurosamente Requerimientos Funcionales (RF), Atributos de Calidad y
-  No Funcionales (RNF) bajo FURPS+ e ISO/IEC 25010, Reglas de Negocio (RN), Supuestos (SUP),
-  Restricciones (RES) y Dependencias (DEP). Detecta lenguaje vago o subjetivo y genera métricas
-  cuantificables bajo Planguage (Tom Gilb) y cuestionarios de clarificación para stakeholders.
+---
+name: requirements-extractor
+description: Extrae y normaliza requisitos trazables desde entrevistas, minutas, documentos, formularios o notas de relevamiento. Úsala para construir un registro de RF/RNF, reglas, historias de usuario opcionales y preguntas abiertas; no para inventar una solución ni diseñar casos de uso, dominio o arquitectura.
 ---
 
-# Extractor de Requerimientos desde Entrevistas no Estructuradas (`rawInterviewToRequirementsExtractor`)
+# Requirements Extractor
 
-Esta skill proporciona las directrices metodológicas, algoritmos heurísticos, taxonomías de calidad y plantillas para transformar transcripciones de entrevistas, audios de relevamiento, minutas y notas informales en **Especificaciones de Requerimientos de Software (ERS / SRS)** completas, rigurosas y verificables.
+Convierte evidencia de relevamiento en un registro de requisitos verificable. El producto predeterminado es un **registro Markdown conciso**; genera una ERS, historias o JSON solo si el usuario lo pide.
 
----
+## Modos
 
-## 1. Arquitectura del Pipeline de Extracción
+- **Registro** (predeterminado): extraer, clasificar y dejar trazabilidad y pendientes.
+- **ERS**: organizar evidencia suficiente con la estructura institucional. Leer [templates/requirements_specification.template.md](templates/requirements_specification.template.md).
+- **Historias**: preparar un backlog breve de historias de usuario solo si se solicita ese artefacto.
+- **JSON**: serializar el modo Registro conforme a [templates/extracted_requirements.schema.json](templates/extracted_requirements.schema.json). El schema valida estructura; [scripts/validate_requirements_semantics.py](scripts/validate_requirements_semantics.py) comprueba unicidad y referencias internas. No añadir además Markdown salvo solicitud.
 
-El proceso de extracción opera en un pipeline secuencial de 5 fases estructuradas:
+No describas casos de uso, modelo de dominio, arquitectura, interfaz ni pruebas completas dentro de esta skill.
 
-```mermaid
-flowchart TD
-    A[Discurso / Transcripción Cruda] --> B[Fase 1: Mapeo de Stakeholders y Trazabilidad Textual]
-    B --> C[Fase 2: Filtro Anti-Ambigüedad y Detección de Lenguaje Vago]
-    C --> D[Fase 3: Separación Estricta de Conceptos RF / RNF / RN / RES / SUP]
-    D --> E[Fase 4: Categorización FURPS+ / ISO 25010 y Métricas Planguage]
-    E --> F[Fase 5: Generación de Entregables Markdown Formal + JSON Schema]
-    
-    C -.->|Preguntas de Aclaración| G[Cuestionario de Desambiguación para Stakeholders]
-    D -.->|Contradicciones Detectadas| H[Matriz de Conflictos y Trade-offs]
+## Entradas
+
+Acepta una o varias fuentes: entrevistas, minutas, documentos, formularios, manuales, reportes, normas o descripción de un sistema existente.
+
+Antes de extraer:
+
+1. Asigna a cada fuente un ID estable (`SRC-01`) y conserva su título o descripción.
+2. Usa el localizador disponible: página, párrafo, fila, sección o marca de tiempo. Si la fuente no permite localizar, indícalo; no inventes uno.
+3. Delimita el sistema o producto cuando la fuente lo permita. Si el alcance es incierto, regístralo como pregunta abierta.
+
+Para fuentes extensas, mixtas o contradictorias, lee [references/elicitation_heuristics.md](references/elicitation_heuristics.md).
+
+## Reglas de evidencia
+
+- Cada RF, RNF, regla, restricción y dependencia debe citar al menos una fuente y localizador.
+- Marca el origen como `explícito` si la fuente lo declara o `derivado` si varias evidencias obligan a la conclusión. En este último caso explica la derivación y déjalo pendiente de validación.
+- Una posibilidad razonable, práctica habitual o decisión de diseño no es un requisito: conviértela en hipótesis o pregunta.
+- No inventes actores, prioridades, campos, métricas, umbrales, volúmenes, tecnologías, integraciones, normas ni excepciones.
+- Usa `TBD` únicamente para un dato necesario que la evidencia no determina y acompáñalo con una pregunta concreta.
+- Conserva contradicciones; no elijas una versión ni propongas una resolución como decisión tomada.
+
+## Extracción y normalización
+
+1. **Extraer hechos:** necesidades, servicios, información, restricciones, problemas observados y mejoras solicitadas.
+2. **Separar tipos:**
+   - `RF`: comportamiento o servicio que debe brindar el sistema. Redactar con verbo en infinitivo.
+   - `RNF`: requisito de producto, organizacional o externo; puede imponer calidad, proceso de desarrollo, entorno, entrega o cumplimiento. Usar la taxonomía de cátedra de [references/furps_and_iso25010_taxonomy.md](references/furps_and_iso25010_taxonomy.md).
+   - `RN`: política, condición o cálculo propio del negocio.
+   - `RES`: hecho contextual que delimita el relevamiento o las alternativas, pero no constituye una obligación del producto, del desarrollo ni de la entrega.
+   - `DEP`: elemento externo del que depende el cumplimiento.
+   - `SUP`: supuesto explícito o hipótesis analítica que requiere validación.
+3. **Estructurar RF:** distinguir `global` y `detallado`; un RF detallado referencia a su RF global. No completar una descomposición CRUD por costumbre.
+4. **Precisar sin fabricar:** si un RNF dice “rápido”, “seguro” o similar, conserva la necesidad y registra la métrica como `TBD`. Para preguntas útiles lee [references/ambiguity_detection_lexicon.md](references/ambiguity_detection_lexicon.md).
+5. **Consolidar duplicados:** fusiona solo enunciados equivalentes y conserva todas sus evidencias. Mantén separados objetivos, condiciones o alcances distintos.
+6. **Registrar conflictos y pendientes:** enlázalos con los IDs afectados.
+
+Si un límite impone una obligación verificable sobre producto, desarrollo, entorno,
+entrega o cumplimiento, clasifícalo como `RNF` institucional; usa `RES` solo para un
+hecho de contexto no normativo. Si una frase contiene ambos, sepárala y conserva la
+misma evidencia; no dupliques el enunciado en dos categorías.
+
+No asignes prioridad salvo que la fuente la establezca o el usuario solicite una priorización con un criterio acordado.
+
+## Modo Historias
+
+Representa cada necesidad validable como una tarjeta breve:
+
+`Como <rol de usuario> deseo <función del sistema> para poder <valor de negocio>.`
+
+- Conserva la traza a RF/evidencia y separa tarjeta, conversación pendiente y confirmación.
+- Redacta criterios de aceptación observables solo desde reglas y ejemplos conocidos; usa `TBD` si falta un dato, sin convertirlo en Gherkin salvo pedido.
+- Si no se conocen rol, función o valor, la historia no está lista: registra la pregunta y no completa el hueco por intuición.
+- No asigna prioridad, valor, sprint, puntos, horas ni tareas técnicas sin decisión del Product Owner o fuente equivalente.
+- No reemplaza una ERS o un CU cuando el encargo exige esos artefactos.
+
+Salida:
+
+| ID | Historia | RF / evidencia | Estado |
+| --- | --- | --- | --- |
+
+Después incluye únicamente las conversaciones pendientes y los criterios de aceptación
+de cada historia. Finaliza cuando cada tarjeta tiene rol, función, valor y confirmación
+trazables, o queda marcada como no lista con su pregunta.
+
+## Salida predeterminada
+
+```markdown
+# Registro de requisitos — <producto o TBD>
+
+## Fuentes y alcance
+<fuentes, límites conocidos y vacíos>
+
+## Requisitos funcionales
+| ID | Nivel / padre | Enunciado | Origen | Derivación / validación | Evidencia | Estado |
+| --- | --- | --- | --- | --- | --- | --- |
+
+## Requisitos no funcionales
+| ID | Categoría | Enunciado / medida | Alcance | Origen | Derivación / validación | Evidencia | Estado |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+
+## Reglas, restricciones y dependencias
+| ID | Tipo | Enunciado | Origen | Derivación / validación | Evidencia | Estado |
+| --- | --- | --- | --- | --- | --- | --- |
+
+## Supuestos y preguntas abiertas
+| ID | Tipo | Afecta a | Enunciado / pregunta | Base / evidencia | Acción y estado |
+| --- | --- | --- | --- | --- | --- |
+
+## Conflictos
+| ID | Afecta a | Versiones incompatibles con su evidencia | Pregunta de decisión | Estado |
+| --- | --- | --- | --- | --- |
+
+## Control de cobertura
+<fuentes sin explotar, elementos derivados y TBD que bloquean validación>
 ```
 
----
+No rellenes tablas con ejemplos ficticios. Si una sección no tiene elementos, indica “No identificado en las fuentes revisadas”.
 
-## 2. Separación Estricta de Conceptos
+Estados: `confirmado` requiere ratificación o baseline aprobado; una declaración aislada
+queda `pendiente de validación`. `TBD` indica un dato necesario todavía desconocido y
+siempre se vincula con una pregunta.
+Una `hipotesis_analista` permanece pendiente; al validarse debe registrarse la fuente
+que la confirmó y reclasificarse, no conservar una confirmación sin evidencia.
 
-Para evitar la contaminación entre la política del negocio y las decisiones técnicas de software, aplique la siguiente regla de demarcación:
+En modo JSON, después del schema comprueba: IDs únicos; `source_id` existentes;
+`parent_id` que apunten a RF globales existentes; `target_ids` y IDs de cobertura
+existentes. `coverage_control.blocking_tbd_ids` enumera exactamente los `OPEN-*`
+bloqueantes con estado `abierto` o `diferido`. El JSON Schema estándar no expresa por
+sí solo estas referencias cruzadas.
+Desde la raíz del repositorio ejecuta:
 
-```
-+--------------------------------------------------------------------------------------------------+
-|                                    DISCURSO DEL STAKEHOLDER                                     |
-+--------------------------------------------------------------------------------------------------+
-          |                                  |                                  |
-          v                                  v                                  v
-+-----------------------+          +-----------------------+          +-----------------------+
-|  REGLA DE NEGOCIO     |          |  REQ. FUNCIONAL (RF)  |          |  REQ. NO FUNCIONAL    |
-|       (RN-XXX)        |          |       (RF-XXX)        |          |       (RNF-XXX)       |
-|                       |          |                       |          |                       |
-| Invariante, política, |          | Acción, entrada,      |          | Atributo de calidad,  |
-| cálculo o condición   | -------> | transformación y      | <------- | rendimiento, SLA,     |
-| que existe aun sin    | (Aplica) | salida que ejecuta el | (Limita) | seguridad, usabilidad |
-| computadoras.         |          | software en pantalla. |          | o confiabilidad.      |
-+-----------------------+          +-----------------------+          +-----------------------+
-          |                                  |                                  |
-          +------------------+---------------+----------------------------------+
-                             |
-                             v
-           +-----------------------------------+
-           |     ESTRUCTURAS DE ENTORNO        |
-           |                                   |
-           | • SUP-XXX: Supuesto no confirmado |
-           | • RES-XXX: Restricción inmutable  |
-           | • DEP-XXX: Dependencia externa    |
-           | • AMB-XXX: Término vago a aclarar |
-           | • CONF-XX: Conflicto entre roles  |
-           +-----------------------------------+
+```powershell
+python .\requirementsExtractor\scripts\validate_requirements_semantics.py .\registro.json
 ```
 
-### 2.1. Definición de Prefijos y Entidades
-- `RF-XXX`: **Requerimiento Funcional**. Capacidad que el software provee al usuario o sistema consumidor.
-- `RNF-XXX`: **Requerimiento No Funcional**. Criterio de calidad o nivel de servicio verificable (FURPS+ / ISO 25010).
-- `RN-XXX`: **Regla de Negocio**. Política, cálculo, fórmula o condición de negocio independiente del software.
-- `SUP-XXX`: **Supuesto (Assumption)**. Hipótesis asumida por falta de datos explícitos, con riesgo y validación.
-- `RES-XXX`: **Restricción (Constraint)**. Límite tecnológico, legal o arquitectónico impuesto e innegociable.
-- `DEP-XXX`: **Dependencia**. Sistema externo, base de datos legada o proceso previo obligatorio.
-- `AMB-XXX`: **Ambigüedad Detectada**. Término impreciso con su pregunta de clarificación.
-- `CONF-XXX`: **Conflicto de Stakeholders**. Discrepancia de intereses o requerimientos incompatibles.
+## Criterio de término
 
----
+Finaliza cuando:
 
-## 3. Taxonomías de Calidad: Matriz FURPS+ e ISO/IEC 25010:2023
+- cada RF, RNF, regla, restricción y dependencia tenga ID, redacción y evidencia; cada supuesto declare su base y, si proviene de una fuente, su evidencia;
+- los RF detallados tengan un RF global padre válido;
+- toda cifra o tecnología provenga de fuente identificada;
+- los derivados, conflictos y `TBD` estén visibles;
+- no se hayan convertido decisiones de análisis/diseño en requisitos;
+- se haya generado solo el formato solicitado.
 
-Al clasificar un `RNF`, mapee la necesidad del stakeholder a ambas taxonomías:
-
-| Categoría FURPS+ | Dimensión ISO/IEC 25010:2023 | Subcaracterísticas Clave | Métricas Estándar |
-| :--- | :--- | :--- | :--- |
-| **Functionality** | **Adecuación Funcional / Seguridad** | Completitud, Exactitud, Confidencialidad, Integridad, No repudio | % Cobertura funcional, AES-256, TLS 1.3, HMAC |
-| **Usability** | **Usabilidad / Calidad en Uso** | Aprendibilidad (*Learnability*), Operabilidad, Protección contra errores, Estética | Tiempo en tarea (*Time on Task*), Puntuación SUS > 80, Clics <= 3, WCAG 2.1 AA |
-| **Reliability** | **Fiabilidad** | Disponibilidad, Tolerancia a fallos, Recuperabilidad | SLA (99.9%), MTBF, MTTR < 15 min, RPO < 5 min, RTO < 30 min |
-| **Performance** | **Eficiencia de Desempeño** | Comportamiento temporal, Utilización de recursos, Capacidad | Latencia P95/P99 en ms, Throughput (TPS), % Uso CPU/RAM |
-| **Supportability** | **Mantenibilidad / Portabilidad** | Modularidad, Mantenibilidad, Comprobabilidad (*Testability*), Adaptabilidad | Cobertura de tests >= 80%, Complejidad ciclomática < 10, OpenAPI 3.0 |
-| **+ (Plus)** | **Restricciones Técnicas y Físicas** | Diseño (+D), Implementación (+I), Interfaz (+IF), Físicas (+P) | Motores de BD, SO, Protocolos, Terminales rugerizadas |
-
-*Consulte la guía completa en [furps_and_iso25010_taxonomy.md](file:///C:/Users/Diego/.gemini/config/skills/rawInterviewToRequirementsExtractor/references/furps_and_iso25010_taxonomy.md).*
-
----
-
-## 4. Motor Anti-Ambigüedad y Lenguaje Vago
-
-### 4.1. Vocabulario de Alerta Lingüística
-El agente debe identificar automáticamente las siguientes expresiones en el discurso:
-1. **Adjetivos Subjetivos:** *"amigable"*, *"intuitivo"*, *"fácil"*, *"rápido"*, *"robusto"*, *"escalable"*, *"óptimo"*, *"moderno"*, *"seguro"*, *"liviano"*.
-2. **Adverbios y Falsos Cuantificadores:** *"en tiempo real"*, *"al toque"*, *"inmediatamente"*, *"frecuentemente"*, *"casi siempre"*, *"muchos"*, *"pocos"*.
-3. **Cláusulas de Escape:** *"según corresponda"*, *"de acuerdo al caso"*, *"y/o"*, *"etcétera"*, *"adecuado"*, *"a criterio del usuario"*, *"lo antes posible"*.
-4. **Sujetos Omitidos y Voz Pasiva:** *"se deberá procesar"*, *"el archivo será enviado"*, *"los datos se validarán"*.
-
-### 4.2. Transformación a Estándar Planguage (Tom Gilb)
-Para cada adjetivo o atributo cualitativo, genere la ficha de medición formal:
-
-```text
-TAG: RNF-01 (Rendimiento en Búsqueda)
-AMBIGUOUS_SOURCE: "Tiene que buscar los productos al instante."
-SCALE: Tiempo de respuesta en milisegundos desde el clic hasta la renderización de resultados.
-METER: Prueba automatizada con k6 bajo 100 usuarios concurrentes en catálogo de 500.000 SKUs.
-BASELINE: 4.500 ms (Sistema legado actual).
-WORST_ACCEPTABLE: 1.200 ms (P95).
-TARGET_PLAN: <= 300 ms (P95).
-STRETCH_WISH: <= 100 ms con índices en memoria (Elasticsearch/Redis).
-```
-
-### 4.3. Generador de Preguntas de Clarificación para Stakeholders
-Para cada término vago no resuelto, formule preguntas con opciones cerradas para acelerar la toma de decisiones:
-> **Ejemplo:**  
-> *"En la entrevista mencionó que el reporte debe emitirse 'lo antes posible'.*  
-> *a) ¿Cuál es el tiempo máximo admisible antes de que se considere fallo operativo? (< 5 seg, < 1 min, < 10 min)*  
-> *b) ¿El usuario debe esperar en pantalla o prefiere notificación asíncrona por correo al finalizar?"*
-
-*Consulte el catálogo completo en [ambiguity_detection_lexicon.md](file:///C:/Users/Diego/.gemini/config/skills/rawInterviewToRequirementsExtractor/references/ambiguity_detection_lexicon.md).*
-
----
-
-## 5. Formato de Salida y Entregables
-
-Cada ejecución del extractor debe generar dos artefactos perfectamente sincronizados:
-
-1. **Documento Markdown de Especificación (`ERS_Specification.md`)**:
-   - Ficha de Stakeholders y Objetivos.
-   - Tabla de Requerimientos Funcionales (`RF-XXX`) con actores, E/S, Reglas asociadas, prioridad MoSCoW y cita textual (`[STK:Min/Par]`).
-   - Tabla de Requerimientos No Funcionales (`RNF-XXX`) con FURPS+, ISO 25010 y Planguage.
-   - Tabla de Reglas de Negocio (`RN-XXX`) con formulación lógica formal.
-   - Listado de Supuestos (`SUP-XXX`), Restricciones (`RES-XXX`) y Dependencias (`DEP-XXX`).
-   - Matriz de Desambiguación con Preguntas para Stakeholders (`AMB-XXX`).
-   - Matriz de Conflictos de Negocio (`CONF-XXX`).
-
-2. **Objeto JSON Estructurado (`extracted_requirements.json`)**:
-   - Conforme al esquema JSON en [extracted_requirements.schema.json](file:///C:/Users/Diego/.gemini/config/skills/rawInterviewToRequirementsExtractor/templates/extracted_requirements.schema.json).
-
-*Consulte la plantilla Markdown en [requirements_specification.template.md](file:///C:/Users/Diego/.gemini/config/skills/rawInterviewToRequirementsExtractor/templates/requirements_specification.template.md).*
-
----
-
-## 6. Lista de Verificación de Calidad (Quality Gate)
-
-Antes de dar por finalizada la extracción, verifique:
-- [ ] **Trazabilidad 100%**: Todo `RF`, `RNF` y `RN` contiene la cita textual exacta y la referencia al stakeholder de origen.
-- [ ] **Cero Adjetivos Vacíos**: Ningún `RNF` contiene palabras como "amigable", "rápido" o "seguro" sin su correspondiente bloque Planguage medible.
-- [ ] **Aislamiento de Reglas**: Ninguna `RN` describe pantallas, botones, tecnologías o bases de datos; describe únicamente la política o cálculo de negocio.
-- [ ] **Manejo de Excepciones Implícitas**: Se identificaron caídas de red, productos vencidos, autorizaciones denegadas o estados de error.
-- [ ] **Priorización MoSCoW**: Todos los `RF` están clasificados como Must Have, Should Have, Could Have o Won't Have.
-- [ ] **Validación de Esquema JSON**: El bloque JSON generado valida contra [extracted_requirements.schema.json](file:///C:/Users/Diego/.gemini/config/skills/rawInterviewToRequirementsExtractor/templates/extracted_requirements.schema.json).
-
----
-
-## 7. Referencias y Recursos Disponibles
-
-- **Taxonomía FURPS+ e ISO 25010**: [furps_and_iso25010_taxonomy.md](file:///C:/Users/Diego/.gemini/config/skills/rawInterviewToRequirementsExtractor/references/furps_and_iso25010_taxonomy.md)
-- **Léxico de Ambigüedad y Preguntas**: [ambiguity_detection_lexicon.md](file:///C:/Users/Diego/.gemini/config/skills/rawInterviewToRequirementsExtractor/references/ambiguity_detection_lexicon.md)
-- **Heurísticas de Elicitación**: [elicitation_heuristics.md](file:///C:/Users/Diego/.gemini/config/skills/rawInterviewToRequirementsExtractor/references/elicitation_heuristics.md)
-- **Plantilla Markdown de Requerimientos**: [requirements_specification.template.md](file:///C:/Users/Diego/.gemini/config/skills/rawInterviewToRequirementsExtractor/templates/requirements_specification.template.md)
-- **Esquema JSON Formal**: [extracted_requirements.schema.json](file:///C:/Users/Diego/.gemini/config/skills/rawInterviewToRequirementsExtractor/templates/extracted_requirements.schema.json)
-- **Ejemplo Práctico Completo**: [logistics_stakeholder_interview_case.md](file:///C:/Users/Diego/.gemini/config/skills/rawInterviewToRequirementsExtractor/examples/logistics_stakeholder_interview_case.md)
+Consulta [examples/logistics_stakeholder_interview_case.md](examples/logistics_stakeholder_interview_case.md) únicamente si hace falta ver un ejemplo breve de trazabilidad y `TBD`.

@@ -186,7 +186,7 @@ Graph layout can be changed by setting `nodeAlignment` to:
 - `left`
 - `right`
 
-### Label Style (v<MERMAID_RELEASE_VERSION>+)
+### Label Style (version-dependent; verify renderer support)
 
 You can change how node labels are rendered by setting `labelStyle`:
 
@@ -207,7 +207,7 @@ Electricity grid,Industry,342.165
 Electricity grid,Losses,56.691
 ```
 
-### Node Width and Padding (v<MERMAID_RELEASE_VERSION>+)
+### Node Width and Padding (version-dependent; verify renderer support)
 
 You can customize the node dimensions:
 
@@ -229,7 +229,7 @@ Electricity grid,Industry,342.165
 Electricity grid,Losses,56.691
 ```
 
-### Custom Node Colors (v<MERMAID_RELEASE_VERSION>+)
+### Custom Node Colors (version-dependent; verify renderer support)
 
 You can assign specific colors to nodes using the `nodeColors` map. Nodes not listed will use the default color scheme. Values must be valid CSS colors (hex, `rgb()`, `hsl()`, or named colors).
 
