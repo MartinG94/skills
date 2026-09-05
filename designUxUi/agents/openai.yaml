@@ -1,7 +1,7 @@
 interface:
-  display_name: "Diseñar UX/UI"
-  short_description: "Diseña frontends profesionales y los valida"
-  default_prompt: "Usa $disenar-uxui para diseñar, implementar y abrir en localhost un frontend profesional a partir de este contexto."
+  display_name: "Diseño UX/UI"
+  short_description: "Diseña o audita UX/UI según el alcance"
+  default_prompt: "Usa $design-ux-ui para diseñar, auditar o implementar la interfaz que corresponda a este contexto y alcance."
 
 policy:
   allow_implicit_invocation: true

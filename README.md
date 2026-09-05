@@ -4,13 +4,15 @@ Repositorio centralizado de **Agent Skills** modulares, especializadas y basadas
 
 Estas habilidades están diseñadas para ser consumidas y ejecutadas por agentes de Inteligencia Artificial (compatibles con **Google Antigravity**, **Claude Code**, **Cursor**, **Windsurf**, agentes basados en OpenAI y frameworks agénticos avanzados) conforme al estándar de carpetas `SKILL.md`.
 
-> 📘 **Playbook Maestro**: Consultá el [**Instructivo de Implementación Exitosa de Sistemas de Información (Paso 0 a Producción)**](GUIA_IMPLEMENTACION_SISTEMAS.md), que orquesta el ciclo de vida completo integrando las 22 skills del repositorio con compuertas de calidad (*Quality Gates*).
+> 📘 **Playbook de rutas**: Consultá la [**Guía de aplicación de skills para Sistemas de Información**](GUIA.md), que ayuda a seleccionar únicamente las skills y compuertas necesarias para cada producto. No es obligatorio ejecutar las 22.
+
+> 🧾 **Registro de auditoría**: el [prompt, alcance y resultado de la auditoría ASI/DSI del 2026-09-04](audits/2026-09-04-auditoria-skills-asi-dsi.md) quedan versionados junto con las skills.
 
 ---
 
 ## 📌 Contenido
 
-- [Instructivo Operativo End-to-End](GUIA_IMPLEMENTACION_SISTEMAS.md)
+- [Guía de rutas y productos](GUIA.md)
 - [Visión General y Propósito](#-visión-general-y-propósito)
 - [Mapa del Ciclo de Vida de Software](#-mapa-del-ciclo-de-vida-de-software)
 - [Catálogo de Skills](#-catálogo-de-skills)
@@ -22,7 +24,7 @@ Estas habilidades están diseñadas para ser consumidas y ejecutadas por agentes
   - [6. Experiencia de Usuario, UI y Diseño Generativo](#6-experiencia-de-usuario-ui-y-diseño-generativo)
   - [7. Productividad y Gestión del Conocimiento](#7-productividad-y-gestión-del-conocimiento)
   - [8. Comunicación y Oratoria Profesional](#8-comunicación-y-oratoria-profesional)
-  - [9. Construcción de Backend, Arquitectura Limpia y Pruebas](#9-construcción-de-backend-arquitectura-limpia-y-pruebas)
+  - [9. Construcción de Backend y Pruebas](#9-construcción-de-backend-y-pruebas)
 - [Anatomía de una Skill](#-anatomía-de-una-skill)
 - [Guía de Integración y Uso](#-guía-de-integración-y-uso)
 - [Estándares y Fundamentos Académicos](#-estándares-y-fundamentos-académicos)
@@ -32,60 +34,64 @@ Estas habilidades están diseñadas para ser consumidas y ejecutadas por agentes
 
 ## 🚀 Visión General y Propósito
 
-A diferencia de simples prompts aislados, las **Agent Skills** de este repositorio son unidades autónomas de especialización técnica que combinan:
-1. **Directrices de razonamiento paso a paso** en sus respectivos `SKILL.md`.
-2. **Gramáticas formales y referencias teóricas** (`references/`) para evitar alucinaciones.
-3. **Plantillas institucionales validadas** (`templates/`) en formatos Markdown, JSON Schema y XML.
-4. **Scripts de validación y automatización determinística** (`scripts/`) en Python y PowerShell.
-5. **Casos de estudio y ejemplos canónicos** (`examples/`) para asegurar calidad constante.
+A diferencia de prompts aislados, las **Agent Skills** de este repositorio definen un producto, sus entradas, límites, decisiones y criterios de cierre. Cada paquete incluye solo los recursos que necesita:
 
-El núcleo principal del repositorio provee un soporte exhaustivo para el ciclo completo de **Análisis de Sistemas de Información (ASI)** y **Diseño de Sistemas de Información (DSI)**, integrando el **Proceso Unificado de Desarrollo (PUD / RUP)**, **Domain-Driven Design (DDD)**, patrones **GRASP / GoF**, normas **ISO/IEC 25010** e **IEEE 29148**, y herramientas visuales modernas.
+1. un `SKILL.md` conciso para alcance, flujo y contrato de salida;
+2. `references/` para detalle condicional que cambia decisiones;
+3. `templates/` cuando una estructura reutilizable mejora consistencia;
+4. `scripts/` cuando una transformación o validación realmente puede automatizarse;
+5. `examples/` breves cuando enseñan un comportamiento que las reglas no dejan claro.
+
+El catálogo cubre productos de **Análisis de Sistemas de Información (ASI)**, **Diseño de Sistemas de Información (DSI)** y construcción downstream. Los marcos PUD/RUP, DDD, GRASP/GoF, ISO/IEC 25010 e IEEE 29148 se aplican únicamente donde aportan al artefacto solicitado.
 
 ---
 
 ## 🗺️ Mapa del Ciclo de Vida de Software
 
-El siguiente diagrama ilustra cómo interactúan las distintas skills a lo largo de las disciplinas de ingeniería y entrega de valor:
+El siguiente diagrama muestra relaciones posibles entre productos. Las rutas se seleccionan según el encargo y los artefactos disponibles; las flechas no convierten el catálogo en un pipeline obligatorio.
 
 ```mermaid
 flowchart TD
+    subgraph Orquestacion_Academica["Modo académico transversal"]
+        EPC[epc-flow-gen<br/><i>Orquestación de EPC académico</i>]
+    end
+
     subgraph Relevamiento_y_Estrategia["Relevamiento & Viabilidad"]
-        SC[systemClassifier<br/><i>TGS, Viabilidad & PUD</i>]
-        RE[requirementsExtractor<br/><i>Entrevistas a ERS/SRS</i>]
-        BPMN[bpmnExtractor<br/><i>BPMN 2.0 & Fichas</i>]
+        SC[system-classifier<br/><i>Encuadre por modo y evidencia</i>]
+        RE[requirements-extractor<br/><i>Evidencia a requisitos</i>]
+        BPMN[bpmn-extractor<br/><i>BPMN & Fichas</i>]
     end
 
     subgraph Analisis_del_Sistema["Análisis del Sistema (ASI)"]
-        UCE[useCaseExtractor<br/><i>Casos de Uso & BCE</i>]
-        DMG[domainModelGen<br/><i>Modelo de Dominio UML</i>]
-        CV[crudValidator<br/><i>Matriz CRUD & Brechas</i>]
-        EPC[epcFlowGen<br/><i>Flujos de Diálogo EPC</i>]
+        UCE[use-case-extractor<br/><i>Modelo y descripciones de CU</i>]
+        DMG[domain-model-gen<br/><i>Modelo conceptual trazable</i>]
+        CV[crud-validator<br/><i>Matriz CRUD diagnóstica</i>]
     end
 
     subgraph Arquitectura_y_Diseno["Arquitectura & Diseño (DSI)"]
-        QSS[qualityScenarioSpecifier<br/><i>Escenarios ISO 25010</i>]
-        MD[microserviceDecomposer<br/><i>Strategic DDD & C4</i>]
-        GSR[graspSequenceRealizer<br/><i>DSD con Patrones GRASP</i>]
-        GOF[gofAdviser<br/><i>Refactorización GoF</i>]
-        ROM[relationalObjectMap<br/><i>Mapeo ORM & DDL SQL</i>]
-        UMLC[umlConsistency<br/><i>Linter Cruzado UML</i>]
+        QSS[quality-scenario-specifier<br/><i>Escenarios según perfil</i>]
+        MD[microservice-decomposer<br/><i>Decisión de límites & C4</i>]
+        GSR[grasp-sequence-realizer<br/><i>RCU / DSD trazable</i>]
+        DD[domain-design<br/><i>DCD trazable</i>]
+        GOF[gof-adviser<br/><i>Decisión GoF opcional</i>]
+        ROM[relational-object-map<br/><i>Mapeo relacional; DDL opcional</i>]
+        UMLC[uml-consistency<br/><i>Auditoría cruzada UML</i>]
     end
 
     subgraph Construccion_Backend["Construcción de Backend & Pruebas"]
-        DD[domainDesign<br/><i>DCD, Dominio Rico & Hexagonal</i>]
-        ORM[ormMaster<br/><i>Ciclo de Vida ORM & N+1</i>]
-        API[apiDesign<br/><i>REST, OpenAPI & Problem Details</i>]
-        TEST[backendTesting<br/><i>Pirámide & Test Doubles</i>]
+        ORM[orm-master<br/><i>Mapeo y consultas con evidencia</i>]
+        API[api-design<br/><i>Contrato HTTP/OpenAPI</i>]
+        TEST[backend-testing<br/><i>Pruebas según riesgo</i>]
     end
 
     subgraph Frontend_y_Visualizacion["Frontend & Visualización"]
-        UXUI[designUxUi<br/><i>DESIGN.md, UI & Tokens</i>]
-        MDG[mermaidDiagramGen<br/><i>Mermaid & Máquinas Estado</i>]
+        UXUI[design-ux-ui<br/><i>Artefacto UX/UI proporcional</i>]
+        MDG[mermaid-diagram-gen<br/><i>Mermaid & Máquinas Estado</i>]
     end
 
     subgraph Soporte_Cognitivo["Gestión & Comunicación"]
         NLM[notebooklm / notebooklmSourceNaming<br/><i>MCP, Citas & Nomenclatura</i>]
-        PNL[pnlOratoria<br/><i>Oratoria con PNL & 5Q</i>]
+        PNL[oratoriaPnl<br/><i>Oratoria con PNL & 5Q</i>]
     end
 
     SC --> RE
@@ -94,7 +100,6 @@ flowchart TD
     BPMN --> UCE
     UCE --> DMG
     UCE --> CV
-    UCE --> EPC
     DMG --> CV
     DMG --> GSR
     QSS --> MD
@@ -104,6 +109,7 @@ flowchart TD
     GSR --> UMLC
     DMG --> UMLC
     GSR --> DD
+    DD -. design-rcu opcional .-> GSR
     GOF --> DD
     ROM --> ORM
     DD --> ORM
@@ -111,11 +117,17 @@ flowchart TD
     DD --> TEST
     ORM --> TEST
     API --> TEST
-    EPC --> UXUI
+    EPC -. selecciona solo lo pedido .-> RE
+    EPC -.-> UCE
+    EPC -.-> QSS
+    EPC -.-> GSR
+    EPC -.-> MDG
     GSR -.-> MDG
     DMG -.-> MDG
     DD -.-> MDG
 ```
+
+`epc-flow-gen` es un orquestador para un **Ejercicio Práctico Complementario** de ASI/DSI. Lee la consigna y deriva solo los ítems solicitados a las skills especialistas; no representa una etapa de interfaz ni obliga a recorrer las ramas ilustradas.
 
 ---
 
@@ -123,13 +135,17 @@ flowchart TD
 
 El repositorio cuenta actualmente con **22 skills especializadas**, distribuidas en las siguientes áreas de competencia:
 
+Las skills migradas muestran en la etiqueta su `name` invocable en hyphen-case.
+Algunos paquetes y enlaces conservan nombres o carpetas históricas en camelCase para
+no romper compatibilidad; ante cualquier diferencia, prevalece el frontmatter.
+
 ### 1. Requerimientos, Viabilidad y Procesos de Negocio
 
 | Skill | Descripción | Estándares y Técnicas Clave | Artefactos |
 | :--- | :--- | :--- | :--- |
-| [**systemClassifier**](systemClassifier/SKILL.md) | Diagnóstico organizacional y de sistemas de información, evaluación multidimensional de viabilidad y encuadre en el PUD/RUP. | Teoría General de Sistemas (TGS), TPS/MIS/DSS/EIS/ERP, ROI, Payback, VAN/TIR, Fases PUD. | `templates/prefeasibility_and_pud_report_template.md`, `references/tgs_and_pud_handbook.md` |
-| [**requirementsExtractor**](requirementsExtractor/SKILL.md) | Extracción, desambiguación y formalización de requerimientos desde entrevistas, minutas y discursos no estructurados. | IEEE 830, ISO/IEC/IEEE 29148, INCOSE, taxonomía FURPS+, RF/RNF/RN. | `templates/requirements_specification.template.md`, `templates/extracted_requirements.schema.json`, `examples/` |
-| [**bpmnExtractor**](bpmnExtractor/SKILL.md) | Transformación de narrativas en procesos BPMN 2.0 rigurosos, Fichas de Proceso institucionales y modelos canónicos JSON. | BPMN 2.0 (OMG), Pools/Lanes, eventos tipados, gateways XOR/AND/OR, BPMN-IR. | `scripts/bpmn_ir_transformer.py`, `templates/ficha_proceso_template.md`, `templates/bpmn_json_schema.json` |
+| [**system-classifier**](systemClassifier/SKILL.md) | Responde una pregunta concreta de diagnóstico, clasificación de SI, prefactibilidad o contexto PUD. | TGS, taxonomía TPS/MIS/DSS/ESS/KMS/AI, evidencia y análisis por modo. | Dictamen breve o informe formal; plantilla/referencia solo en el modo correspondiente. |
+| [**requirements-extractor**](requirementsExtractor/SKILL.md) | Extrae y normaliza requisitos trazables sin diseñar la solución. | RF, RNF, reglas, restricciones, historias opcionales, fuentes y preguntas abiertas. | Registro Markdown por defecto; ERS, historias o JSON solo si se solicitan. |
+| [**bpmn-extractor**](bpmnExtractor/SKILL.md) | Modela o audita procesos de negocio desde evidencia narrativa. | Perfil BPMN de ASI, ficha institucional y semántica de flujo. | Ficha y especificación del BPD; BPD gráfico solo con herramienta BPMN, o IR/Mermaid/XML no ejecutable en el perfil compatible. |
 
 ---
 
@@ -137,10 +153,10 @@ El repositorio cuenta actualmente con **22 skills especializadas**, distribuidas
 
 | Skill | Descripción | Estándares y Técnicas Clave | Artefactos |
 | :--- | :--- | :--- | :--- |
-| [**useCaseExtractor**](useCaseExtractor/SKILL.md) | Elicitación, especificación formal y realización de Casos de Uso (CU-XX) con análisis de robustez. | Estándares Alistair Cockburn (Sea Level, 2 columnas), Boundary-Control-Entity (BCE / ECB), BDD Gherkin, reglas de negocio (RN-XX). | `SKILL.md` |
-| [**crudValidator**](crudValidator/SKILL.md) | Construcción y auditoría de matrices CRUD (Entidades x Casos de Uso), detectando brechas de consistencia del dominio. | Detección de entidades fantasma, datos agujero negro, entidades huérfanas, planes de remediación automatizados. | `templates/crud-matrix-report-template.md`, `references/ieee29148-quality-rules.md` |
-| [**domainModelGen**](domainModelGen/SKILL.md) | Generación de Modelos de Dominio conceptuales en UML aplicando patrones estructurales canónicos de ASI. | Patrones Ítem-Descriptor, Encabezado-Detalle / Maestro-Detalle, Historial de Estados con vigencia temporal, Rol/Tipo de Rol. | `SKILL.md` |
-| [**epcFlowGen**](epcFlowGen/SKILL.md) | Diseño y formalización de interfaces de usuario y flujos de diálogo bajo el paradigma EPC (Entrada - Proceso - Consulta). | Trazabilidad con controladores de Casos de Uso, heurísticas de usabilidad, diagramas de flujo de diálogo. | `SKILL.md` |
+| [**use-case-extractor**](useCaseExtractor/SKILL.md) | Descubre el modelo o describe CU trazables; deriva las realizaciones a su skill especialista. | Objetivos de actor, relaciones CU, flujos y evidencia; Gherkin solo cuando se pide. | Inventario/diagrama o descripción institucional según el modo seleccionado. |
+| [**crud-validator**](crudValidator/SKILL.md) | Contrasta entidades con CU o requisitos sin exigir CRUD completo para cada clase. | Evidencia de C/R/U/D, excepciones justificadas y nivel de cobertura. | Matriz diagnóstica y propuestas; no genera requisitos o CU automáticamente. |
+| [**domain-model-gen**](domainModelGen/SKILL.md) | Genera un modelo conceptual trazable sin introducir tablas, servicios ni arquitectura. | Clases, atributos, responsabilidades y relaciones derivadas del dominio; patrones ASI solo cuando aplican. | Diagrama conceptual y registro breve de evidencia. |
+| [**epc-flow-gen**](epcFlowGen/SKILL.md) | Resolución trazable de Ejercicios Prácticos Complementarios de ASI/DSI mediante selección de artefactos y skills según la consigna. | Matriz ítem → artefacto → evidencia → skill → estado, control de cobertura y no invención. | Resolución ensamblada en el formato pedido, con pendientes justificados. |
 
 ---
 
@@ -148,8 +164,8 @@ El repositorio cuenta actualmente con **22 skills especializadas**, distribuidas
 
 | Skill | Descripción | Estándares y Técnicas Clave | Artefactos |
 | :--- | :--- | :--- | :--- |
-| [**qualityScenarioSpecifier**](qualityScenarioSpecifier/SKILL.md) | Transformación de requerimientos no funcionales en Escenarios de Calidad cuantificables de 6 partes y tácticas de diseño. | ISO/IEC 25000 (SQuaRE / ISO 25010), Escenarios SEI (Bass, Clements, Kazman), Richards & Ford, Tácticas de disponibilidad, rendimiento, seguridad, modificabilidad. | `SKILL.md` |
-| [**microserviceDecomposer**](microserviceDecomposer/SKILL.md) | Descomposición arquitectónica desde monolitos hacia microservicios y diseño greenfield distribuido. | Strategic Domain-Driven Design (DDD), Bounded Contexts, Context Mapping, Modelo C4 (Nivel 2: Contenedores), patrones de Chris Richardson y Sam Newman. | `SKILL.md` |
+| [**quality-scenario-specifier**](qualityScenarioSpecifier/SKILL.md) | Convierte RNF en escenarios verificables sin inventar umbrales. | Perfil de cátedra atributo–estímulo–respuesta; seis partes y tácticas como modos condicionales. | Escenario del perfil pedido, pendientes y criterios de verificación. |
+| [**microservice-decomposer**](microserviceDecomposer/SKILL.md) | Evalúa monolito modular frente a microservicios y define límites solo si se justifican. | Drivers de negocio/calidad, bounded contexts, dependencias y capacidad operativa. | Decisión arquitectónica y vistas solicitadas; “no descomponer” es válido. |
 
 ---
 
@@ -157,10 +173,11 @@ El repositorio cuenta actualmente con **22 skills especializadas**, distribuidas
 
 | Skill | Descripción | Estándares y Técnicas Clave | Artefactos |
 | :--- | :--- | :--- | :--- |
-| [**graspSequenceRealizer**](graspSequenceRealizer/SKILL.md) | Derivación de Casos de Uso a Diagramas de Secuencia de Diseño (DSD) aplicando patrones de asignación de responsabilidades. | 9 Patrones GRASP de Craig Larman (Experto, Creador, Controlador, Bajo Acoplamiento, Alta Cohesión, etc.) y Patrones GoF asociados. | `SKILL.md` |
-| [**gofAdviser**](gofAdviser/SKILL.md) | Detección de code smells y violaciones SOLID en modelos de clases y código fuente, asesorando refactorizaciones con patrones GoF. | Patrones Gang of Four (GoF Creacionales, Estructurales y de Comportamiento), Principios SOLID, refactoring de modelos orientados a objetos. | `SKILL.md` |
-| [**umlConsistency**](umlConsistency/SKILL.md) | Linter estático y auditoría de consistencia semántica y sintáctica cruzada entre modelos UML y código fuente. | Consistencia cruzada DCD ↔ DSD ↔ DTE/DSE ↔ Código Fuente (C# / .NET / Java), verificación de firmas, navegabilidad y transiciones de estado. | `SKILL.md` |
-| [**relationalObjectMap**](relationalObjectMap/SKILL.md) | Mapeo Objeto-Relacional formal desde Diagramas de Clases de Diseño hacia esquemas SQL DDL normalizados y capas DAO. | Normalización relacional (1FN a BCNF), C# .NET con patrón DAO/Repository, helper transaccional `BDHelper`. | `SKILL.md` |
+| [**grasp-sequence-realizer**](graspSequenceRealizer/SKILL.md) | Única propietaria de la realización de análisis o diseño para un escenario concreto. | BCE/GRASP aplicables, mensajes y responsabilidades trazables; GoF no es obligatorio. | RCU/DSD en una notación elegida y decisiones justificadas. |
+| [**domain-design**](domainDesign/SKILL.md) | Transforma modelos de análisis y realizaciones en un DCD trazable. | Clases, responsabilidades, interfaces y relaciones de diseño justificadas; arquitectura/código son modos explícitos. | DCD por defecto; detalle técnico adicional solo si se solicita. |
+| [**gof-adviser**](gofAdviser/SKILL.md) | Evalúa si una fuerza de diseño justifica un patrón y compara alternativas. | Problema, contexto, consecuencias y evidencia; “ningún patrón” es una salida válida. | Decisión o refactor solicitado con verificación. |
+| [**uml-consistency**](umlConsistency/SKILL.md) | Audita dos o más artefactos existentes con evidencia y confianza. | DCD/DSD/DTE/código, normalización y fuente autoritativa. | Informe de inconsistencias; no inventa modelos ni corrige sin permiso. |
+| [**relational-object-map**](relationalObjectMap/SKILL.md) | Traduce un DCD a decisiones de mapeo relacional trazables. | Identidad, atributos, asociaciones, herencia y restricciones del motor cuando exista. | Modelo lógico por defecto; esquema/DDL solo si se solicita, sin capa DAO. |
 
 ---
 
@@ -168,7 +185,7 @@ El repositorio cuenta actualmente con **22 skills especializadas**, distribuidas
 
 | Skill | Descripción | Estándares y Técnicas Clave | Artefactos |
 | :--- | :--- | :--- | :--- |
-| [**mermaidDiagramGen**](mermaidDiagramGen/SKILL.md) | Generación, depuración y validación sintáctica de todo el catálogo de diagramas Mermaid.js y síntesis de Máquinas de Estado UML 2.5. | Flowcharts, Sequence, C4 Architecture, Class, ERD, StateDiagram-v2, GitGraph, Gantt, Mindmap, Matrices de Transición de Estados (MTE). | `references/` (29 guías de sintaxis Mermaid especializadas: C4, secuencia, estados, arquitectura, etc.) |
+| [**mermaid-diagram-gen**](mermaidDiagramGen/SKILL.md) | Generación o validación de un diagrama Mermaid y, cuando se pide, síntesis trazable de DTE/MTE. | Selección por tipo entre 30 guías disponibles; se carga únicamente la referencia aplicable. | Código Mermaid solicitado y resultado de validación disponible. |
 
 ---
 
@@ -176,7 +193,7 @@ El repositorio cuenta actualmente con **22 skills especializadas**, distribuidas
 
 | Skill | Descripción | Estándares y Técnicas Clave | Artefactos |
 | :--- | :--- | :--- | :--- |
-| [**designUxUi**](designUxUi/SKILL.md) | Diseño, auditoría y prototipado frontend profesional, componentes web interactivos y sistemas de diseño con especificación DESIGN.md. | Taste-design anti-slop, Design Tokens (DTCG), Tailwind CSS v3/v4, accesibilidad WCAG 2.1 AA, servidor de preview en vivo. | `scripts/` (extracción y exportación de tokens, serve preview, validate design), `resources/templates/`, `references/` |
+| [**design-ux-ui**](designUxUi/SKILL.md) | Diseño, auditoría o implementación de UX/UI con un artefacto proporcional al pedido y al sistema existente. | Flujos y estados, reutilización de componentes/tokens, accesibilidad WCAG 2.2 AA y verificación condicional. | Especificación, prototipo, código o informe según el modo; `references/` y `scripts/` se cargan solo cuando aplican. |
 
 ---
 
@@ -193,18 +210,17 @@ El repositorio cuenta actualmente con **22 skills especializadas**, distribuidas
 
 | Skill | Descripción | Estándares y Técnicas Clave | Artefactos |
 | :--- | :--- | :--- | :--- |
-| [**pnlOratoria**](pnlOratoria/SKILL.md) | Estructuración y preparación de presentaciones orales de alto impacto basadas en Programación Neurolingüística y retórica persuasiva. | Análisis de audiencia 5Q, sistemas representacionales VAK (Visual, Auditivo, Kinestésico), metaprogramas, encuadres, calibración y feedback. | `references/` (01 a 05: el presentador PNL, diseño 5Q, audiencia, voz/cuerpo, feedback) |
+| [**oratoriaPnl**](pnlOratoria/SKILL.md) | Estructuración y preparación de presentaciones orales de alto impacto basadas en Programación Neurolingüística y retórica persuasiva. | Análisis de audiencia 5Q, sistemas representacionales VAK (Visual, Auditivo, Kinestésico), metaprogramas, encuadres, calibración y feedback. | `references/` (01 a 05: el presentador PNL, diseño 5Q, audiencia, voz/cuerpo, feedback) |
 
 ---
 
-### 9. Construcción de Backend, Arquitectura Limpia y Pruebas
+### 9. Construcción de Backend y Pruebas
 
 | Skill | Descripción | Estándares y Técnicas Clave | Artefactos |
 | :--- | :--- | :--- | :--- |
-| [**domainDesign**](domainDesign/SKILL.md) | Modelado de Dominio Rico, Arquitectura Limpia/Hexagonal (Ports & Adapters) y Diagramas de Clases de Diseño (DCD). | Domain-Driven Design (DDD Táctico), Value Objects inmutables, Tell Don't Ask, DCD UML, DTOs y Mappers desacoplados. | `SKILL.md` |
-| [**ormMaster**](ormMaster/SKILL.md) | Persistencia objeto-relacional avanzada, gestión del ciclo de vida de entidades y optimización transaccional. | JPA/Hibernate, EF Core, mitigación de consultas $N+1$ (Fetch Joins, Entity Graphs), concurrencia optimista (`@Version`), transacciones ACID. | `SKILL.md` |
-| [**apiDesign**](apiDesign/SKILL.md) | Diseño y especificación de contratos de APIs RESTful idiomáticas, seguras y robustas. | Modelo de Madurez de Richardson, semántica e idempotencia HTTP, OpenAPI 3.x, respuestas canónicas RFC 7807/9457 (*Problem Details*). | `SKILL.md` |
-| [**backendTesting**](backendTesting/SKILL.md) | Estrategia de pruebas automatizadas y artesanía de testing orientada a objetos. | Pirámide de Pruebas, patrón AAA (Arrange-Act-Assert), taxonomía de Test Doubles (Meszaros: Stubs, Mocks, Fakes), soporte políglota (.NET, Java, Python). | `SKILL.md`, `README.md` |
+| [**orm-master**](ormMaster/SKILL.md) | Auditoría, diseño u optimización de un mapeo ORM concreto sin redefinir dominio ni esquema. | Estrategias de carga basadas en evidencia, límites transaccionales y concurrencia según el ORM/base existentes. | Diagnóstico o cambio en el stack solicitado. |
+| [**api-design**](apiDesign/SKILL.md) | Diseño o auditoría de contratos HTTP/REST a partir de operaciones y requisitos aprobados. | Semántica HTTP, OpenAPI 3.x, compatibilidad y, cuando aplican, Problem Details e idempotencia. | Contrato y decisiones; implementación solo si se solicita. |
+| [**backend-testing**](backendTesting/SKILL.md) | Estrategia, auditoría o implementación de pruebas downstream guiada por comportamiento y riesgo. | Niveles unitario/integración/contrato/E2E, AAA/GWT y dobles de Meszaros según el caso. | Matriz de cobertura y/o pruebas en el stack existente. |
 
 ---
 
@@ -226,10 +242,10 @@ Todo archivo `SKILL.md` define en su bloque superior los metadatos YAML que perm
 
 ```yaml
 ---
-name: nombreDeLaSkill
+name: nombre-de-la-skill
 description: >-
-  Descripción precisa de las capacidades de la skill, condiciones de activación,
-  estándares aplicados y salidas esperadas para que el planificador del agente la seleccione.
+  Producto que genera, cuándo debe activarse y el límite que evita confundirla con
+  skills cercanas.
 ---
 ```
 
@@ -247,19 +263,27 @@ Si estás utilizando Antigravity, este repositorio puede vincularse directamente
 - **Cursor / Windsurf:** Añade la regla en `.cursorrules` o en los agentes de proyecto indicando la ubicación del directorio de skills y solicitando la lectura del `SKILL.md` correspondiente al abordar tareas afines.
 
 ### 3. Ejecución Directa de Scripts
-Varias skills disponen de utilidades determinísticas de soporte listas para ejecutarse localmente:
-- **Transformador BPMN a JSON-IR:**
+Algunas skills incluyen utilidades de soporte. Leer primero el modo correspondiente y ejecutar cada script solo si coincide con el producto y el entorno:
+- **Validación y render de BPMN-IR:**
   ```bash
-  python bpmnExtractor/scripts/bpmn_ir_transformer.py
+  python bpmnExtractor/scripts/bpmn_ir_transformer.py bpmnExtractor/templates/bpmn_process_ir_example.json --format mermaid
+  ```
+- **Integridad semántica de un registro de requisitos JSON:**
+  ```bash
+  python requirementsExtractor/scripts/validate_requirements_semantics.py path/to/registro.json
   ```
 - **Auditoría y Validación de Tokens UX/UI:**
   ```powershell
-  pwsh designUxUi/scripts/validate_design.ps1
+  pwsh -NoProfile -File designUxUi/scripts/validate_design.ps1 -Path .\mi-proyecto\DESIGN.md
   ```
 - **Servidor de Previsualización Local:**
   ```bash
-  python designUxUi/scripts/serve_preview.py
+  python designUxUi/scripts/serve_preview.py --root path/to/frontend --port 0
   ```
+
+Sustituí las rutas de ejemplo por artefactos existentes. El validador de diseño puede
+requerir que `npx` obtenga `@google/design.md`; el servidor exige un directorio que
+contenga `index.html` y elige un puerto libre con `--port 0`.
 
 ---
 
@@ -276,7 +300,7 @@ Las directrices metodológicas implementadas en este repositorio se basan en lit
 - **Diseño de APIs Web:** Leonard Richardson (*REST Maturity Model*), RFC 7807 / RFC 9457 (*Problem Details for HTTP APIs*), OpenAPI Specification 3.x.
 - **Artesanía de Testing Automatizado:** Gerard Meszaros (*xUnit Test Patterns - Test Doubles Taxonomy*), Kent Beck (*Test-Driven Development by Example*).
 - **Calidad de Software:** ISO/IEC 25010 / 25000 (SQuaRE - System and Software Quality Requirements and Evaluation).
-- **Diseño de Interfaz y Accesibilidad:** Jakob Nielsen (10 Heurísticas de Usabilidad), W3C WCAG 2.1 Nivel AA, Google Labs DESIGN.md.
+- **Diseño de Interfaz y Accesibilidad:** Jakob Nielsen (10 Heurísticas de Usabilidad), W3C WCAG 2.2 Nivel AA y sistemas de tokens cuando el producto los requiere.
 - **Comunicación Persuasiva:** Programación Neurolingüística (PNL) aplicada a oratoria técnica.
 
 ---

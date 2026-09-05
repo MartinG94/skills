@@ -237,7 +237,7 @@ See how the colors are changed to the values specified in the theme variables.
 
 ## Themes
 
-Mermaid supports a bunch of pre-defined themes which you can use to find the right one for you. PS: you can actually override an existing theme's variable to get your own custom theme going. Learn more about [theming your diagram](../config/theming.md).
+Mermaid supports predefined themes and theme-variable overrides. Verify configuration against the installed version; the upstream theming page is not bundled here.
 
 The following are the different pre-defined theme options:
 
@@ -247,7 +247,7 @@ The following are the different pre-defined theme options:
 - `default`
 - `neutral`
 
-**NOTE**: To change theme you can either use the `initialize` call or _directives_. Learn more about [directives](../config/directives.md)
+**NOTE**: Theme selection may use initialization or directives depending on Mermaid version. The upstream directives page is not bundled here.
 Let's put them to use, and see how our sample diagram looks in different themes:
 
 ### Base Theme

@@ -1,72 +1,106 @@
-# Guía de Principios Estéticos y Anti-Slop (Taste Design)
+# Guía de dirección visual para productos sin sistema existente
 
-Esta guía condensa la filosofía visual para erradicar las interfaces genéricas producidas comúnmente por inteligencia artificial y establecer un estándar de diseño editorial, riguroso y con carácter.
+## Cuándo usarla
 
----
+Consultar esta guía solo para definir una dirección visual nueva cuando no existen
+marca, sistema de diseño ni referencias suficientes. Las decisiones del usuario, la
+identidad existente, el contenido y la accesibilidad tienen prioridad. Estas son
+heurísticas para evitar una propuesta genérica, no prohibiciones universales.
 
-## 1. El Espectro del Buen Gusto (3 Diales de Atmósfera)
+No usarla para rediseñar por iniciativa propia una interfaz existente ni para
+convertir una auditoría funcional en un cambio estético.
 
-Antes de definir tokens, calibra estos tres diales según la naturaleza del producto:
+## Calibrar la dirección
 
-1. **Densidad (1 a 10):**
-   - `1 - 3 (Art Gallery Airy):` Grandes áreas de respiración, tipografía protagonista, márgenes masivos (>32px). Ideal para portfolios, marcas de lujo y editoriales.
-   - `4 - 7 (Daily App Balanced):` Densidad estándar para productos digitales cotidianos, SaaS y comercio electrónico.
-   - `8 - 10 (Cockpit Dense):` Máxima densidad de información, tablas complejas, paneles de trading y monitoreo técnico. Espaciados compactos (4px/8px) y tipografía monospace para cifras.
-2. **Varianza y Asimetría (1 a 10):**
-   - `1 - 3 (Symmetric Predictable):` Estructuras clásicas centradas.
-   - `4 - 7 (Offset Asymmetric):` Columnas divididas asimétricamente (ej. 60/40), márgenes desalineados intencionales.
-   - `8 - 10 (Artsy Chaotic):` Composiciones vanguardistas y de choque visual controlado.
-3. **Movimiento y Micro-interacción (1 a 10):**
-   - `1 - 3 (Static Restrained):` Transiciones de estado limpias sin animación continua.
-   - `4 - 7 (Fluid Spring CSS):` Físicas de resorte (`stiffness: 100, damping: 20`) en hovers, aperturas de modales y tooltips.
-   - `8 - 10 (Cinematic):` Revelaciones escalonadas (*staggered waterfall*), micro-bucles sutiles y transiciones de página coreografiadas.
+Definir explícitamente tres ejes antes de elegir tokens:
 
----
+1. **Densidad**
+   - espaciosa: contenido editorial, presentación o tarea simple;
+   - equilibrada: productos cotidianos y formularios;
+   - densa: monitoreo, tablas y herramientas expertas.
+2. **Composición**
+   - regular: comparación rápida, familiaridad y previsibilidad;
+   - desplazada/asimétrica: énfasis editorial o jerarquía deliberada.
+3. **Movimiento**
+   - mínimo: tareas frecuentes, información crítica o preferencia de movimiento
+     reducido;
+   - expresivo: transiciones que aclaran continuidad o identidad de marca.
 
-## 2. Reglas Estrictas de Color
-- **Máximo 1 color de acento principal.** Saturación estricta por debajo del 80%.
-- **Bases neutras puras:** Zinc, Slate o Charcoal.
-- **Prohibido el negro puro (`#000000`):** Usa siempre un negro con matiz, como Zinc-950 (`#09090B`) u Off-Black (`#121214`).
-- **Coherencia térmica:** No mezcles grises fríos con grises cálidos en la misma pantalla.
-- **Eliminación del 'AI Purple/Neon':** Prohibidos los botones violetas con gradientes neón o sombras de resplandor exterior brillante.
+Elegir un punto por eje y justificarlo con audiencia, tarea y contenido. No usar una
+escala numérica si no aporta una decisión comprobable.
 
----
+## Color
 
-## 3. Arquitectura Tipográfica con Carácter
-- **Prohibido `Inter` en contextos de marca o diseño de autor:** `Inter` es la firma por defecto de la IA. Emplea tipografías con personalidad geométrica o editorial:
-  - Sans modernas: `Geist`, `Cabinet Grotesk`, `Outfit`, `Satoshi`, `Plus Jakarta Sans`.
-  - Serifs de autor (solo para contextos editoriales o de moda, nunca en dashboards técnicos): `Fraunces`, `Gambarino`, `Editorial New`, `Instrument Serif`.
-  - Monospace (para cifras, métricas o código): `JetBrains Mono`, `Geist Mono`, `Space Mono`.
-- **Jerarquía sin gritar:** Genera contraste mediante el peso (`font-semibold` / `font-medium`) y el color de texto, en lugar de recurrir a tamaños gigantescos desmedidos.
-- **Largo de línea:** Máximo 65 caracteres por línea en texto corrido para asegurar descanso ocular.
+- Partir de la paleta de marca o de las funciones semánticas necesarias: superficie,
+  texto, acción, foco, éxito, advertencia y error.
+- Usar uno o varios acentos según jerarquía y marca; limitar colores compitiendo por
+  atención, no por una cifra fija.
+- Negro puro, blancos, grises cálidos o fríos y colores saturados son opciones
+  válidas si el contraste, la reproducción y la identidad lo justifican.
+- Evitar gradientes o resplandores usados como sustituto de jerarquía. Mantenerlos si
+  son parte intencional de la marca y no degradan legibilidad.
+- Verificar contraste en estados normal, hover, focus, disabled y selected. No
+  deducir conformidad de una descripción del color.
 
----
+## Tipografía
 
-## 4. Diseño del Hero Section y Composiciones
-- **Prohibidos los héroes centrados aburridos:** En varianzas mayores a 4, usa división en pantalla partida (Split Screen) o alineación asimétrica a la izquierda con generoso espacio negativo.
-- **Micro-imágenes tipográficas inline:** Incrusta fotografías contextuales redondeadas entre palabras clave del titular como puntuación visual.
-- **Prohibida la fila genérica de "3 tarjetas iguales":** Reemplázala por zig-zag de 2 columnas, cuadrículas asimétricas de bento-box o scroll horizontal controlado.
+- Reutilizar primero las fuentes ya disponibles y autorizadas en el proyecto.
+- Elegir por legibilidad, cobertura de caracteres, rendimiento, licencia e identidad.
+  `Inter`, fuentes de sistema, serif o monospace pueden ser correctas según el caso.
+- Crear jerarquía con una combinación contenida de tamaño, peso, espaciado y color.
+- Ajustar el largo de línea al tipo de contenido; alrededor de 45–75 caracteres suele
+  ser cómodo para prosa, pero tablas, código y etiquetas tienen otras necesidades.
+- No declarar una fuente remota si el artefacto no puede cargarla o no hay fallback.
 
----
+## Composición y componentes
 
-## 5. El Catálogo de los 19 Anti-Patrones Prohibidos (Banned AI Clichés)
+- La acción y la información principal deben dominar antes que la decoración.
+- Una grilla simétrica favorece comparación; una composición asimétrica favorece
+  narrativa o énfasis. Elegir por tarea, no para evitar un cliché.
+- Repetir tarjetas cuando representan elementos equivalentes. Variar tamaños solo si
+  existe una diferencia real de prioridad.
+- Diseñar primero con contenido representativo o placeholders explícitos para revelar
+  desbordes, estados vacíos y variación de longitud.
+- Usar iconos, ilustraciones o emojis si son comprensibles, accesibles y coherentes con
+  el producto. No usarlos como único nombre de una acción ambigua.
+- Preferir imágenes proporcionadas o placeholders locales estables. No introducir
+  URLs aleatorias o assets de terceros como contenido final.
 
-1. ❌ **Cero emojis en la interfaz:** No utilices emojis como iconos ni decoraciones en botones, tarjetas o títulos.
-2. ❌ **Cero fuentes genéricas sin calibrar:** No uses `Inter` puro ni serifs tradicionales como `Times New Roman` o `Georgia`.
-3. ❌ **Cero negro puro (`#000000`):** Usa `#09090B`, `#121214` o `#18181B`.
-4. ❌ **Cero gradientes neón o resplandores exteriores (outer glows).**
-5. ❌ **Cero acentos sobresaturados (>80% saturación).**
-6. ❌ **Cero texto con degradado excesivo en titulares grandes.**
-7. ❌ **Cero cursores de mouse personalizados extravagantes.**
-8. ❌ **Cero solapamiento sucio de texto sobre imágenes.**
-9. ❌ **Cero filas simétricas de 3 tarjetas idénticas.**
-10. ❌ **Cero nombres genéricos inventados:** ("John Doe", "Acme Corp", "Nexus AI").
-11. ❌ **Cero métricas o estadísticas inventadas:** ("99.99% Uptime", "124ms response", "18.5k deployments"). Si no hay datos reales, utiliza placeholders explícitos como `[métrica]`.
-12. ❌ **Cero secciones falsas de estadísticas:** ("BY THE NUMBERS", "KEY SYSTEM METRICS") con números ficticios.
-13. ❌ **Cero formato de etiqueta artificial:** No uses `LABEL // 2025` o `SYSTEM // V1`.
-14. ❌ **Cero clichés de redacción de IA:** ("Elevate", "Seamless", "Unleash", "Next-Gen", "Cutting-edge").
-15. ❌ **Cero textos de relleno en UI:** ("Scroll to explore", "Swipe down", flechas que rebotan).
-16. ❌ **Cero enlaces de imagen rotos:** Usa SVGs embebidos o `picsum.photos`.
-17. ❌ **Cero loaders de spinner circular genérico:** Diseña skeletons a la medida de la tarjeta.
-18. ❌ **Cero alturas `h-screen`:** Usa `min-h-[100dvh]` para evitar saltos bruscos en navegadores móviles.
-19. ❌ **Cero desbordamiento horizontal en móvil:** En anchos menores a 768px, toda cuadrícula colapsa ordenadamente a una sola columna.
+## Movimiento y feedback
+
+- Cada animación debe comunicar estado, continuidad, causalidad o jerarquía.
+- Evitar movimiento continuo decorativo en tareas de concentración.
+- Respetar `prefers-reduced-motion` y conservar una experiencia comprensible sin
+  animación.
+- Elegir duración y curva según plataforma y componente; no copiar parámetros físicos
+  fijos en todos los proyectos.
+
+## Señales de una propuesta poco sustentada
+
+Revisar y corregir cuando aparezcan sin respaldo:
+
+- métricas, testimonios, logos, nombres o estadísticas inventadas;
+- copy genérico que no explica la tarea;
+- secciones decorativas sin función ni contenido real;
+- controles inertes, links rotos o acciones que simulan estar conectadas;
+- jerarquía basada solo en tamaño extremo, brillo o saturación;
+- el mismo patrón de hero, tres tarjetas y CTA aplicado a cualquier producto;
+- cursores personalizados, loaders o efectos que empeoran uso o rendimiento;
+- layout que desborda en móvil o depende de una altura de viewport rígida;
+- texto sobre imágenes sin contraste robusto;
+- una dirección visual que contradice el sistema existente.
+
+Estas señales requieren evaluación, no reemplazo automático. Una estructura común
+puede ser la mejor opción si el contenido y la tarea la justifican.
+
+## Salida de la decisión visual
+
+Registrar de forma breve:
+
+- propósito y audiencia;
+- dirección elegida en densidad, composición y movimiento;
+- decisiones de color y tipografía con su fuente o carácter provisional;
+- componentes y estados prioritarios;
+- riesgos de accesibilidad o contenido pendiente.
+
+No crear métricas, claims comerciales ni datos de ejemplo presentados como reales.

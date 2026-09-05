@@ -72,7 +72,7 @@ title UDP Packet
 
 ## Configuration
 
-Please refer to the [configuration](/config/schema-docs/config-defs-packet-diagram-config.html) guide for details.
+Packet options are version-dependent; consult the configuration schema for the installed Mermaid renderer. That upstream schema is not bundled here.
 
 <!--
 

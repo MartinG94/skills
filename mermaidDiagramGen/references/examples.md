@@ -2,9 +2,9 @@
 
 This page contains a collection of examples of diagrams and charts that can be created through mermaid and its myriad applications.
 
-**If you wish to learn how to support mermaid on your webpage, read the [Beginner's Guide](../config/usage.md?id=usage).**
+Embedding Mermaid in a webpage depends on the installed Mermaid version; its upstream usage guide is not included in this snapshot.
 
-**If you wish to learn about mermaid's syntax, Read the [Diagram Syntax](../syntax/flowchart.md?id=flowcharts-basic-syntax) section.**
+For local flowchart syntax, read [flowchart.md](flowchart.md); choose another file in this directory for a different diagram family.
 
 ## Basic Pie Chart
 

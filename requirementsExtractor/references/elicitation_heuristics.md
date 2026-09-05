@@ -1,69 +1,46 @@
-﻿# Heurísticas de Elicitación y Análisis de Discurso de Stakeholders
+# Heurísticas de elicitación y proveniencia
 
-Esta guía proporciona el marco analítico para transformar transcripciones de entrevistas, minutas de reunión, notas desordenadas y expresiones informales de usuarios en especificaciones de requerimientos formales, precisas y trazables.
+Lee esta referencia cuando haya varias fuentes, material heterogéneo o contradicciones. No la uses para completar el dominio con prácticas habituales.
 
----
+## Mapa mínimo de fuentes
 
-## 1. Principio Fundamental: Separación Estricta de Conceptos
+| Tipo de fuente | Qué puede aportar | Precaución |
+| --- | --- | --- |
+| Persona o taller | objetivos, necesidades, problemas y prioridades declaradas | distinguir opinión individual de acuerdo validado |
+| Formulario o registro | datos usados y secuencia observable | un campo existente no prueba que siga siendo necesario |
+| Manual o procedimiento | reglas y flujo prescripto | contrastar lo prescripto con lo que realmente se hace |
+| Reporte | salidas e información de decisión | no inferir origen, frecuencia o destinatario ausente |
+| Norma o contrato | restricciones externas | registrar versión, alcance y texto aplicable |
+| Sistema existente | comportamiento actual | no convertir una limitación heredada en requisito futuro |
 
-Uno de los errores más comunes en la ingeniería de requisitos es mezclar la política del negocio con la implementación de software. El extractor debe aplicar la siguiente regla de demarcación estricta:
+## Orden de trabajo
 
-```mermaid
-graph TD
-    A[Discurso no estructurado del Stakeholder] --> B{Análisis Semántico y Clasificación}
-    B -->|Política, cálculo, invariante de dominio| RN[Regla de Negocio RN-XXX]
-    B -->|Comportamiento, entrada/salida, acción del sistema| RF[Requerimiento Funcional RF-XXX]
-    B -->|Cualidad, rendimiento, seguridad, usabilidad| RNF[Requerimiento No Funcional RNF-XXX]
-    B -->|Límite tecnológico, legal o presupuestario fijo| RES[Restricción RES-XXX]
-    B -->|Dato no verificado asumido para avanzar| SUP[Supuesto SUP-XXX]
-    B -->|Servicio externo o proceso predecesor| DEP[Dependencia DEP-XXX]
-    
-    RN -.->|Gobernado / Aplicado en| RF
-    RES -.->|Limita el diseño de| RF
-    RES -.->|Limita el diseño de| RNF
-    DEP -.->|Habilita la ejecución de| RF
-```
+1. Inventariar fuentes con ID y localizador.
+2. Extraer declaraciones sin reinterpretarlas.
+3. Agrupar por objetivo, información, comportamiento, regla o restricción.
+4. Contrastar coincidencias y contradicciones entre fuentes.
+5. Normalizar solo después de conservar la evidencia original.
 
-### 1.1. Regla de Negocio (RN) vs. Requerimiento Funcional (RF)
-- **Regla de Negocio (`RN-XXX`)**: Es una directriz o política del negocio que existiría **incluso si no hubiera computadoras o software**.  
-  *Ejemplo:* *"Los clientes con categoría VIP tienen un 15% de descuento en compras superiores a $50.000, siempre que no registren facturas vencidas."*
-- **Requerimiento Funcional (`RF-XXX`)**: Es la capacidad o comportamiento específico que el **software** debe ejecutar para soportar el negocio o aplicar una regla.  
-  *Ejemplo:* *"El sistema debe calcular y aplicar automáticamente el porcentaje de descuento sobre el total de la orden al momento de facturar, validando la política RN-05."*
+## Nivel de inferencia
 
----
+- **Explícito:** la fuente declara directamente el elemento.
+- **Derivado:** varias evidencias obligan lógicamente a la conclusión. Documentar las evidencias y la derivación; estado `pendiente_validacion`.
+- **Hipótesis:** explicación plausible pero no necesaria. No crear un requisito; registrar `SUP` o pregunta.
 
-## 2. Heurísticas para Detectar Requerimientos Implícitos
+Indicios débiles como “muchos usuarios”, “se usa Excel”, “a veces no hay red” o “se cobra con tarjeta” no autorizan por sí solos arquitectura offline, exportaciones, proveedores de pago, cifrado específico ni requisitos regulatorios. Pregunta por la necesidad y el contexto.
 
-Los stakeholders rara vez mencionan aspectos obvios para ellos, o requisitos de infraestructura y seguridad. El agente debe identificar las siguientes señales de requisitos implícitos:
+## Contradicciones y vacíos
 
-| Señal en el Discurso | Requerimiento Implícito a Derivar | Clasificación |
-| :--- | :--- | :--- |
-| *"El operario escanea el código en el depósito y sigue con el próximo bulto..."* | Manejo de escenarios sin conectividad Wi-Fi (Offline-first y sincronización en cola). | RNF (Reliability / Offline Capability) |
-| *"Queremos que el cliente pueda pagar con tarjeta de crédito en cuotas..."* | Integración con Gateway de Pagos (Stripe/MercadoPago), almacenamiento tokenizado y cumplimiento PCI-DSS. | RF (Integración Pasarela) + RNF (Seguridad PCI-DSS) + DEP (Gateway) |
-| *"A fin de mes el gerente de finanzas necesita ver la conciliación bancaria..."* | Generación de reporte consolidado, exportación a formato Excel/PDF y control de permisos de acceso. | RF (Reporte Conciliación) + RF (Exportación) + RN (Permisos de Rol) |
-| *"Si el chofer no encuentra al destinatario, reprograma la entrega..."* | Gestión de estados de remito/envío (Máquina de estados: *En Tránsito -> Intento Fallido -> Reprogramado*), registro de motivo y geolocalización. | RF (Gestión de Estados de Envío) + RN (Máximo de intentos permitidos) |
+- Conserva cada versión con su fuente.
+- Enlaza el conflicto con los elementos afectados.
+- Formula una pregunta neutral y señala si bloquea el alcance o la verificación.
+- No decidas por autoridad aparente salvo que la fuente establezca formalmente esa autoridad.
 
----
+## Cobertura
 
-## 3. Manejo de Conflictos y Contradicciones entre Stakeholders
+Al cerrar, indica:
 
-Cuando múltiples interlocutores expresan visiones contrapuestas durante la entrevista, el extractor no debe elegir arbitrariamente una de ellas. Debe:
-
-1. **Documentar la discrepancia**: Identificar los interlocutores, sus roles y las citas textuales enfrentadas.
-2. **Clasificar el tipo de conflicto**:
-   - **Conflicto de Interés/Alcance** (ej. Ventas quiere formulario de 1 solo campo vs. Finanzas exige 8 datos fiscales obligatorios).
-   - **Conflicto Terminológico** (ej. Logística llama "Bulto" a lo que Facturación llama "Ítem Facturable").
-   - **Conflicto de Prioridad** (ej. Operaciones exige disponibilidad inmediata vs. Seguridad exige doble factor biométrico).
-3. **Formular una Matriz de Decisión / Trade-off**:
-   - Presentar las alternativas con sus pros, contras e impacto técnico.
-   - Proponer una solución de compromiso (ej. *Carga progresiva: 1 campo en landing de ventas + enriquecimiento de datos fiscales en el checkout*).
-   - Generar un Ítem de Decisión Pendiente (`DEC-XXX`) para el Product Owner / Comité de Dirección.
-
----
-
-## 4. Trazabilidad Textual Estricta (Traceability Tagging)
-
-Cada requerimiento, regla o supuesto derivado debe mantener una referencia inequívoca a la fuente primaria de información:
-
-- **Formato de Cita**: `[FUENTE:PXX]` donde `FUENTE` es el identificador del documento/entrevista (ej. `ENT-01`, `MIN-03`, `NOTAS-DISCOVERY`) y `PXX` es el número de párrafo o minuto de grabación (`MIN-14:32`).
-- **Cita Textual (*Verbatim Quote*)**: Debe incluirse la frase exacta del stakeholder entre comillas, preservando los modismos y el tono original como evidencia de auditoría de elicitación.
+- fuentes revisadas y fuentes no disponibles;
+- fragmentos relevantes aún no clasificados;
+- elementos derivados;
+- decisiones, métricas o límites pendientes.

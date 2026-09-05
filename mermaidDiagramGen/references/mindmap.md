@@ -227,4 +227,4 @@ root((mindmap is a long thing))
   D
 ```
 
-Instructions to add and register tidy-tree layout are present in [Tidy Tree Configuration](/config/tidy-tree)
+Tidy-tree registration is documented in Mermaid's version-specific upstream configuration, which is not bundled in this snapshot.

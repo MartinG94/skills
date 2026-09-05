@@ -7,10 +7,10 @@
 Gantt Charts will record each scheduled task as one continuous bar that extends from the left to the right. The x axis represents time and the y records the different tasks and the order in which they are to be completed.
 
 It is important to remember that when a date, day, or collection of dates specific to a task are "excluded", the Gantt Chart will accommodate those changes by extending an equal number of days, towards the right, not by creating a gap inside the task.
-As shown here ![](./img/Gantt-excluded-days-within.png)
+The upstream screenshot for excluded days is not bundled in this local snapshot.
 
 However, if the excluded dates are between two tasks that are set to start consecutively, the excluded dates will be skipped graphically and left blank, and the following task will begin after the end of the excluded dates.
-As shown here ![](./img/Gantt-long-weekend-look.png)
+The upstream screenshot for a long-weekend layout is not bundled in this local snapshot.
 
 A Gantt chart is useful for tracking the amount of time it would take before a project is finished, but it can also be used to graphically represent "non-working days", with a few tweaks.
 
@@ -404,7 +404,7 @@ todayMarker off
 It is possible to adjust the margins for rendering the gantt diagram.
 
 This is done by defining the `ganttConfig` part of the configuration object.
-How to use the CLI is described in the [mermaidCLI](../config/mermaidCLI.md) page.
+Mermaid CLI usage is version-dependent; its upstream page is not bundled in this snapshot.
 
 mermaid.ganttConfig can be set to a JSON string with config parameters or the corresponding object.
 

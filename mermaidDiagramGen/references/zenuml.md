@@ -45,7 +45,7 @@ zenuml
 ```
 
 Here are the available annotators:
-![img.png](img/zenuml-participant-annotators.png)
+The upstream participant-annotator illustration is not bundled in this local snapshot.
 
 ### Aliases
 

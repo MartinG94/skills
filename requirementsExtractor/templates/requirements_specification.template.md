@@ -1,75 +1,96 @@
-﻿# Especificación de Requerimientos de Software (ERS / SRS)
-## Proyecto: [Nombre del Proyecto]
-**Fuente de Elicitación:** [Título de la Entrevista / Minuta / Taller]  
-**Fecha de Análisis:** [YYYY-MM-DD]  
-**Analista:** [Nombre o Agente `rawInterviewToRequirementsExtractor`]  
-**Versión:** [1.0.0-draft]
+# Especificación de Requisitos de Software — [Producto o TBD]
 
----
+**Versión:** [versión]<br>
+**Estado:** Borrador / En validación / Aprobado<br>
+**Fuentes:** [SRC-01, ...]
 
-## 1. Ficha del Ecosistema de Stakeholders
+> Usa esta plantilla solo en modo ERS. Elimina instrucciones entre corchetes y no completes vacíos con ejemplos inventados.
 
-| ID | Nombre / Rol | Unidad Organizacional | Nivel de Influencia | Interés Principal |
-| :---: | :--- | :--- | :---: | :--- |
-| **STK-01** | [Nombre del Stakeholder] | [Área / Depto] | Alta / Media / Baja | [Foco u objetivo principal] |
-| **STK-02** | [Nombre del Stakeholder] | [Área / Depto] | Alta / Media / Baja | [Foco u objetivo principal] |
+## 1. Introducción
 
----
+### 1.1 Propósito y audiencia
 
-## 2. Requerimientos Funcionales (RF)
+[Propósito del documento; responsables de confección, revisión, aprobación y destinatarios si constan.]
 
-| ID | Título y Descripción | Actor Principal | Entradas / Salidas | Reglas Asociadas | Prioridad | Cita Textual de Origen (Traceability) |
-| :---: | :--- | :---: | :--- | :---: | :---: | :--- |
-| **RF-01** | **[Título del Requerimiento]**<br>[Descripción detallada del comportamiento del sistema] | [Actor] | • **In:** [Datos de entrada]<br>• **Out:** [Respuesta/Persistencia] | `RN-01`, `RN-02` | **Must Have** | *"[Cita textual exacta del stakeholder]"* — `[STK-01:P05]` |
-| **RF-02** | **[Título del Requerimiento]**<br>[Descripción detallada del comportamiento del sistema] | [Actor] | • **In:** [Datos de entrada]<br>• **Out:** [Respuesta/Persistencia] | `RN-03` | **Should Have** | *"[Cita textual exacta del stakeholder]"* — `[STK-02:P12]` |
+### 1.2 Glosario
 
----
+| Término | Definición y fuente |
+| --- | --- |
 
-## 3. Requerimientos No Funcionales (RNF) — Taxonomía FURPS+ / ISO 25010
+## 2. Presentación del producto
 
-| ID | Dimensión (FURPS+ / ISO 25010) | Subcaracterística | Especificación Planguage (Tom Gilb) | Prioridad | Trazabilidad |
-| :---: | :--- | :--- | :--- | :---: | :--- |
-| **RNF-01** | **Performance**<br>*(ISO 25010: Desempeño)* | Comportamiento temporal | • **Escala:** Tiempo de respuesta en ms al P95<br>• **Medidor:** JMeter bajo 200 usuarios concurrentes<br>• **Límite Inaceptable:** > 2.0 s<br>• **Objetivo Plan:** <= 500 ms | **Crítica** | *"[Cita sobre lentitud o rapidez]"* — `[STK-01:P08]` |
-| **RNF-02** | **Usability**<br>*(ISO 25010: Usabilidad)* | Aprendibilidad & Operabilidad | • **Escala:** Minutos de entrenamiento requeridos<br>• **Medidor:** Prueba con 5 operarios nuevos<br>• **Límite Inaceptable:** > 4 horas<br>• **Objetivo Plan:** <= 45 minutos sin supervisión | **Alta** | *"[Cita sobre interfaz amigable]"* — `[STK-02:P15]` |
+### 2.1 Definición y objetivo
 
----
+[Objetivo del producto, preferentemente iniciado con verbo en infinitivo.]
 
-## 4. Reglas de Negocio Aisladas (RN)
+### 2.2 Alcance
 
-| ID | Título | Tipo de Regla | Declaración / Lógica Formal | Nivel de Cumplimiento | Origen |
-| :---: | :--- | :---: | :--- | :---: | :--- |
-| **RN-01** | [Nombre de la Regla] | Restricción / Cálculo / Habilitación | [Declaración formal de la política de negocio sin detalles técnicos] | Estricta / Sobrescribible | `[STK-01:P03]` |
-| **RN-02** | [Nombre de la Regla] | Restricción / Cálculo / Habilitación | [Fórmula o algoritmo de negocio] | Estricta | `[STK-02:P19]` |
+[Funciones globales incluidas.]
 
----
+### 2.3 No contempla
 
-## 5. Supuestos, Restricciones y Dependencias
+[Exclusiones expresamente respaldadas; si no existen: “No determinado”.]
 
-### 5.1. Supuestos (SUP)
-- **SUP-01:** [Declaración del supuesto].  
-  *Impacto si es falso:* [Riesgo de retrabajo o falla].  
-  *Acción de validación:* [Cómo confirmar con el cliente].
+### 2.4 Actores, usuarios y otros interesados
 
-### 5.2. Restricciones Técnicas y Regulatorias (RES)
-- **RES-01:** [Restricción arquitectónica, legal o de infraestructura].  
-  *Justificación:* [Motivo no negociable].
+| ID | Rol respecto del producto | Categoría Persona/Hardware/Software | Necesidad / responsabilidad | Evidencia | Estado |
+| --- | --- | --- | --- | --- | --- |
 
-### 5.3. Dependencias de Sistemas Externos (DEP)
-- **DEP-01:** [Nombre de API / Servicio externo / Base legacy].  
-  *Nivel de Criticidad:* [Alta / Media / Baja] — *Descripción del intercambio de datos.*
+### 2.5 Perspectiva y contexto
 
----
+[Relación con sistemas o procesos existentes e interfaces conocidas.]
 
-## 6. Matriz de Desambiguación y Cuestionario para Stakeholders
+### 2.6 Reglas de negocio
 
-| ID | Fragmento de Entrevista con Ambigüedad | Término Detectado | Riesgo Técnico | Pregunta de Clarificación Generada con Opciones |
-| :---: | :--- | :--- | :--- | :--- |
-| **AMB-01** | *"[Texto textual donde se usó palabra vaga]"* | *"amigable"*, *"rápido"*, *"según corresponda"* | [Riesgo de mala interpretación o arquitectura insuficiente] | **Para [STK-XX]:** [Pregunta formulada con opciones a), b), c) para votación o respuesta rápida] |
+| ID | Regla | Origen | Derivación / validación | Evidencia | Estado |
+| --- | --- | --- | --- | --- | --- |
 
----
+## 3. Requisitos
 
-## 7. Conflictos de Alcance y Puntos de Decisión Abiertos (CONF)
+### 3.1 Supuestos, restricciones y dependencias
 
-| ID | Stakeholders Enfrentados | Resumen del Conflicto | Opciones de Solución Planteadas | Estado |
-| :---: | :--- | :--- | :--- | :---: |
-| **CONF-01** | [STK-01 (Área X)] vs. [STK-02 (Área Y)] | [Descripción de la contradicción detectada en el discurso] | **Opción A:** [...]<br>**Opción B:** [...]<br>**Recomendación Técnica:** [...] | Pendiente de Decisión |
+| ID | Tipo | Enunciado | Origen / base | Derivación | Evidencia | Validación / estado |
+| --- | --- | --- | --- | --- | --- | --- |
+
+### 3.2 Requisitos funcionales
+
+| ID | Nivel / padre | Enunciado | Actor conocido | Origen | Derivación / validación | Evidencia | Estado |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+
+### 3.3 Modelo de casos de uso
+
+| CU | Nombre | Actor principal | RF trazados | Diagrama / descripción existente |
+| --- | --- | --- | --- | --- |
+
+[Referenciar las especificaciones de CU existentes. No generarlas si no forman parte del encargo.]
+
+### 3.4 Requisitos no funcionales
+
+| ID | Categoría de cátedra | Enunciado | Alcance | Escala / condiciones / objetivo | Origen | Derivación / validación | Evidencia | Estado |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+
+## 4. Conflictos y preguntas abiertas
+
+| ID | Afecta a | Versiones o pregunta con evidencia | Decisión requerida | Estado |
+| --- | --- | --- | --- | --- |
+
+## 5. Observaciones
+
+[Información relevante no ubicada antes.]
+
+## 6. Referencias y anexos
+
+| ID / anexo | Título | Ubicación / versión | Uso en esta ERS |
+| --- | --- | --- | --- |
+
+## 7. Control de cobertura
+
+- Fuentes revisadas: [lista].
+- Fuentes pendientes: [lista o ninguna].
+- Elementos derivados pendientes de validación: [IDs o ninguno].
+- `TBD` que bloquean verificación o alcance: [IDs o ninguno].
+
+## 8. Historia de cambios
+
+| Fecha | Versión | Descripción | Autor |
+| --- | --- | --- | --- |

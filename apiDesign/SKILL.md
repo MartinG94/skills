@@ -1,337 +1,159 @@
 ---
-name: apiDesign
+name: api-design
 description: >-
-  Diseña, valida y especifica contratos de APIs RESTful idiomáticas, seguras y robustas,
-  aplicando el Modelo de Madurez de Richardson, semántica HTTP, especificaciones OpenAPI 3.x,
-  idempotencia y respuestas canónicas de error bajo RFC 7807/9457 Problem Details.
+  Diseña o audita contratos HTTP/REST y especificaciones OpenAPI a partir de casos de
+  uso y requisitos aprobados. Define recursos, operaciones, errores, idempotencia y
+  compatibilidad sin inventar el stack. Implementa controladores o handlers solo
+  cuando el usuario lo pide y existe un proyecto objetivo.
 ---
 
-# apiDesign: Guía Maestra de Diseño de Contratos de API RESTful y Estándares HTTP
+# Diseño y auditoría de contratos HTTP/REST
 
-Esta skill establece las directrices formales, arquitectónicas y prácticas para diseñar, documentar, versionar y validar **Interfaces de Programación de Aplicaciones (APIs) RESTful** de nivel empresarial, asegurando cumplimiento riguroso de la semántica HTTP, contratos **OpenAPI 3.x**, manejo estandarizado de errores bajo **RFC 7807 / RFC 9457 (*Problem Details*)** y patrones de **idempotencia**.
+## Responsabilidad
 
----
+El producto primario de esta skill es un **contrato de integración** verificable:
+OpenAPI, decisiones HTTP y hallazgos de auditoría. Es una actividad downstream del
+análisis y del diseño del sistema; no debe crear casos de uso, reglas de negocio,
+entidades de dominio ni una arquitectura para poder completar el contrato.
 
-## 1. Fundamentos y Modelo de Madurez de Richardson (RMM)
+Modos de trabajo:
 
-Toda API desarrollada bajo esta skill debe aspirar como mínimo al **Nivel 2** del Modelo de Madurez de Richardson, incorporando elementos de hipermedia del **Nivel 3** cuando la navegabilidad de flujos complejos lo amerite:
+- **Diseño**: producir o completar el contrato solicitado.
+- **Auditoría**: revisar un contrato existente y reportar problemas con ubicación,
+  impacto y corrección propuesta.
+- **Implementación**: generar o modificar código en el stack existente únicamente si
+  el usuario lo solicita. El contrato aprobado sigue siendo la referencia.
 
-```mermaid
-graph TD
-    RMM["Modelo de Madurez de Richardson (RMM)"]
-    
-    RMM --> L0["Nivel 0: El Pantano de POX / RPC<br/><i>Un único endpoint (ej. /api), solo POST, tunneling RPC</i>"]
-    RMM --> L1["Nivel 1: Recursos Individuales<br/><i>URIs diferenciadas por recurso (/pedidos, /usuarios)</i>"]
-    RMM --> L2["Nivel 2: Verbos y Códigos HTTP Semánticos<br/><i>GET, POST, PUT, DELETE + 200, 201, 204, 400, 404, 409</i>"]
-    RMM --> L3["Nivel 3: Controles Hipermedia (HATEOAS)<br/><i>Respuestas con enlaces de auto-descubrimiento (_links)</i>"]
-```
+No convertir automáticamente una API RPC, GraphQL, gRPC o basada en eventos a REST.
+Si el estilo está decidido, respetarlo; si la elección forma parte del pedido,
+comparar alternativas según consumidores, semántica y restricciones observadas.
 
----
+## Entradas y decisiones pendientes
 
-## 2. Semántica, Seguridad e Idempotencia de Verbos HTTP
+Usar lo que exista de:
 
-La selección del verbo HTTP debe respetar estrictamente sus propiedades matemáticas y semánticas según los estándares RFC 7231 / RFC 9110:
+- casos de uso, operaciones y reglas de negocio aprobadas;
+- consumidores, límites de confianza y requisitos de seguridad;
+- recursos y esquemas ya publicados;
+- política de compatibilidad/versionado;
+- requisitos de reintento, concurrencia, volumen y observabilidad;
+- contrato o código actual y stack del proyecto.
 
-| Verbo HTTP | Seguro (*Safe*) | Idempotente | Semántica Operacional | Código de Éxito Típico | Código de Recurso No Existente |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| **`GET`** | **Sí** | **Sí** | Recuperar la representación de un recurso sin mutar el servidor. | `200 OK` | `404 Not Found` |
-| **`POST`** | **No** | **No** | Crear un recurso subordinado, procesar un comando o disparar una acción de negocio. | `201 Created` (con header `Location`) | N/A |
-| **`PUT`** | **No** | **Sí** | **Sustitución completa** del recurso destino en la URI especificada (o creación con URI conocida). | `200 OK` / `204 No Content` | `404 Not Found` (en reemplazo) |
-| **`PATCH`** | **No** | **No** *(por spec)* | **Modificación parcial** del recurso (solo los campos incluidos en el payload). | `200 OK` / `204 No Content` | `404 Not Found` |
-| **`DELETE`** | **No** | **Sí** | Eliminar el recurso identificado por la URI. | `204 No Content` / `200 OK` | `404 Not Found` / `204` |
-| **`HEAD`** | **Sí** | **Sí** | Idéntico a `GET` pero retorna únicamente encabezados sin cuerpo de respuesta. | `200 OK` | `404 Not Found` |
+No suponer autenticación, proveedor, framework, base de datos, formato de IDs,
+moneda, estados, límites de paginación ni SLA. Cuando falte una decisión que cambie la
+interfaz pública, marcarla como pendiente y formular una pregunta concreta. Puede
+avanzarse con las partes independientes.
 
-### 2.1. Patrón de Clave de Idempotencia (*Idempotency-Key*) para Operaciones `POST`
-En operaciones no idempotentes que involucren transacciones financieras, débitos, reservas o cobros con pasarelas externas, la API debe exigir y verificar un encabezado HTTP de idempotencia:
+## Flujo de diseño
 
-```http
-POST /api/v1/pagos HTTP/1.1
-Host: api.empresa.com
-Idempotency-Key: 7b34e2a1-9c84-48f5-a3d8-58017c6b9d31
-Content-Type: application/json
+### 1. Fijar el alcance del contrato
 
-{
-  "pedidoId": "e3b0c442-98fc-1c14-9afb-4c8996fb9242",
-  "monto": 1500.50,
-  "moneda": "ARS"
-}
-```
+Enumerar las capacidades solicitadas y sus consumidores. Relacionar cada operación
+con un caso de uso o necesidad explícita. No exponer mecánicamente cada clase o método
+del DCD.
 
-- **Mecanismo**: El backend almacena la clave en una caché atómica distribuida (Redis / BD) durante una ventana de tiempo (ej. 24 horas). Si se recibe una petición duplicada con la misma clave, el servidor no re-ejecuta la lógica de negocio y responde con la misma respuesta almacenada originalmente.
+### 2. Modelar recursos y operaciones
 
----
+- Usar URIs estables orientadas a recursos cuando el dominio lo permita.
+- Representar comandos de negocio como creación de recursos, transición explícita o
+  endpoint de acción solo cuando esa forma comunique mejor la semántica.
+- Usar query parameters para filtros y paginación; elegir el esquema de paginación de
+  acuerdo con estabilidad, volumen y necesidades del consumidor.
+- Evitar anidamiento que replique todo el grafo interno. No imponer una profundidad
+  numérica universal.
+- Mantener las convenciones y la política de versión ya publicadas. Un prefijo como
+  `/v1` es una opción, no un requisito automático.
 
-## 3. Nomenclatura y Convenciones de URIs Limpias
+### 3. Aplicar semántica HTTP
 
-### 3.1. Reglas de Nomenclatura
-1. **Sustantivos en Plural**: Las colecciones se identifican mediante sustantivos en plural en minúsculas (*kebab-case* si son palabras compuestas):
-   - ✅ `/api/v1/pedidos`
-   - ✅ `/api/v1/cuentas-bancarias`
-   - ❌ `/api/v1/crearPedido` *(Anti-patrón: verbos en la URI)*
-   - ❌ `/api/v1/pedido` *(Anti-patrón: sustantivo en singular)*
-2. **Jerarquías Naturales Sub-recurso**: Cuando un recurso pertenece estrictamente al ciclo de vida de otro:
-   - `/api/v1/pedidos/{pedidoId}/items`
-   - `/api/v1/pedidos/{pedidoId}/items/{itemId}`
-   - *Límite*: Evitar anidamientos con más de 2 niveles de profundidad (`/a/{id}/b/{id}/c/{id}/d` es un olor de diseño; aplanar a `/api/v1/recurso/{id}`).
-3. **Filtros, Paginación y Ordenamiento mediante *Query Parameters***:
-   - Jamás embeber parámetros de filtrado en el path.
-   - Paginación estándar: `?page=0&size=25` o `?offset=0&limit=25`.
-   - Ordenamiento: `?sort=fechaCreacion,desc&sort=clienteId,asc`.
-   - Búsqueda / Filtros: `?estado=PENDIENTE&fechaDesde=2025-01-01`.
+| Método | Propiedad relevante | Uso habitual |
+|---|---|---|
+| `GET`, `HEAD` | seguros e idempotentes | leer una representación o metadatos |
+| `PUT` | idempotente | crear o reemplazar el estado de una URI conocida |
+| `PATCH` | puede diseñarse idempotente, pero no lo es por definición | modificación parcial |
+| `POST` | sin garantía general de idempotencia | crear bajo una colección o ejecutar un comando |
+| `DELETE` | idempotente en su efecto previsto | eliminar o solicitar eliminación |
 
----
+Seleccionar códigos de estado según el resultado observable. Documentar, entre
+otros, éxito, entrada inválida, autenticación/autorización cuando aplique, ausencia,
+conflicto, límites y fallos del servicio. No forzar `201`, `204`, `404` o `422` sin
+considerar la operación y las convenciones existentes.
 
-## 4. Manejo Canónico de Errores: RFC 7807 / RFC 9457 (*Problem Details*)
+### 4. Definir esquemas y compatibilidad
 
-Toda respuesta de error (códigos `4xx` y `5xx`) debe servirse con el encabezado `Content-Type: application/problem+json` y respetar el esquema canónico definido por el IETF:
+- Separar representaciones públicas de detalles internos cuando reduzca acoplamiento.
+- Expresar campos requeridos, nulabilidad, formatos, enums, límites y ejemplos solo
+  con evidencia del dominio o del contrato existente.
+- No introducir valores de ejemplo que puedan interpretarse como reglas reales.
+- Identificar cambios incompatibles: eliminación o renombre de campos/operaciones,
+  restricciones más fuertes y cambios de significado o tipo.
+- Elegir la versión OpenAPI soportada por el proyecto o solicitada por el usuario; no
+  cambiar de versión como efecto lateral de una auditoría.
 
-```mermaid
-classDiagram
-    class ProblemDetails {
-        +type: URI
-        +title: string
-        +status: int
-        +detail: string
-        +instance: URI
-        +invalidParams: List~InvalidParam~
-        +traceId: string
-    }
+### 5. Estandarizar errores
 
-    class InvalidParam {
-        +name: string
-        +reason: string
-        +rejectedValue: object
-    }
+Usar Problem Details (`application/problem+json`) cuando el contrato adopte RFC 9457
+o deba ofrecer errores HTTP estructurados. Definir al menos `type`, `title`, `status`
+y, cuando aporte valor, `detail` e `instance`. Las extensiones como errores de campo o
+identificadores de trazabilidad deben ser estables y no revelar secretos, datos
+personales ni detalles internos.
 
-    ProblemDetails *-- InvalidParam
-```
+No es obligatorio convertir toda respuesta `4xx/5xx` de infraestructura en el mismo
+cuerpo si un intermediario no lo controla; documentar las excepciones observables.
 
-### 4.1. Ejemplo Canónico de Error de Validación (`422 Unprocessable Entity`)
+### 6. Decidir idempotencia y concurrencia
 
-```json
-{
-  "type": "https://api.empresa.com/errors/validation-error",
-  "title": "Error de Validación en la Solicitud",
-  "status": 422,
-  "detail": "Uno o más campos de la solicitud no satisfacen las reglas de validación.",
-  "instance": "/api/v1/pedidos",
-  "traceId": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01",
-  "invalidParams": [
-    {
-      "name": "clienteId",
-      "reason": "El identificador de cliente es obligatorio y debe ser un UUID válido.",
-      "rejectedValue": ""
-    },
-    {
-      "name": "items[0].cantidad",
-      "reason": "La cantidad mínima permitida es 1.",
-      "rejectedValue": 0
-    }
-  ]
-}
-```
+Exigir una clave de idempotencia solo para operaciones reintentables cuyo efecto no
+pueda duplicarse de forma segura, como un cobro o una reserva. Si se adopta:
 
-### 4.2. Ejemplo Canónico de Conflicto de Negocio (`409 Conflict`)
+- marcar el header como requerido en esas operaciones;
+- definir alcance, formato, vencimiento y comportamiento ante reutilización con un
+  payload diferente;
+- documentar qué respuesta se reproduce y cómo se evita una carrera.
 
-```json
-{
-  "type": "https://api.empresa.com/errors/limite-credito-excedido",
-  "title": "Límite de Crédito Excedido",
-  "status": 409,
-  "detail": "El cliente no dispone de saldo suficiente para confirmar el pedido de $ 150,000.00 ARS. Saldo disponible: $ 12,500.00 ARS.",
-  "instance": "/api/v1/pedidos/8e4b85cf-52a1-42e8-9bc9-04185795b503/confirmacion",
-  "traceId": "00-7c2a1104e4c9472ba1880491a92e1045-873bce99a09142f1-01"
-}
-```
+La persistencia concreta de la clave es una decisión de implementación. No prescribir
+Redis, una base de datos ni una ventana fija sin contexto. Para actualizaciones
+concurrentes, documentar la política elegida (`ETag`/`If-Match`, versión u otra) solo
+si el requisito existe.
 
----
+## Implementación condicional
 
-## 5. Especificación OpenAPI 3.x (Swagger) y Contratos Fuertemente Tipados
+No generar handlers, controladores, DTOs ni middleware durante un pedido de diseño o
+auditoría. Cuando se pida implementación:
 
-### 5.1. Estructura Estándar de Contrato OpenAPI
+1. detectar lenguaje, framework, convenciones y generadores ya presentes;
+2. implementar la mínima superficie necesaria para satisfacer el contrato;
+3. no cambiar el contrato silenciosamente para acomodar el framework;
+4. ejecutar las validaciones y pruebas disponibles del proyecto.
 
-```yaml
-openapi: 3.0.3
-info:
-  title: API de Gestión de Pedidos Corporativos
-  description: Contrato de servicios backend para procesamiento de pedidos e integración con pasarelas.
-  version: 1.0.0
-paths:
-  /api/v1/pedidos:
-    post:
-      summary: Crear y confirmar un nuevo pedido
-      operationId: crearPedido
-      parameters:
-        - in: header
-          name: Idempotency-Key
-          required: false
-          schema:
-            type: string
-            format: uuid
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CrearPedidoRequest'
-      responses:
-        '201':
-          description: Pedido creado exitosamente
-          headers:
-            Location:
-              schema:
-                type: string
-              description: URI del recurso recién creado
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PedidoResponseDto'
-        '400':
-          description: Solicitud malformada
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ProblemDetails'
-        '409':
-          description: Conflicto de reglas de negocio o concurrencia
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ProblemDetails'
-        '422':
-          description: Errores de validación de campos
-          content:
-            application/problem+json:
-              schema:
-                $ref: '#/components/schemas/ProblemDetails'
+## Validación
 
-components:
-  schemas:
-    CrearPedidoRequest:
-      type: object
-      required:
-        - clienteId
-        - items
-      properties:
-        clienteId:
-          type: string
-          format: uuid
-        items:
-          type: array
-          minItems: 1
-          items:
-            $ref: '#/components/schemas/ItemPedidoRequest'
-    ItemPedidoRequest:
-      type: object
-      required:
-        - sku
-        - cantidad
-        - precioUnitario
-      properties:
-        sku:
-          type: string
-          minLength: 3
-        cantidad:
-          type: integer
-          minimum: 1
-        precioUnitario:
-          type: number
-          format: double
-          minimum: 0.01
-    PedidoResponseDto:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        estado:
-          type: string
-          enum: [Borrador, Confirmado, Pagado, Cancelado]
-        total:
-          type: number
-          format: double
-        moneda:
-          type: string
-          example: ARS
-    ProblemDetails:
-      type: object
-      required:
-        - type
-        - title
-        - status
-      properties:
-        type:
-          type: string
-          format: uri
-        title:
-          type: string
-        status:
-          type: integer
-        detail:
-          type: string
-        instance:
-          type: string
-        traceId:
-          type: string
-```
+Validar el documento con una herramienta compatible con su versión cuando esté
+disponible y revisar además:
 
----
+- cada operación tiene propósito, identificador, entradas, respuestas y seguridad
+  aplicable;
+- referencias y esquemas resuelven correctamente;
+- métodos, caché e idempotencia coinciden con la semántica declarada;
+- errores y cambios incompatibles están documentados;
+- no aparecen requisitos, datos ni tecnologías no sustentados.
 
-## 6. Implementación de Manejo Global de Errores (Global Exception Handler)
+El Modelo de Madurez de Richardson puede describir el estilo observado; no es una
+meta obligatoria. Incorporar hipermedia solo si los consumidores necesitan descubrir
+transiciones mediante enlaces.
 
-### 6.1. Ejemplo en Spring Boot (`@RestControllerAdvice`)
+## Contrato de salida
 
-```java
-package com.backend.api.errores;
+Entregar únicamente lo solicitado. Por defecto:
 
-import org.springframework.http.*;
-import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.WebRequest;
-import java.net.URI;
-import java.util.*;
+1. alcance, fuentes y decisiones pendientes;
+2. contrato OpenAPI nuevo/modificado o hallazgos de auditoría;
+3. tabla breve de decisiones HTTP relevantes;
+4. resultado de validación y riesgos abiertos.
 
-@RestControllerAdvice
-public class GlobalExceptionHandler {
+Incluir código de implementación y pruebas solo en modo Implementación.
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ProblemDetail> handleValidationErrors(MethodArgumentNotValidException ex, WebRequest request) {
-        ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.UNPROCESSABLE_ENTITY);
-        problem.setType(URI.create("https://api.empresa.com/errors/validation-error"));
-        problem.setTitle("Error de Validación en la Solicitud");
-        problem.setDetail("Se encontraron errores de formato o campos requeridos faltantes.");
-
-        List<Map<String, Object>> errors = ex.getBindingResult().getFieldErrors().stream()
-            .map(err -> Map.of(
-                "name", err.getField(),
-                "reason", Optional.ofNullable(err.getDefaultMessage()).orElse("Valor inválido"),
-                "rejectedValue", Optional.ofNullable(err.getRejectedValue()).orElse("null")
-            ))
-            .toList();
-
-        problem.setProperty("invalidParams", errors);
-        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(problem);
-    }
-
-    @ExceptionHandler(IllegalStateException.class)
-    public ResponseEntity<ProblemDetail> handleConflictException(IllegalStateException ex) {
-        ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.CONFLICT);
-        problem.setType(URI.create("https://api.empresa.com/errors/business-conflict"));
-        problem.setTitle("Conflicto de Estado de Negocio");
-        problem.setDetail(ex.getMessage());
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(problem);
-    }
-}
-```
-
----
-
-## 7. Checklist de Calidad para Diseño de APIs
-
-- [ ] ¿Los URIs usan sustantivos en plural en minúsculas sin verbos?
-- [ ] ¿Las operaciones de consulta (`GET`) son estrictamente seguras e idempotentes (sin mutar estado en BD)?
-- [ ] ¿Las operaciones de creación (`POST`) retornan código `201 Created` con encabezado `Location`?
-- [ ] ¿Las respuestas de error adoptan el formato RFC 7807 / RFC 9457 con `application/problem+json`?
-- [ ] ¿Se utiliza `401 Unauthorized` para autenticación fallida y `403 Forbidden` para permisos insuficientes?
-- [ ] ¿Se requiere encabezado `Idempotency-Key` en operaciones críticas que no admitan duplicación accidental?
-- [ ] ¿Está documentado el contrato en OpenAPI 3.x con esquemas, tipos y códigos de respuesta explícitos?
+Finalizar cuando todas las operaciones del alcance tengan entradas, respuestas y
+decisiones públicas definidas, el contrato pase la validación disponible y cualquier
+incertidumbre incompatible quede explícita. No ampliar el alcance para “completar” la
+API.

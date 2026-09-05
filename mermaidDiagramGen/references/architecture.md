@@ -186,7 +186,7 @@ mermaid.initialize({
 | ----------- | ------- | ------- | ---------------------------------------------------------------------- |
 | `randomize` | boolean | `false` | Whether to randomize initial node positions before running the layout. |
 
-### Layout tuning (v<MERMAID_RELEASE_VERSION>+)
+### Layout tuning (version-dependent; verify renderer support)
 
 The following options pass through to the underlying [fcose](https://github.com/iVis-at-Bilkent/cytoscape.js-fcose) layout so you can adjust spacing and density without changing your diagram source:
 
@@ -214,7 +214,7 @@ architecture-beta
 ## Icons
 
 By default, architecture diagram supports the following icons: `cloud`, `database`, `disk`, `internet`, `server`.
-Users can use any of the 200,000+ icons available in iconify.design, or add other custom icons, by [registering an icon pack](../config/icons.md).
+Users can use registered Iconify or custom icon packs. Registration instructions belong to Mermaid's upstream configuration documentation and are not included in this local snapshot.
 
 After the icons are installed, they can be used in the architecture diagram by using the format "name:icon-name", where name is the value used when registering the icon pack.
 

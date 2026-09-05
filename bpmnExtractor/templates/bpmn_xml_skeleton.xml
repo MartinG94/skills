@@ -1,63 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
-                  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
-                  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
-                  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
-                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                   id="Definitions_Template"
-                  targetNamespace="http://bpmn.io/schema/bpmn"
-                  exporter="Antigravity BPMN Engine"
-                  exporterVersion="2.0">
-
-  <bpmn:collaboration id="Collaboration_01">
-    <bpmn:participant id="Participant_External" name="Participante Externo (Cliente / Tercero)" processRef="Process_External" />
-    <bpmn:participant id="Participant_MainOrg" name="Organización Principal" processRef="Process_MainOrg" />
-    <bpmn:messageFlow id="MsgFlow_01" name="Mensaje / Documento" sourceRef="Participant_External" targetRef="StartEvent_01" />
-  </bpmn:collaboration>
-
-  <bpmn:process id="Process_MainOrg" name="Proceso Principal" isExecutable="true">
-    <bpmn:laneSet id="LaneSet_01">
-      <bpmn:lane id="Lane_01" name="Rol / Área Funcional 1">
-        <bpmn:flowNodeRef>StartEvent_01</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Task_01</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>Gateway_01</bpmn:flowNodeRef>
-      </bpmn:lane>
-      <bpmn:lane id="Lane_02" name="Rol / Área Funcional 2">
-        <bpmn:flowNodeRef>Task_02</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>EndEvent_01</bpmn:flowNodeRef>
-      </bpmn:lane>
-    </bpmn:laneSet>
-
-    <bpmn:startEvent id="StartEvent_01" name="Evento Inicial">
-      <bpmn:outgoing>Flow_1</bpmn:outgoing>
+                  targetNamespace="urn:bpmn-extractor:model">
+  <!-- Modelo semántico no ejecutable y sin BPMNDI. -->
+  <bpmn:process id="Process_Main" name="Proceso de negocio" isExecutable="false">
+    <bpmn:startEvent id="StartEvent_01" name="Solicitud recibida">
+      <bpmn:outgoing>Flow_01</bpmn:outgoing>
     </bpmn:startEvent>
-
-    <bpmn:userTask id="Task_01" name="Ejecutar Acción Inicial">
-      <bpmn:incoming>Flow_1</bpmn:incoming>
-      <bpmn:outgoing>Flow_2</bpmn:outgoing>
-    </bpmn:userTask>
-
-    <bpmn:exclusiveGateway id="Gateway_01" name="¿Condición de Evaluación?">
-      <bpmn:incoming>Flow_2</bpmn:incoming>
-      <bpmn:outgoing>Flow_BranchYes</bpmn:outgoing>
-      <bpmn:outgoing>Flow_BranchNo</bpmn:outgoing>
-    </bpmn:exclusiveGateway>
-
-    <bpmn:serviceTask id="Task_02" name="Procesar Resultado">
-      <bpmn:incoming>Flow_BranchYes</bpmn:incoming>
-      <bpmn:outgoing>Flow_3</bpmn:outgoing>
-    </bpmn:serviceTask>
-
-    <bpmn:endEvent id="EndEvent_01" name="Fin de Proceso">
-      <bpmn:incoming>Flow_3</bpmn:incoming>
+    <bpmn:task id="Task_01" name="Registrar solicitud">
+      <bpmn:incoming>Flow_01</bpmn:incoming>
+      <bpmn:outgoing>Flow_02</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:endEvent id="EndEvent_01" name="Solicitud registrada">
+      <bpmn:incoming>Flow_02</bpmn:incoming>
     </bpmn:endEvent>
-
-    <bpmn:sequenceFlow id="Flow_1" sourceRef="StartEvent_01" targetRef="Task_01" />
-    <bpmn:sequenceFlow id="Flow_2" sourceRef="Task_01" targetRef="Gateway_01" />
-    <bpmn:sequenceFlow id="Flow_BranchYes" name="Cumple" sourceRef="Gateway_01" targetRef="Task_02" />
-    <bpmn:sequenceFlow id="Flow_3" sourceRef="Task_02" targetRef="EndEvent_01" />
+    <bpmn:sequenceFlow id="Flow_01" sourceRef="StartEvent_01" targetRef="Task_01" />
+    <bpmn:sequenceFlow id="Flow_02" sourceRef="Task_01" targetRef="EndEvent_01" />
   </bpmn:process>
-
-  <bpmn:process id="Process_External" isExecutable="false" />
-
 </bpmn:definitions>
