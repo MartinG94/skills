@@ -81,6 +81,11 @@ considerar la operación y las convenciones existentes.
 
 ### 4. Definir esquemas y compatibilidad
 
+Al crear o completar OpenAPI, leer
+[references/openapi-contract-checklist.md](references/openapi-contract-checklist.md)
+para conservar la estructura mínima, las diferencias de versión y el preflight. No
+cargarla si el pedido sólo audita decisiones HTTP sin una especificación OpenAPI.
+
 - Separar representaciones públicas de detalles internos cuando reduzca acoplamiento.
 - Expresar campos requeridos, nulabilidad, formatos, enums, límites y ejemplos solo
   con evidencia del dominio o del contrato existente.

@@ -26,6 +26,7 @@ Estas habilidades están diseñadas para ser consumidas y ejecutadas por agentes
   - [8. Comunicación y Oratoria Profesional](#8-comunicación-y-oratoria-profesional)
   - [9. Construcción de Backend y Pruebas](#9-construcción-de-backend-y-pruebas)
 - [Anatomía de una Skill](#-anatomía-de-una-skill)
+- [Compatibilidad de nombres y agentes](#-compatibilidad-de-nombres-y-agentes)
 - [Guía de Integración y Uso](#-guía-de-integración-y-uso)
 - [Estándares y Fundamentos Académicos](#-estándares-y-fundamentos-académicos)
 - [Buenas Prácticas de Contribución](#-buenas-prácticas-de-contribución)
@@ -251,6 +252,29 @@ description: >-
 
 ---
 
+## 🔄 Compatibilidad de nombres y agentes
+
+El `name` del frontmatter es el identificador canónico. Las carpetas camelCase se
+conservan para instalaciones históricas y
+[`skill-aliases.json`](skill-aliases.json) mantiene el mapeo completo de nombres
+anteriores, incluido `design-md` → `design-ux-ui`.
+
+Un cargador u orquestador portable debe resolver una petición así:
+
+1. buscar coincidencia exacta con un `name` canónico;
+2. si no existe, buscar el texto exacto en `skill-aliases.json` y usar su
+   `canonical_name` y `skill_file`;
+3. cargar un único `SKILL.md`; nunca ejecutar a la vez alias y destino;
+4. si no puede leer el registro, informar el nombre no resuelto en vez de elegir por
+   parecido.
+
+Esta regla no presupone Codex, Gemini, Claude ni una API de invocación concreta. Si el
+host no puede despachar skills por nombre, debe localizar el paquete disponible, leer
+su `SKILL.md` y aplicar el mismo contrato. Si el paquete no está instalado, debe dejar
+un handoff explícito y no improvisar instrucciones ausentes.
+
+---
+
 ## 🛠️ Guía de Integración y Uso
 
 ### 1. Uso en Google Antigravity
@@ -264,21 +288,27 @@ Si estás utilizando Antigravity, este repositorio puede vincularse directamente
 
 ### 3. Ejecución Directa de Scripts
 Algunas skills incluyen utilidades de soporte. Leer primero el modo correspondiente y ejecutar cada script solo si coincide con el producto y el entorno:
+
+Primero resolver un intérprete Python 3 disponible: `python3`, `python`, `py -3` o el
+runtime provisto por el host. En los ejemplos, `<python-3>` representa el comando
+resuelto completo. Si no existe, registrar la validación como no ejecutada; no simular
+un resultado satisfactorio.
+
 - **Validación y render de BPMN-IR:**
-  ```bash
-  python bpmnExtractor/scripts/bpmn_ir_transformer.py bpmnExtractor/templates/bpmn_process_ir_example.json --format mermaid
+  ```text
+  <python-3> bpmnExtractor/scripts/bpmn_ir_transformer.py bpmnExtractor/templates/bpmn_process_ir_example.json --format mermaid
   ```
 - **Integridad semántica de un registro de requisitos JSON:**
-  ```bash
-  python requirementsExtractor/scripts/validate_requirements_semantics.py path/to/registro.json
+  ```text
+  <python-3> requirementsExtractor/scripts/validate_requirements_semantics.py path/to/registro.json
   ```
 - **Auditoría y Validación de Tokens UX/UI:**
   ```powershell
   pwsh -NoProfile -File designUxUi/scripts/validate_design.ps1 -Path .\mi-proyecto\DESIGN.md
   ```
 - **Servidor de Previsualización Local:**
-  ```bash
-  python designUxUi/scripts/serve_preview.py --root path/to/frontend --port 0
+  ```text
+  <python-3> designUxUi/scripts/serve_preview.py --root path/to/frontend --port 0
   ```
 
 Sustituí las rutas de ejemplo por artefactos existentes. El validador de diseño puede

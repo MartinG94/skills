@@ -94,11 +94,20 @@ Reglas:
 - Separa flujo normal, alternativas y errores; no fabriques cobertura exhaustiva.
 - Un prototipo o documentación complementaria es opcional y se referencia, no se genera por defecto.
 
+Si el usuario pide criterios de aceptación BDD/Gherkin para un CU, añádelos como
+anexo opcional de **Modo Descripción** sólo después de que flujo, reglas y resultados
+estén definidos. Cada `Dado/Cuando/Entonces` debe trazarse a esos elementos y los datos
+ausentes permanecen `TBD`; no inventes UI, persistencia ni mensajes. Esos escenarios
+son especificación de aceptación. Implementarlos o ejecutarlos como pruebas corresponde
+a `backend-testing` y requiere el stack del proyecto.
+
 ## Criterio de término
 
 - Cada actor, CU, relación y paso tiene evidencia o está marcado como derivado/TBD.
 - El conjunto cubre los RF en alcance o declara cuáles siguen sin CU.
 - `include`, `extend` y generalización respetan su semántica.
 - Las descripciones separan condiciones, cursos y resultados.
+- Si se pidieron escenarios BDD, cada paso se traza a flujo, regla o resultado y no se
+  presenta como prueba ejecutada.
 - No aparecen decisiones de UI, persistencia o arquitectura no presentes en las fuentes.
 - Se entregó un solo nivel de producto, salvo que el usuario pidiera más.

@@ -125,10 +125,13 @@ En modo JSON, después del schema comprueba: IDs únicos; `source_id` existentes
 existentes. `coverage_control.blocking_tbd_ids` enumera exactamente los `OPEN-*`
 bloqueantes con estado `abierto` o `diferido`. El JSON Schema estándar no expresa por
 sí solo estas referencias cruzadas.
-Desde la raíz del repositorio ejecuta:
+Resuelve primero un intérprete Python 3 disponible: `python3`, `python`, `py -3` o el
+runtime provisto por el host. Llámalo `<python-3>`; si no existe, reporta la validación
+como no ejecutada. Desde la raíz del repositorio usa separadores de ruta aceptados por
+el host:
 
-```powershell
-python .\requirementsExtractor\scripts\validate_requirements_semantics.py .\registro.json
+```text
+<python-3> requirementsExtractor/scripts/validate_requirements_semantics.py <ruta-al-registro.json>
 ```
 
 ## Criterio de término

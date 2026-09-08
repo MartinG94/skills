@@ -715,3 +715,27 @@ conocimiento decisorio sólo donde quedó implícito.
 Después de aplicar los P1 y P2, el repositorio puede mantener casi toda la reducción de
 tokens obtenida y, a la vez, mejorar determinismo, portabilidad y desempeño con modelos
 intermedios o menores.
+
+## 12. Remediación aplicada en la branch de auditoría
+
+Después del dictamen, la misma branch incorporó correcciones sin restaurar la
+verbosidad anterior:
+
+- registro machine-readable `skill-aliases.json` para los 19 nombres camelCase y
+  `design-md`, más reglas de resolución y fallback agnósticas del agente en `README`,
+  `GUIA` y `epc-flow-gen`;
+- taxonomía ISO/IEC 25010:2011 compacta y ruteada desde
+  `quality-scenario-specifier`, sin recuperar métricas ficticias ni casos extensos;
+- resolución explícita de Python 3 y rutas portables en BPMN y requisitos;
+- índice completo de las 30 referencias Mermaid, cargado sólo cuando la ruta común no
+  alcanza;
+- checklist OpenAPI mínima y version-aware, sin restaurar código Spring ni ejemplos de
+  negocio;
+- propiedad explícita de Gherkin: especificación opcional en la descripción del CU e
+  implementación/ejecución en `backend-testing`;
+- ruta condicional al mapa académico UX/UI y fallback de handoff para agentes sin
+  invocación nativa.
+
+Estas correcciones convierten los P1 y P2 del informe en instrucciones descubribles
+sin depender de Codex, Gemini, Claude o de un modelo de frontera. La validación final y
+el commit exacto quedan registrados en el historial Git de esta branch.

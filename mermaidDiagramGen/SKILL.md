@@ -50,7 +50,10 @@ Leé solo el documento correspondiente de `references/`:
 | C4 | [c4.md](references/c4.md) |
 | requisitos | [requirementDiagram.md](references/requirementDiagram.md) |
 
-Para otra familia, elegí por nombre en `references/`. Los documentos son un snapshot local y pueden contener enlaces upstream no incluidos; no sigas esos enlaces como si fueran recursos instalados.
+Para otra familia o ante un nombre ambiguo, leé primero el
+[índice completo](references/index.md) y después un solo manual. Los documentos son un
+snapshot local y pueden contener enlaces upstream no incluidos; no sigas esos enlaces
+como si fueran recursos instalados.
 
 ### 4. Generar la vista mínima
 
