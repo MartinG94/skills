@@ -14,6 +14,26 @@ completar su salida.
 Las tablas muestran el `name` invocable. Los enlaces pueden apuntar a carpetas legacy
 en camelCase que se conservan por compatibilidad de ruta.
 
+## Compatibilidad entre agentes y nombres históricos
+
+El despacho debe basarse en el `name` de frontmatter. Si una petición o artefacto usa
+un nombre camelCase anterior o `design-md`, consultar el registro canónico
+[`skill-aliases.json`](skill-aliases.json) y cargar sólo la skill destino. No adivinar
+alias por similitud ni ejecutar dos paquetes para una misma identidad.
+
+Esta guía describe productos, no una herramienta de orquestación específica:
+
+- con invocación nativa, pasar a la skill elegida sólo las fuentes, IDs, supuestos y
+  pendientes pertinentes;
+- sin invocación nativa, leer el `SKILL.md` del paquete disponible y aplicar su
+  contrato en la tarea actual;
+- si el paquete no está disponible, dejar un handoff verificable y no sustituirlo con
+  conocimiento general.
+
+Los comandos auxiliares siguen la misma regla de portabilidad: detectar el runtime
+disponible, ejecutar la validación real y declarar `no ejecutada` cuando el host no
+pueda hacerlo.
+
 ## Selección mínima
 
 Antes de activar una skill:

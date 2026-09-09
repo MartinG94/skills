@@ -97,6 +97,20 @@ dos productos, por ejemplo DSD más patrón GoF. No cargar ni invocar el catálo
 completo por defecto. Las skills de API, ORM, frontend o testing son downstream y
 solo corresponden si la consigna solicita esos productos.
 
+La coordinación no depende de una función exclusiva del host. Para cada fila:
+
+1. si el agente puede invocar la skill por su nombre canónico, úsala y pásale sólo el
+   ítem, fuentes, IDs y pendientes pertinentes;
+2. si no existe invocación nativa pero el paquete está disponible, lee su `SKILL.md`
+   y aplica el mismo contrato dentro de la tarea actual;
+3. si el paquete no está disponible, no improvises sus reglas: deja un handoff con
+   producto requerido, entradas, evidencia, estado y pregunta bloqueante.
+
+Los nombres camelCase históricos y `design-md` se resuelven mediante el registro
+[skill-aliases.json](../skill-aliases.json) del repositorio cuando esté disponible. Si
+una skill fue instalada de forma aislada, usa su `name` de frontmatter como nombre
+canónico.
+
 ### 4. Resolver con trazabilidad
 
 - Etiquetar cada sección de la entrega con el ítem de consigna que satisface.

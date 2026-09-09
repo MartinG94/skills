@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "aliases": {
+    "apiDesign": { "canonical_name": "api-design", "skill_file": "apiDesign/SKILL.md" },
+    "backendTesting": { "canonical_name": "backend-testing", "skill_file": "backendTesting/SKILL.md" },
+    "bpmnExtractor": { "canonical_name": "bpmn-extractor", "skill_file": "bpmnExtractor/SKILL.md" },
+    "crudValidator": { "canonical_name": "crud-validator", "skill_file": "crudValidator/SKILL.md" },
+    "design-md": { "canonical_name": "design-ux-ui", "skill_file": "designUxUi/SKILL.md" },
+    "designUxUi": { "canonical_name": "design-ux-ui", "skill_file": "designUxUi/SKILL.md" },
+    "domainDesign": { "canonical_name": "domain-design", "skill_file": "domainDesign/SKILL.md" },
+    "domainModelGen": { "canonical_name": "domain-model-gen", "skill_file": "domainModelGen/SKILL.md" },
+    "epcFlowGen": { "canonical_name": "epc-flow-gen", "skill_file": "epcFlowGen/SKILL.md" },
+    "gofAdviser": { "canonical_name": "gof-adviser", "skill_file": "gofAdviser/SKILL.md" },
+    "graspSequenceRealizer": { "canonical_name": "grasp-sequence-realizer", "skill_file": "graspSequenceRealizer/SKILL.md" },
+    "mermaidDiagramGen": { "canonical_name": "mermaid-diagram-gen", "skill_file": "mermaidDiagramGen/SKILL.md" },
+    "microserviceDecomposer": { "canonical_name": "microservice-decomposer", "skill_file": "microserviceDecomposer/SKILL.md" },
+    "ormMaster": { "canonical_name": "orm-master", "skill_file": "ormMaster/SKILL.md" },
+    "qualityScenarioSpecifier": { "canonical_name": "quality-scenario-specifier", "skill_file": "qualityScenarioSpecifier/SKILL.md" },
+    "relationalObjectMap": { "canonical_name": "relational-object-map", "skill_file": "relationalObjectMap/SKILL.md" },
+    "requirementsExtractor": { "canonical_name": "requirements-extractor", "skill_file": "requirementsExtractor/SKILL.md" },
+    "systemClassifier": { "canonical_name": "system-classifier", "skill_file": "systemClassifier/SKILL.md" },
+    "umlConsistency": { "canonical_name": "uml-consistency", "skill_file": "umlConsistency/SKILL.md" },
+    "useCaseExtractor": { "canonical_name": "use-case-extractor", "skill_file": "useCaseExtractor/SKILL.md" }
+  }
+}

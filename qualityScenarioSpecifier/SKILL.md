@@ -64,6 +64,12 @@ En contexto de cátedra usa el perfil ISO/IEC 25010:2011 que figure en el materi
 presentes como edición vigente universal. Si el usuario pide la norma actual, confirma
 la edición aplicable y no mezcles taxonomías silenciosamente.
 
+Si el RNF no viene clasificado y el perfil aplicable es 2011, lee
+[references/iso25010-2011-taxonomy.md](references/iso25010-2011-taxonomy.md). Elige por
+significado y deja la subcaracterística como `TBD` cuando la evidencia no alcance. Si
+se exige otra edición o perfil, usa la fuente correspondiente en vez de adaptar esta
+tabla por memoria.
+
 ## Producto predeterminado
 
 1. `Inventario` — identificador, fuente y texto normalizado del RNF.

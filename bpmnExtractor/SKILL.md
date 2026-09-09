@@ -97,11 +97,15 @@ BPMN-IR representa un proceso white-box único con lanes y sequence flows. Admit
 
 1. Partí de [templates/bpmn_process_ir_example.json](templates/bpmn_process_ir_example.json).
 2. Contrastalo con [templates/bpmn_json_schema.json](templates/bpmn_json_schema.json) y validá además las restricciones documentadas en la referencia. El script es la implementación autoritativa; [templates/bpmn_xml_skeleton.xml](templates/bpmn_xml_skeleton.xml) es solo una muestra estructural, no una segunda plantilla de generación.
-3. Desde la raíz de este repositorio ejecutá, por ejemplo:
+3. Resolvé primero un intérprete Python 3 disponible: `python3`, `python`, `py -3` o
+   el runtime provisto por el host. Llamalo `<python-3>` en los comandos siguientes;
+   si ninguna opción existe, reportá que la validación no pudo ejecutarse.
+4. Desde la raíz de este repositorio ejecutá, con separadores de ruta aceptados por el
+   host:
 
-```powershell
-python .\bpmnExtractor\scripts\bpmn_ir_transformer.py .\bpmnExtractor\templates\bpmn_process_ir_example.json --format mermaid
-python .\bpmnExtractor\scripts\bpmn_ir_transformer.py .\bpmnExtractor\templates\bpmn_process_ir_example.json --format xml
+```text
+<python-3> bpmnExtractor/scripts/bpmn_ir_transformer.py bpmnExtractor/templates/bpmn_process_ir_example.json --format mermaid
+<python-3> bpmnExtractor/scripts/bpmn_ir_transformer.py bpmnExtractor/templates/bpmn_process_ir_example.json --format xml
 ```
 
 Elegí un formato; `--format both` solo si el usuario pide ambos. La validación del script cubre estructura, IDs/referencias y alcanzabilidad del grafo soportado, no conformidad BPMN completa ni calidad del proceso.

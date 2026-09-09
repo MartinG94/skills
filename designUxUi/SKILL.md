@@ -40,6 +40,11 @@ Si falta información visual, puede proponerse una dirección explícitamente ma
 como propuesta. Si falta una regla funcional, dejar el estado pendiente o preguntar;
 no inventarla.
 
+Para volver a auditar la fidelidad académica de esta skill o resolver una regla de
+curso discutible, leer
+[references/course-source-map.md](references/course-source-map.md). No cargar ese mapa
+para un trabajo UX/UI ordinario.
+
 ## Elegir el modo antes de producir archivos
 
 | Situación | Producto proporcional |
