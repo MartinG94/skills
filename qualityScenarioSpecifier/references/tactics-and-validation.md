@@ -44,3 +44,46 @@ y criterio de aceptación con valores proporcionados o `TBD`.
 Una propuesta está lista cuando cada decisión se vincula a un escenario, muestra al
 menos un coste y tiene una forma proporcional de validar la hipótesis. Si faltan datos,
 presenta la incertidumbre; no aumentes la confianza con cifras inventadas.
+
+
+## Catálogo de Tácticas Arquitectónicas SEI (Bass, Clements & Kazman)
+
+### 1. Disponibilidad / Fiabilidad
+- **Detección de Fallos:**
+  - *Heartbeat / Ping-Echo:* Monitoreo periódico de vida entre nodos o servicios.
+  - *Liveness & Readiness Probes:* Comprobaciones del orquestador antes de enrutar tráfico.
+  - *Timeouts:* Interrupción de esperas indefinidas ante caídas de red.
+- **Recuperación de Fallos:**
+  - *Redundancia Activa (Hot Standby):* Nodos replicados procesando en paralelo para absorción inmediata.
+  - *Redundancia Pasiva (Warm/Cold Standby):* Nodo secundario que se inicializa o promueve ante fallo.
+  - *Circuit Breaker:* Apertura de circuito ante umbral de fallos para evitar saturación en cascada.
+  - *Retry con Exponential Backoff y Jitter:* Reintentos espaciados con aleatoriedad para evitar tormentas de reconexión.
+  - *Degradación Elegante (Fallback):* Respuesta con datos cacheados o funcionalidad reducida ante caída externa.
+- **Prevención de Fallos:**
+  - *Bulkhead (Mamparos):* Aislamiento de pools de hilos o recursos para que un fallo no arrastre a todo el sistema.
+
+### 2. Rendimiento / Desempeño
+- **Control de Demanda:**
+  - *Rate Limiting / Throttling:* Limitación de tasa de solicitudes con algoritmos Token Bucket o Leaky Bucket.
+  - *Colas con Prioridad:* Procesamiento preferente de transacciones VIP o de facturación sobre reportes.
+- **Gestión de Recursos:**
+  - *Concurrencia y Asincronía:* Liberación de hilos de atención mediante arquitecturas orientadas a eventos.
+  - *Caching Multinivel:* Almacenamiento en caché en memoria o distribuido para lecturas intensivas.
+  - *Pool de Conexiones (Connection Pooling):* Reutilización de canales abiertos de base de datos.
+
+### 3. Seguridad
+- **Resistir Ataques:**
+  - *Autenticación y Autorización Robusta:* MFA, RBAC, ABAC y tokens de corta duración con rotación.
+  - *Validación y Sanitización:* Inspección defensiva de entradas en las fronteras públicas.
+  - *Cifrado:* TLS 1.3 en tránsito y AES-256 en reposo.
+- **Detectar y Recuperar:**
+  - *Audit Trail Inmutable:* Bitácora append-only protegida contra mutación.
+  - *Bloqueo por Fuerza Bruta:* Inhabilitación temporal de accesos ante intentos fallidos reiterados.
+
+### 4. Modificabilidad / Mantenibilidad
+- **Reducción del Acoplamiento:**
+  - *Inversión de Dependencias (DIP) y Puertos/Adaptadores:* Desacoplamiento del dominio frente a infraestructura.
+  - *Ocultamiento de Información:* Encapsulamiento estricto de invariantes tras contratos estables.
+- **Diferir el Enlace (*Defer Binding*):**
+  - *Inyección de Dependencias (IoC):* Resolución de colaboradores en tiempo de arranque.
+  - *Feature Flags:* Habilitación dinámica de capacidades en producción sin redespliegue.

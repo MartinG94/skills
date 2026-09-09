@@ -3,9 +3,10 @@ name: bpmn-extractor
 description: >-
   Modela procesos de negocio a partir de narrativas, entrevistas o fichas mediante el perfil BPMN
   usado en Análisis de Sistemas. Produce una ficha institucional y una especificación trazable del BPD
-  descriptivo u operacional, o audita un modelo existente. Usa BPMN-IR solo para procesos simples de una pool cuando se solicita
-  una vista Mermaid o XML de intercambio no ejecutable. No usar para diagramas de flujo genéricos,
-  casos de uso ni automatización de un motor BPMN.
+  descriptivo u operacional, audita un modelo existente, valida la concordancia SIPOC ↔ BPD (sipoc-sync)
+  o compara cuantitativamente modelos AS-IS vs TO-BE (diff-as-is-to-be). Usa BPMN-IR solo para procesos
+  simples de una pool cuando se solicita una vista Mermaid o XML de intercambio no ejecutable. No usar para
+  diagramas de flujo genéricos, casos de uso ni automatización de un motor BPMN.
 ---
 
 # BPMN desde evidencia de negocio
@@ -19,6 +20,8 @@ Usá un solo modo por defecto:
 1. `course-process` — ficha institucional y especificación lista para modelar el BPD de una entrega de Análisis de Sistemas. Es el modo predeterminado. Entregá el BPD gráfico solo si hay una herramienta BPMN capaz de representarlo; Mermaid no lo sustituye y el XML sin BPMNDI no conserva su disposición visual.
 2. `ir-preview` — JSON BPMN-IR y, a elección, Mermaid o XML de modelo. Solo para el subconjunto soportado por el script.
 3. `audit` — diagnóstico de un modelo existente con evidencia, impacto y corrección propuesta. No mutar el original salvo pedido explícito.
+4. `sipoc-sync` — evaluación de consistencia bidireccional entre la matriz SIPOC y el BPD (asociación unívoca de proveedores, entradas, macroactividades, salidas y clientes con pools, lanes, data objects y tareas).
+5. `diff-as-is-to-be` — comparación estructural y cuantitativa entre el proceso actual (AS-IS) y el propuesto (TO-BE), computando variaciones en tareas manuales/automáticas, handoffs entre lanes y compuertas de decisión.
 
 Preguntá por nivel descriptivo u operacional solo si cambia materialmente el resultado y no puede inferirse de la consigna. En nivel descriptivo conservá macroactividades y áreas; en operacional detallá tareas, eventos, decisiones, excepciones y responsables observables.
 
@@ -110,15 +113,35 @@ BPMN-IR representa un proceso white-box único con lanes y sequence flows. Admit
 
 Elegí un formato; `--format both` solo si el usuario pide ambos. La validación del script cubre estructura, IDs/referencias y alcanzabilidad del grafo soportado, no conformidad BPMN completa ni calidad del proceso.
 
+## Modo SIPOC-Sync
+
+Usalo para auditar la concordancia entre la matriz SIPOC y el BPD (asociación unívoca y detección de brechas):
+1. Partí de la plantilla [templates/sipoc_sync_template.md](templates/sipoc_sync_template.md).
+2. Verificá que cada **S** (Proveedor) corresponda a una Pool externa o Lane remitente.
+3. Verificá que cada **I** (Insumo) ingrese como Data Object, Message Flow o evento disparador.
+4. Verificá que cada **P** (Proceso macro) contenga un bloque de tareas coherente en el BPD.
+5. Verificá que cada **O** (Salida) sea producida explícitamente por una actividad del BPD.
+6. Verificá que cada **C** (Cliente) reciba la salida correspondiente (Lane o Pool receptora).
+7. Reportá insumos huérfanos, salidas no producidas o inconsistencias de fronteras.
+
+## Modo Diff AS-IS vs TO-BE
+
+Usalo para evaluar cuantitativa y cualitativamente el impacto de las mejoras propuestas:
+1. Partí de la plantilla [templates/diff_as_is_to_be_template.md](templates/diff_as_is_to_be_template.md).
+2. Computá las métricas estructurales: total de actividades, tareas manuales (`manualTask`), tareas asistidas (`userTask`), tareas automáticas (`serviceTask`), handoffs entre lanes, y compuertas de decisión (`gateways`).
+3. Enumerá el inventario de modificaciones: actividades eliminadas (desperdicio Lean), tareas automatizadas, y nuevas actividades de valor o control preventivo.
+4. Identificá la reducción de fricción y tiempos de espera en los traspasos entre roles.
+
 ## Contrato de salida
 
 Entregá, en este orden:
 
-1. `Alcance y nivel` — modo, as-is/to-be, límites y fuentes.
-2. `Ficha` — solo en `course-process` o si se pidió.
+1. `Alcance y nivel` — modo (`course-process`, `ir-preview`, `audit`, `sipoc-sync`, `diff-as-is-to-be`), as-is/to-be, límites y fuentes.
+2. `Ficha / Matriz` — en `course-process` la ficha de proceso; en `sipoc-sync` la matriz de sincronización; en `diff-as-is-to-be` la tabla comparativa cuantitativa y análisis de handoffs.
 3. `Modelo` — la especificación del BPD y, si se produjo con una herramienta BPMN, el BPD gráfico; en `ir-preview`, un único formato derivado.
-4. `Trazabilidad` — elementos relevantes ↔ IDs de evidencia/reglas.
+4. `Trazabilidad` — elementos relevantes ↔ IDs de evidencia/reglas/acciones de valor.
 5. `Hallazgos` — errores confirmados, posibles problemas y aspectos no verificables.
 6. `Preguntas abiertas` — solo las que cambian el proceso.
 
 En una auditoría, cada hallazgo debe incluir localizador, regla aplicada, impacto, confianza y corrección propuesta. Aplicá cambios al modelo únicamente después de identificar qué artefacto es autoritativo.
+

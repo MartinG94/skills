@@ -68,3 +68,21 @@ Registra coste de escritura/almacenamiento y no afirmes rendimiento sin plan/med
 | Fuente DCD/regla | Tabla/columna/restricción | Transformación | Estado |
 |---|---|---|---|
 | elemento o evidencia | destino | directa, embebida, normalizada, derivada | confirmado/propuesto/TBD |
+
+
+## Diccionario de Tipos de Datos Lógicos (Agnósticos del Motor)
+
+Al diseñar el modelo relacional lógico, utiliza tipos de datos conceptuales portables:
+
+| Tipo Lógico Abstracto | Semántica de Negocio | Equivalente PostgreSQL | Equivalente SQL Server | Equivalente MySQL / MariaDB |
+|---|---|---|---|---|
+| `Identifier` | Identificador único global o subrogado | `UUID` / `BIGINT` | `UNIQUEIDENTIFIER` / `BIGINT IDENTITY` | `VARCHAR(36)` / `BIGINT AUTO_INCREMENT` |
+| `Text(n)` | Cadena de texto con longitud máxima | `VARCHAR(n)` | `NVARCHAR(n)` | `VARCHAR(n)` |
+| `LongText` | Texto extenso sin límite práctico | `TEXT` | `NVARCHAR(MAX)` | `TEXT` |
+| `Integer` | Entero estándar de 32 bits | `INTEGER` | `INT` | `INT` |
+| `BigInteger` | Entero de alta capacidad (64 bits) | `BIGINT` | `BIGINT` | `BIGINT` |
+| `Decimal(p,s)` | Magnitud monetaria o de precisión fija | `NUMERIC(p,s)` | `DECIMAL(p,s)` | `DECIMAL(p,s)` |
+| `Boolean` | Indicador lógico binario | `BOOLEAN` | `BIT` | `BOOLEAN` / `TINYINT(1)` |
+| `Date` | Fecha calendario civil (sin hora) | `DATE` | `DATE` | `DATE` |
+| `TimestampTZ` | Instante temporal con zona horaria | `TIMESTAMPTZ` | `DATETIMEOFFSET` | `TIMESTAMP` |
+| `Enum(...)` | Conjunto cerrado de valores de estado | `TYPE ... AS ENUM` o `CHECK` | `NVARCHAR + CHECK` | `ENUM(...)` |

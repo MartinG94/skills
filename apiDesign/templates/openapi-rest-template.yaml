@@ -1,0 +1,397 @@
+openapi: 3.0.3
+info:
+  title: API RESTful Canónica
+  description: >-
+    Plantilla base de contrato OpenAPI 3.0.3 para servicios RESTful idiomáticos,
+    con semántica HTTP estricta, respuestas estructuradas bajo RFC 9457
+    (Problem Details) y soporte de idempotencia.
+  version: 1.0.0
+servers:
+  - url: https://api.ejemplo.com/v1
+    description: Entorno de producción
+  - url: https://staging-api.ejemplo.com/v1
+    description: Entorno de pruebas / staging
+
+paths:
+  /recursos:
+    get:
+      summary: Listar recursos paginados
+      description: Recupera una colección paginada de recursos con filtros opcionales.
+      operationId: listarRecursos
+      tags:
+        - Recursos
+      parameters:
+        - in: query
+          name: page
+          description: Número de página (base 0).
+          required: false
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+        - in: query
+          name: size
+          description: Cantidad de elementos por página.
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+        - in: query
+          name: sort
+          description: Campo y sentido de ordenamiento (ej. fechaCreacion,desc).
+          required: false
+          schema:
+            type: string
+            example: fechaCreacion,desc
+        - in: query
+          name: estado
+          description: Filtro opcional por estado.
+          required: false
+          schema:
+            type: string
+            enum: [ACTIVO, INACTIVO, PENDIENTE]
+      responses:
+        '200':
+          description: Colección paginada obtenida exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginaRecursos'
+        '400':
+          description: Parámetros de consulta malformados o inválidos.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: Error interno del servidor.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+
+    post:
+      summary: Crear un recurso
+      description: Crea un nuevo recurso subordinado en la colección.
+      operationId: crearRecurso
+      tags:
+        - Recursos
+      parameters:
+        - in: header
+          name: Idempotency-Key
+          description: UUID v4 único para evitar duplicación ante reintentos.
+          required: false
+          schema:
+            type: string
+            format: uuid
+            example: 9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d
+      requestBody:
+        description: Atributos para la creación del recurso.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CrearRecursoRequest'
+      responses:
+        '201':
+          description: Recurso creado exitosamente.
+          headers:
+            Location:
+              description: URI canónica del recurso creado.
+              schema:
+                type: string
+                format: uri
+                example: /recursos/3fa85f64-5717-4562-b3fc-2c963f66afa6
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecursoResponse'
+        '400':
+          description: Sintaxis JSON malformada o payload ilegible.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '409':
+          description: Conflicto de estado o duplicidad de clave única de negocio.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '422':
+          description: Errores semánticos de validación de campos.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: Error interno del servidor.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+
+  /recursos/{id}:
+    get:
+      summary: Obtener recurso por identificador
+      description: Recupera la representación del recurso identificado. Operación segura e idempotente.
+      operationId: obtenerRecursoPorId
+      tags:
+        - Recursos
+      parameters:
+        - in: path
+          name: id
+          description: Identificador UUID del recurso.
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Recurso encontrado.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecursoResponse'
+        '404':
+          description: Recurso no encontrado.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+
+    put:
+      summary: Reemplazar recurso completo
+      description: Sustituye íntegramente el recurso existente. Operación idempotente.
+      operationId: reemplazarRecurso
+      tags:
+        - Recursos
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReemplazarRecursoRequest'
+      responses:
+        '200':
+          description: Recurso reemplazado exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecursoResponse'
+        '404':
+          description: Recurso destino inexistente.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '422':
+          description: Datos inválidos para el reemplazo.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+
+    delete:
+      summary: Eliminar recurso
+      description: Elimina el recurso identificado. Operación idempotente.
+      operationId: eliminarRecurso
+      tags:
+        - Recursos
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: Recurso eliminado exitosamente sin cuerpo de respuesta.
+        '404':
+          description: Recurso no encontrado o ya eliminado.
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+
+components:
+  schemas:
+    CrearRecursoRequest:
+      type: object
+      required:
+        - nombre
+        - categoria
+        - monto
+      properties:
+        nombre:
+          type: string
+          minLength: 2
+          maxLength: 100
+          example: Producto A
+        categoria:
+          type: string
+          example: RETAIL
+        monto:
+          type: number
+          format: double
+          minimum: 0.01
+          example: 1250.00
+        descripcion:
+          type: string
+          maxLength: 500
+          nullable: true
+
+    ReemplazarRecursoRequest:
+      type: object
+      required:
+        - nombre
+        - categoria
+        - monto
+        - estado
+      properties:
+        nombre:
+          type: string
+          minLength: 2
+          maxLength: 100
+        categoria:
+          type: string
+        monto:
+          type: number
+          format: double
+          minimum: 0.01
+        estado:
+          type: string
+          enum: [ACTIVO, INACTIVO, PENDIENTE]
+        descripcion:
+          type: string
+          nullable: true
+
+    RecursoResponse:
+      type: object
+      required:
+        - id
+        - nombre
+        - categoria
+        - monto
+        - estado
+        - fechaCreacion
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 3fa85f64-5717-4562-b3fc-2c963f66afa6
+        nombre:
+          type: string
+          example: Producto A
+        categoria:
+          type: string
+          example: RETAIL
+        monto:
+          type: number
+          format: double
+          example: 1250.00
+        estado:
+          type: string
+          enum: [ACTIVO, INACTIVO, PENDIENTE]
+          example: ACTIVO
+        descripcion:
+          type: string
+          nullable: true
+        fechaCreacion:
+          type: string
+          format: date-time
+          example: '2026-09-09T12:00:00Z'
+
+    PaginaRecursos:
+      type: object
+      required:
+        - items
+        - totalElementos
+        - paginaActual
+        - tamanioPagina
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/RecursoResponse'
+        totalElementos:
+          type: integer
+          example: 150
+        paginaActual:
+          type: integer
+          example: 0
+        tamanioPagina:
+          type: integer
+          example: 20
+        totalPaginas:
+          type: integer
+          example: 8
+
+    ProblemDetails:
+      type: object
+      description: Esquema canónico de error conforme a RFC 7807 / RFC 9457.
+      required:
+        - type
+        - title
+        - status
+      properties:
+        type:
+          type: string
+          format: uri
+          description: URI que categoriza el tipo de problema.
+          example: https://api.ejemplo.com/errors/validation-error
+        title:
+          type: string
+          description: Resumen legible por humanos del problema.
+          example: Error de validación en la solicitud
+        status:
+          type: integer
+          description: Código HTTP asociado a la falla.
+          example: 422
+        detail:
+          type: string
+          description: Explicación puntual orientada a humanos sobre esta ocurrencia.
+          example: Uno o más atributos del payload no satisfacen las reglas de validación.
+        instance:
+          type: string
+          format: uri
+          description: Identificador de la ocurrencia específica del fallo.
+          example: /recursos
+        traceId:
+          type: string
+          description: Identificador de correlación en observabilidad distribuida.
+          example: 00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01
+        invalidParams:
+          type: array
+          description: Desglose de errores de validación a nivel de campo (extensión canónica).
+          items:
+            $ref: '#/components/schemas/InvalidParam'
+
+    InvalidParam:
+      type: object
+      required:
+        - name
+        - reason
+      properties:
+        name:
+          type: string
+          description: Nombre del parámetro o ruta JSON del campo con error.
+          example: monto
+        reason:
+          type: string
+          description: Causa del rechazo de validación.
+          example: El monto debe ser un número positivo mayor o igual a 0.01.
+        rejectedValue:
+          description: Valor recibido que provocó el error (sin exponer datos sensibles).
+          nullable: true
+          example: -10.00

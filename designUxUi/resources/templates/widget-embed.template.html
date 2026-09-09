@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Componente UI Interactivo</title>
+  <!-- Script allowlisted para entornos Antigravity / chat sandbox -->
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    /* Variables de entorno semánticas del host con fallbacks para modo claro y oscuro */
+    :root {
+      --background: #ffffff;
+      --card: #f8fafc;
+      --border: #e2e8f0;
+      --foreground: #0f172a;
+      --muted-foreground: #64748b;
+      --primary: #2563eb;
+      --primary-foreground: #ffffff;
+      --accent: #f1f5f9;
+      --accent-foreground: #0f172a;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --background: #09090b;
+        --card: #18181b;
+        --border: #27272a;
+        --foreground: #f4f4f5;
+        --muted-foreground: #a1a1aa;
+        --primary: #3b82f6;
+        --primary-foreground: #ffffff;
+        --accent: #27272a;
+        --accent-foreground: #f4f4f5;
+      }
+    }
+  </style>
+</head>
+<!-- Para incrustación con <agent-embed>, usar bg-transparent en body -->
+<body class="bg-transparent text-[var(--foreground)] antialiased p-4 font-sans">
+  <main class="bg-[var(--card)] text-[var(--foreground)] border border-[var(--border)] rounded-xl p-5 shadow-sm space-y-4 max-w-md mx-auto">
+    <header class="border-b border-[var(--border)] pb-3">
+      <h1 class="text-lg font-semibold tracking-tight text-[var(--foreground)]">Título del Componente</h1>
+      <p class="text-xs text-[var(--muted-foreground)]">Breve descripción orientativa o instrucción para el usuario.</p>
+    </header>
+
+    <!-- Sección Interactiva Accesible -->
+    <section class="space-y-3">
+      <div class="space-y-1">
+        <label for="campo-entrada" class="block text-xs font-medium text-[var(--foreground)]">Etiqueta de Entrada</label>
+        <input 
+          type="text" 
+          id="campo-entrada" 
+          placeholder="Ingrese un valor..." 
+          class="w-full px-3 py-2 text-sm bg-[var(--background)] text-[var(--foreground)] border border-[var(--border)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--primary)] transition-colors"
+        />
+      </div>
+
+      <div class="flex items-center justify-between pt-2">
+        <span class="text-xs text-[var(--muted-foreground)]" id="estado-indicador">Listo para interactuar</span>
+        <button 
+          type="button" 
+          id="btn-accion" 
+          class="px-4 py-2 text-sm font-medium bg-[var(--primary)] text-[var(--primary-foreground)] rounded-lg hover:opacity-90 active:scale-[0.98] transition-all shadow-sm focus:outline-none focus:ring-2 focus:ring-[var(--primary)]"
+        >
+          Confirmar
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // Lógica interactiva accesible y defensiva
+    document.getElementById('btn-accion').addEventListener('click', () => {
+      const input = document.getElementById('campo-entrada');
+      const indicador = document.getElementById('estado-indicador');
+      if (!input.value.trim()) {
+        indicador.textContent = 'Por favor complete el campo.';
+        indicador.classList.add('text-amber-500');
+        input.focus();
+      } else {
+        indicador.textContent = `Procesado: ${input.value}`;
+        indicador.classList.remove('text-amber-500');
+        indicador.classList.add('text-emerald-500');
+      }
+    });
+  </script>
+
+  <!--
+    DIRECTIVA DE INCRUSTACIÓN EN CHAT / ARTEFACTOS:
+    <agent-embed src="file:///<ruta-absoluta-al-archivo>/widget.html"></agent-embed>
+    Mantener la altura del widget por debajo de 500px para evitar barras de desplazamiento.
+  -->
+</body>
+</html>

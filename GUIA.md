@@ -92,13 +92,23 @@ transversal guiado por la consigna, no una notación de interfaz. La carpeta her
 | [`domain-model-gen`](domainModelGen/SKILL.md) | se necesita un modelo conceptual o DCA | requisitos, CU y glosario | clases conceptuales, relaciones y diccionario |
 | [`crud-validator`](crudValidator/SKILL.md) | se quiere revisar cobertura de operaciones sobre entidades | CU/requisitos y modelo de dominio | matriz CRUD diagnóstica, excepciones y brechas propuestas |
 
-### Calidad, arquitectura y estados
+### Calidad, arquitectura y diagramación
 
 | Skill | Usar cuando | Entrada principal | Producto |
 |---|---|---|---|
 | [`quality-scenario-specifier`](qualityScenarioSpecifier/SKILL.md) | un atributo de calidad debe quedar observable y medible | RNF y evidencia de contexto | escenario de calidad; tácticas solo si corresponden al encargo |
 | [`microservice-decomposer`](microserviceDecomposer/SKILL.md) | se evalúan límites, topología o una posible descomposición | dominio, drivers y restricciones | decisión arquitectónica y modelo de límites; puede concluir no descomponer |
-| [`mermaid-diagram-gen`](mermaidDiagramGen/SKILL.md) | se pide renderizar/validar Mermaid o modelar un DTE/MTE | modelo semántico o ciclo de vida sustentado | diagrama solicitado y resultado de validación |
+| [`diagramStudio`](diagramStudio/SKILL.md) | se pide cualquier diagrama (flujo, secuencia, clases, ERD, estados, C4, mapa de procesos, SIPOC, gantt) o se infiere necesidad visual | especificación, código, modelo IR o solicitud textual | bloque Mermaid in-line, archivo `.drawio` editable o modo dual |
+
+### Gestión y Mejora de Procesos (GMP / Ciclo PDCA)
+
+| Skill | Usar cuando | Entrada principal | Producto |
+|---|---|---|---|
+| [`process-workbench`](processWorkbench/SKILL.md) | se encuadra el negocio, aplican 5 criterios de selección, tendencias SDL, valor virtual, FODA o cruces CAME y filtro operativo | caso de negocio, relevamiento y diagnóstico de auditoría | matrices estructuradas de Etapas 1 a 3 y acciones de valor EERR |
+| [`process-auditor`](processAuditor/SKILL.md) | se audita el proceso actual AS-IS bajo los 4 ejes de GUI_U2 | entrevistas, minutas y evidencias de campo | RCM (COSO), matriz SoD, diagnóstico de ruta documental, ergonomía y silos TI |
+| [`bpmn-extractor`](bpmnExtractor/SKILL.md) | se modela BPD, audita consistencia SIPOC ↔ BPD o compara AS-IS vs TO-BE | narrativa, matriz SIPOC o modelos de proceso | ficha, especificación BPD, matriz SIPOC-sync y reporte comparativo diff |
+| [`kpi-designer`](kpiDesigner/SKILL.md) | se definen métricas, indicadores y tableros en Operaciones, Negocio, DevOps o Producto | objetivos SMART, acciones de valor o acuerdos de servicio | fichas técnicas de KPIs con fórmulas dimensionales y procedencia del dato |
+| [`process-improvement-planner`](processImprovementPlanner/SKILL.md) | se orquesta el ciclo PDCA completo y se requiere informe consolidado sin Excel | artefactos de Etapas 1 a 4 | informe técnico maestro en Markdown, Gantt en Mermaid y matriz E1->E4 |
 
 ### Diseño orientado a objetos y persistencia
 

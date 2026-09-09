@@ -42,3 +42,14 @@ Si se pide implementación:
 3. diferencia validación de forma, reglas de negocio y fallos de infraestructura;
 4. no inventes dependencias ni configuración;
 5. compila o ejecuta las comprobaciones disponibles antes de afirmar que funciona.
+
+
+## Olores de Dominio y Refactorización Canónica
+
+| Olor / Síntoma Clínico | Causa Raíz / Principio Violado | Refactorización Recomendada |
+|---|---|---|
+| **Modelo Anémico (*Anemic Domain Model*)** | Entidades que son meras bolsas de getters/setters; la lógica reside enteramente en servicios de aplicación externos. | Mover la lógica de validación e invariantes dentro de la entidad (*Tell, Don't Ask*). |
+| **Obsesión Primitiva (*Primitive Obsession*)** | Uso de strings, doubles o ints para conceptos con reglas propias (ej. emails, dinero, CUIT/RUT, rangos). | Encapsular en un **Value Object** inmutable con auto-validación en su constructor o fábrica. |
+| **Fuga de Frameworks (*Leaky Framework Coupling*)** | Entidades de dominio anotadas o acopladas a detalles de infraestructura (HTTP, persistencia, ORMs concretos). | Aislar el dominio puro de dependencias técnicas; utilizar mapeadores o adaptadores externos. |
+| **Controlador / Servicio Graso (*Fat Service*)** | Un solo servicio orquesta múltiples casos de uso e implementa cálculos de negocio. | Extraer interactores por caso de uso (*Single Responsibility*) y delegar cálculos al dominio. |
+| **Exposición Directa de Entidades** | Endpoints de API que exponen directamente entidades internas mutables. | Proyectar representaciones públicas a través de DTOs inmutables específicos. |

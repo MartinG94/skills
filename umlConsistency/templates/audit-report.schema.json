@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "UMLConsistencyAuditReport",
+  "description": "Esquema JSON canónico para reportes automatizados de consistencia UML entre secuencia, clases y estados.",
+  "type": "object",
+  "required": ["metadata", "summary", "findings"],
+  "properties": {
+    "metadata": {
+      "type": "object",
+      "required": ["projectName", "auditDate", "authoritativeSource"],
+      "properties": {
+        "projectName": { "type": "string" },
+        "auditDate": { "type": "string", "format": "date-time" },
+        "authoritativeSource": { "type": "string" }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "required": ["totalFindings", "errors", "warnings", "verdict"],
+      "properties": {
+        "totalFindings": { "type": "integer", "minimum": 0 },
+        "errors": { "type": "integer", "minimum": 0 },
+        "warnings": { "type": "integer", "minimum": 0 },
+        "verdict": { "type": "string", "enum": ["CONSISTENTE", "INCONSISTENTE_CORREGIBLE", "NO_CONFORME"] }
+      }
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "ruleId", "certainty", "severity", "description", "sourceLocation", "targetLocation", "suggestedFix"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^DISC-[0-9]{2,}$" },
+          "ruleId": { "type": "string", "enum": ["C1", "C2", "C3", "C4", "C5", "C6"] },
+          "certainty": { "type": "string", "enum": ["confirmado", "posible", "no_verificable"] },
+          "severity": { "type": "string", "enum": ["error", "advertencia", "informacion"] },
+          "description": { "type": "string" },
+          "sourceLocation": {
+            "type": "object",
+            "required": ["artifact", "element"],
+            "properties": {
+              "artifact": { "type": "string" },
+              "element": { "type": "string" },
+              "step": { "type": "string" }
+            }
+          },
+          "targetLocation": {
+            "type": "object",
+            "required": ["artifact", "element"],
+            "properties": {
+              "artifact": { "type": "string" },
+              "element": { "type": "string" }
+            }
+          },
+          "suggestedFix": { "type": "string" }
+        }
+      }
+    }
+  }
+}

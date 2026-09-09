@@ -1,0 +1,38 @@
+[
+  {
+    "id": "KPI-OPS-01",
+    "nombre": "Tiempo de Ciclo de Entrega (Lead Time)",
+    "dominio": "operaciones",
+    "clasificacion": "Proceso / Eficiencia (O2)",
+    "objetivo_smart": "Reducir el tiempo promedio de despacho de pedidos de 48 horas a 4 horas para el 31 de diciembre de 2026",
+    "formula": "(sum(Fecha_Entrega - Fecha_Pedido)) / Total_Pedidos",
+    "unidad_medida": "Horas / Pedido",
+    "polaridad": "negativa",
+    "frecuencia": "diaria",
+    "fuente_primaria": "ERP_Logistica.tb_despachos"
+  },
+  {
+    "id": "KPI-OPS-02",
+    "nombre": "Nivel de Servicio de Entrega (OTIF)",
+    "dominio": "operaciones",
+    "clasificacion": "Resultado / Eficacia (O1)",
+    "objetivo_smart": "Incrementar el porcentaje de pedidos entregados a tiempo y completos de 74.5% a 95.0% en 6 meses",
+    "formula": "(Pedidos_OTIF / Total_Pedidos_Solicitados) * 100",
+    "unidad_medida": "%",
+    "polaridad": "positiva",
+    "frecuencia": "semanal",
+    "fuente_primaria": "WMS_Auditoria.log_remitos_conformados"
+  },
+  {
+    "id": "KPI-DEV-01",
+    "nombre": "Change Failure Rate",
+    "dominio": "software_devops",
+    "clasificacion": "Calidad / Estabilidad",
+    "objetivo_smart": "Disminuir la tasa de fallas en despliegues a produccion de 18% a menos de 5% antes de fin de ano",
+    "formula": "(Despliegues_Fallidos / Total_Despliegues) * 100",
+    "unidad_medida": "%",
+    "polaridad": "negativa",
+    "frecuencia": "semanal",
+    "fuente_primaria": "GitHub_Actions.deploy_runs + PagerDuty.incidents"
+  }
+]

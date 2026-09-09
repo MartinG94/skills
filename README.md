@@ -87,7 +87,14 @@ flowchart TD
 
     subgraph Frontend_y_Visualizacion["Frontend & Visualización"]
         UXUI[design-ux-ui<br/><i>Artefacto UX/UI proporcional</i>]
-        MDG[mermaid-diagram-gen<br/><i>Mermaid & Máquinas Estado</i>]
+        DS[diagramStudio<br/><i>Diagramación Universal Mermaid & Draw.io</i>]
+    end
+
+    subgraph Gestion_y_Mejora_Procesos["Gestión & Mejora de Procesos (GMP)"]
+        PW[processWorkbench<br/><i>Etapas 1-3: Criterios, FODA, CAME</i>]
+        PA[processAuditor<br/><i>Etapa 2: Auditoría 4 Ejes GUI_U2</i>]
+        KPI[kpiDesigner<br/><i>Universal Metrics & SMART</i>]
+        PIP[processImprovementPlanner<br/><i>Orquestador PDCA E1-E4 & Gantt</i>]
     end
 
     subgraph Soporte_Cognitivo["Gestión & Comunicación"]
@@ -99,12 +106,18 @@ flowchart TD
     RE --> BPMN
     RE --> UCE
     BPMN --> UCE
+    BPMN <--> PA
+    PA --> PW
+    PW --> PIP
+    PIP --> KPI
+    PIP --> DS
     UCE --> DMG
     UCE --> CV
     DMG --> CV
     DMG --> GSR
     QSS --> MD
     MD --> GSR
+    MD -.-> DS
     GSR --> GOF
     DMG --> ROM
     GSR --> UMLC
@@ -122,10 +135,10 @@ flowchart TD
     EPC -.-> UCE
     EPC -.-> QSS
     EPC -.-> GSR
-    EPC -.-> MDG
-    GSR -.-> MDG
-    DMG -.-> MDG
-    DD -.-> MDG
+    EPC -.-> DS
+    GSR -.-> DS
+    DMG -.-> DS
+    DD -.-> DS
 ```
 
 `epc-flow-gen` es un orquestador para un **Ejercicio Práctico Complementario** de ASI/DSI. Lee la consigna y deriva solo los ítems solicitados a las skills especialistas; no representa una etapa de interfaz ni obliga a recorrer las ramas ilustradas.
@@ -134,7 +147,7 @@ flowchart TD
 
 ## 📚 Catálogo de Skills
 
-El repositorio cuenta actualmente con **22 skills especializadas**, distribuidas en las siguientes áreas de competencia:
+El repositorio cuenta actualmente con **27 skills especializadas**, distribuidas en las siguientes áreas de competencia:
 
 Las skills migradas muestran en la etiqueta su `name` invocable en hyphen-case.
 Algunos paquetes y enlaces conservan nombres o carpetas históricas en camelCase para
@@ -186,7 +199,7 @@ no romper compatibilidad; ante cualquier diferencia, prevalece el frontmatter.
 
 | Skill | Descripción | Estándares y Técnicas Clave | Artefactos |
 | :--- | :--- | :--- | :--- |
-| [**mermaid-diagram-gen**](mermaidDiagramGen/SKILL.md) | Generación o validación de un diagrama Mermaid y, cuando se pide, síntesis trazable de DTE/MTE. | Selección por tipo entre 30 guías disponibles; se carga únicamente la referencia aplicable. | Código Mermaid solicitado y resultado de validación disponible. |
+| [**diagramStudio**](diagramStudio/SKILL.md) | Motor unificado de diagramación visual y estructural (Mermaid y Draw.io nativo). Se activa **automáticamente** ante cualquier pedido textual de diagramas o inferencia del agente. | Modos `mermaid`, `drawio` y `dual`; 31 guías Mermaid, 20 manuales Draw.io y presets para Mapa de Procesos Institucional (3 niveles) y SIPOC visual. | Bloques Mermaid in-line, archivos `.drawio` XML editables y vistas sincronizadas. |
 
 ---
 
@@ -225,21 +238,34 @@ no romper compatibilidad; ante cualquier diferencia, prevalece el frontmatter.
 
 ---
 
+### 10. Gestión y Mejora de Procesos (GMP / Ciclo PDCA)
+
+| Skill | Descripción | Estándares y Técnicas Clave | Artefactos |
+| :--- | :--- | :--- | :--- |
+| [**processWorkbench**](processWorkbench/SKILL.md) | Mesa analítica y estratégica para Etapas 1 a 3 de GMP. Encuadre, selección del proceso crítico, diagnóstico y CAME. | Ponderación de 5 criterios de cátedra, Lógica Dominante del Servicio (SDL), Cadena de Valor Virtual (Rayport & Sviokla), FODA, cruces CAME, acciones EERR y filtro de restricciones operativas. | Matrices estructuradas Markdown de Etapas 1, 2 y 3 con cálculo ponderado y filtro de viabilidad. |
+| [**processAuditor**](processAuditor/SKILL.md) | Auditoría forense del proceso AS-IS en Etapa 2 sobre los 4 ejes de la guía oficial GUI_U2. | Control interno (marco COSO), segregación de funciones (SoD), ruta documental y formularios, ergonomía/factores humanos y silos informáticos/TI. | Matriz de Riesgos y Controles (RCM), matriz SoD, checklists temáticos y evidencias para FODA. |
+| [**bpmnExtractor**](bpmnExtractor/SKILL.md) | Extracción y modelado BPMN 2.0, validación SIPOC ↔ BPD y análisis diferencial cuantitativo. | BPMN-IR acíclico, modo `sipoc-sync` para coherencia de fronteras y modo `diff-as-is-to-be` para balance cuantitativo de mejora. | Ficha institucional, especificación BPD, matriz SIPOC-sync y reporte comparativo diff. |
+| [**kpiDesigner**](kpiDesigner/SKILL.md) | Diseño y auditoría universal de sistemas de medición, métricas y tableros en 4 dominios. | Sintaxis SMART obligatoria, consistencia dimensional matemática, data provenance y validación automatizada por script. | Fichas técnicas de KPIs (O1 vs O2, DORA, SRE, HEART, Balanced Scorecard) y catálogo validado. |
+| [**processImprovementPlanner**](processImprovementPlanner/SKILL.md) | Orquestador metodológico del ciclo PDCA de 4 etapas y generador de entregables finales sin Excel. | Compilación de informes maestros en Markdown, cronogramas Gantt visuales en Mermaid y matriz de trazabilidad E1->E4. | Informe Técnico Maestro (.md), diagrama de Gantt Mermaid y matriz integral de consistencia. |
+
+---
+
 ## 🧩 Anatomía de una Skill
 
-Cada skill dentro del repositorio implementa una estructura estandarizada y predecible:
+Cada skill dentro del repositorio implementa una estructura estandarizada de **Documentación Dual Obligatoria**:
 
 ```
 nombre-de-la-skill/
-├── SKILL.md                 # Archivo principal (YAML Frontmatter + Metodología + Prompts del sistema)
+├── SKILL.md                 # Contrato operacional consumido por el LLM (YAML Frontmatter + Progressive Disclosure)
+├── README.md                # Documentación técnica orientada a desarrolladores/usuarios humanos
 ├── references/              # [Opcional] Documentación técnica de soporte, gramáticas y marcos conceptuales
 ├── templates/               # [Opcional] Plantillas institucionales (Markdown, JSON Schema, XML, DDL)
-├── scripts/                 # [Opcional] Scripts auxiliares ejecutables (Python, PowerShell, CLI)
+├── scripts/                 # [Opcional] Scripts auxiliares ejecutables (Python, CLI de validación)
 └── examples/                # [Opcional] Ejemplos reales y casos de estudio de referencia
 ```
 
-### Encabezado Estándar (`SKILL.md`)
-Todo archivo `SKILL.md` define en su bloque superior los metadatos YAML que permiten a los motores de agentes identificar su propósito e invocarla dinámicamente cuando el contexto lo requiere:
+### 1. Contrato Operativo del Agente (`SKILL.md`)
+Define los metadatos YAML superiores para identificación y ruteo dinámico por parte del motor de agentes:
 
 ```yaml
 ---
@@ -249,6 +275,9 @@ description: >-
   skills cercanas.
 ---
 ```
+
+### 2. Documentación Humana (`README.md`)
+Explica al desarrollador la arquitectura del paquete, prerequisitos de runtime, ejemplos de invocación por línea de comandos y el contrato exacto de entradas y salidas.
 
 ---
 
