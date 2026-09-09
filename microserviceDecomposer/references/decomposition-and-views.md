@@ -59,3 +59,30 @@ rol publisher/subscriber.
 
 Para migración, propone primero seams y módulos internos. Ordena extracciones por valor,
 riesgo y reversibilidad; no asumas una reescritura total.
+
+
+## Clasificación Canónica de Subdominios (DDD)
+
+| Tipo de Subdominio | Definición de Negocio | Estrategia de Inversión Técnica |
+|---|---|---|
+| **Core Domain** | La razón de ser del negocio; genera diferenciación competitiva y margen. | Desarrollo a medida de máxima calidad; asignación de los mejores ingenieros. |
+| **Supporting Subdomain** | Capacidad que complementa al Core pero no diferencia por sí sola. | Desarrollo a medida simple o adaptación de soluciones existentes. |
+| **Generic Subdomain** | Capacidad estándar que toda empresa necesita (ej. autenticación, facturación, emailing). | Comprar COTS, integrar SaaS o usar librerías open-source consolidadas. |
+
+---
+
+## Sintaxis Canónica Mermaid C4Container (Nivel 2)
+
+```mermaid
+C4Container
+    title Vista de Contenedores del Sistema
+    Person(cliente, "Cliente", "Usuario del sistema.")
+    System_Boundary(b1, "Frontera del Sistema") {
+        Container(api, "API Gateway", "Node / Go", "Punto único de entrada perimetral.")
+        Container(srvCore, "Servicio Core", "Java / Spring", "Lógica principal del negocio.")
+        ContainerDb(dbCore, "Base de Datos Core", "PostgreSQL", "Almacena el estado de negocio.")
+    }
+    Rel(cliente, api, "Peticiones HTTPS", "JSON")
+    Rel(api, srvCore, "Llamadas gRPC/REST", "mTLS")
+    Rel(srvCore, dbCore, "Lee/Escribe", "TCP")
+```

@@ -81,9 +81,7 @@ considerar la operación y las convenciones existentes.
 
 ### 4. Definir esquemas y compatibilidad
 
-Al crear o completar OpenAPI, leer
-[references/openapi-contract-checklist.md](references/openapi-contract-checklist.md)
-para conservar la estructura mínima, las diferencias de versión y el preflight. No
+Al crear o completar OpenAPI, consultar la plantilla canónica [templates/openapi-rest-template.yaml](templates/openapi-rest-template.yaml) y leer [references/openapi-contract-checklist.md](references/openapi-contract-checklist.md) para conservar la estructura mínima, diferencias de versión y preflight. No
 cargarla si el pedido sólo audita decisiones HTTP sin una especificación OpenAPI.
 
 - Separar representaciones públicas de detalles internos cuando reduzca acoplamiento.
@@ -97,8 +95,7 @@ cargarla si el pedido sólo audita decisiones HTTP sin una especificación OpenA
 
 ### 5. Estandarizar errores
 
-Usar Problem Details (`application/problem+json`) cuando el contrato adopte RFC 9457
-o deba ofrecer errores HTTP estructurados. Definir al menos `type`, `title`, `status`
+Usar Problem Details (`application/problem+json`) conforme a [references/problem-details-rfc9457.md](references/problem-details-rfc9457.md) cuando el contrato adopte RFC 9457 o deba ofrecer errores HTTP estructurados. Definir al menos `type`, `title`, `status`
 y, cuando aporte valor, `detail` e `instance`. Las extensiones como errores de campo o
 identificadores de trazabilidad deben ser estables y no revelar secretos, datos
 personales ni detalles internos.

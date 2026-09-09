@@ -68,3 +68,13 @@ Cuando el servidor no inicia:
 4. limita reintentos y reporta el bloqueo con comando y salida relevante.
 
 No eludas políticas de sandbox, red o aprobación para conseguir un preview. Si no puede mantenerse un proceso, entrega un comando reproducible y explica qué parte sí se verificó.
+
+
+## 4. Widgets Interactivos en el Chat (`<agent-embed>`)
+
+Cuando el usuario solicita prototipos compactos interactivos para previsualización inmediata en el chat/IDE:
+1. Utilizar la plantilla base [resources/templates/widget-embed.template.html](../resources/templates/widget-embed.template.html).
+2. Utilizar el script allowlisted de Tailwind: `https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js`.
+3. Consumir las variables CSS semánticas del host (`var(--background)`, `var(--card)`, `var(--foreground)`, `var(--border)`, `var(--primary)`) para garantizar adaptación automática al modo claro/oscuro.
+4. Incrustar en el chat con la etiqueta: `<agent-embed src="file:///<ruta-absoluta>/widget.html"></agent-embed>`.
+5. Diseñar el widget con un contenedor autocontenido de altura inferior a 500px.

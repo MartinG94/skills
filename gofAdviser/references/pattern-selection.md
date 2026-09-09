@@ -79,3 +79,30 @@ genérica como si fuera la solución del dominio.
 
 Si dos opciones siguen empatadas, expresa qué evidencia falta en vez de seleccionar al
 azar o recomendar ambas como una combinación obligatoria.
+
+
+## Matriz de Síntomas / Code Smells $\to$ Patrones GoF Candidatos
+
+| Síntoma Clínico en el Código | Principio Violado | Patrón(es) Candidato(s) a Evaluar |
+|---|---|---|
+| Múltiples sentencias `switch` o `if/else` ramificando por tipo de algoritmo | Open/Closed Principle (OCP) | **Strategy** |
+| Condicionales complejos que cambian según el estado actual del objeto | Single Responsibility / OCP | **State** |
+| Acoplamiento rígido a librerías de terceros o SDKs con interfaces incompatibles | Dependency Inversion (DIP) | **Adapter** |
+| Clases dios orquestadoras que notifican manualmente a múltiples módulos | Low Coupling | **Observer** o **Mediator** |
+| Constructores con excesivos parámetros opcionales (*Telescoping Constructor*) | Clean Construction | **Builder** |
+| Clientes acoplados a una jerarquía compleja de subsistemas | Information Hiding | **Facade** |
+| Estructuras recursivas parte-todo tratadas con comprobaciones manuales de tipo | High Cohesion | **Composite** |
+| Proliferación de subclases para combinar responsabilidades dinámicas | Favor Composition | **Decorator** |
+| Creación directa de objetos costosos o control de acceso/caching en red | Single Responsibility | **Proxy** o **Flyweight** |
+| Instanciaciones rígidas con `new` dispersas por todo el código | Inversión de Control | **Factory Method** o **Abstract Factory** |
+
+---
+
+## Catálogo de Criterios para Patrones Estructurales y Creacionales Clave
+
+- **Builder:** Usar cuando la construcción de un objeto complejo requiera pasos secuenciales y validaciones de invariantes antes de emitir la instancia terminada. Evitar para DTOs simples con 3 atributos.
+- **Composite:** Usar cuando clientes deban tratar de manera idéntica a objetos individuales y a composiciones de objetos (árboles). Participantes: `Component`, `Leaf`, `Composite`.
+- **Decorator:** Usar para agregar responsabilidades dinámicamente a objetos en tiempo de ejecución sin recurrir a herencia estática. Participantes: `Component`, `ConcreteComponent`, `Decorator`, `ConcreteDecorator`.
+- **Facade:** Usar para brindar una interfaz simplificada y de alto nivel a un subsistema complejo. Participantes: `Facade`, clases internas del subsistema.
+- **Command:** Usar para parametrizar objetos con solicitudes, diferir su ejecución en colas o soportar operaciones de deshacer (*undo/redo*). Participantes: `Command`, `ConcreteCommand`, `Invoker`, `Receiver`.
+- **Template Method:** Usar cuando el esqueleto de un algoritmo invariante deba definirse en una clase base, permitiendo a las subclases redefinir pasos específicos sin alterar la estructura global.

@@ -38,7 +38,7 @@ No traduzcas automáticamente estas letras a `INSERT`, `SELECT`, `UPDATE` o `DEL
 
 1. Normaliza IDs sin renombrar los artefactos fuente.
 2. Delimita qué clases y CU/RF están dentro del alcance.
-3. Recorre cada flujo o RF y registra las operaciones sustentadas.
+3. Recorre cada flujo o RF y registra las operaciones sustentadas aplicando las heurísticas de [references/crud-inference-guide.md](references/crud-inference-guide.md).
 4. Usa `N/A`, `EXT` o `?` en vez de forzar una letra.
 5. Contrasta la matriz con afirmaciones explícitas del alcance.
 6. Registra hallazgos y preguntas; no alteres los artefactos de entrada.

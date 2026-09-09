@@ -31,6 +31,24 @@
 
 ### C.2 Económica
 
+### C.2.1 Cuadro Condicional de Flujo de Fondos Proyectado
+*(Completar únicamente si el usuario aportó horizonte temporal, tasa y valores de inversión)*
+
+| Concepto Financiero | Año 0 (Inversión) | Año 1 | Año 2 | Año 3 |
+|---|:---:|:---:|:---:|:---:|
+| **Inversión Inicial (CAPEX)** | -{{$INVERSION}} | - | - | - |
+| **Costos Operativos (OPEX)** | - | -{{$OPEX_1}} | -{{$OPEX_2}} | -{{$OPEX_3}} |
+| **Beneficios Brutos Obtenidos** | - | +{{$BENEF_1}} | +{{$BENEF_2}} | +{{$BENEF_3}} |
+| **Flujo de Fondos Neto ($F_t$)** | **-{{$INVERSION}}** | **{{$NETO_1}}** | **{{$NETO_2}}** | **{{$NETO_3}}** |
+| **Flujo Neto Descontado (Tasa $k$)** | **-{{$INVERSION}}** | **{{$DESC_1}}** | **{{$DESC_2}}** | **{{$DESC_3}}** |
+
+**Indicadores Financieros Calculados:**
+- **VAN ($k = {{TASA}}\%$):** `$ {{VALOR_VAN}}` $\to$ {{Viable / No viable}}
+- **TIR:** `{{VALOR_TIR}}\%` $\to$ {{Mayor / Menor que la tasa de corte}}
+- **Período de Recupero (Payback):** `{{ANIOS}}` años
+- **ROI:** `{{VALOR_ROI}}\%`
+
+
 | Costo/beneficio | Tipo | Valor y moneda si constan | Origen | Fuente | Derivación / estado |
 | --- | --- | --- | --- | --- | --- |
 

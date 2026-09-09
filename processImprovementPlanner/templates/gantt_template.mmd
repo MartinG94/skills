@@ -1,0 +1,29 @@
+gantt
+    title Plan de Implantación y Despliegue de Mejora de Procesos (Etapa 4)
+    dateFormat  YYYY-MM-DD
+    axisFormat  %b %Y
+
+    section Fase 1: Diseño Detallado & Arquitectura
+    Definición de Especificación TO-BE y Fichas       :done,    des_1, 2026-10-01, 2026-10-20
+    Matriz SoD y Ajuste de Perfiles de Usuario         :active,  des_2, 2026-10-15, 2026-11-05
+    Aprobación de Arquitectura de Integración API      :crit,    des_3, 2026-11-01, 2026-11-15
+
+    section Fase 2: Desarrollo & Configuración TI
+    Configuración de Reglas de Aprobación en ERP       :dev_1, 2026-11-10, 2026-12-05
+    Desarrollo de Conector API y Webhooks de Tracking  :dev_2, after des_3, 30d
+    Personalización de App Móvil de Choferes           :dev_3, 2026-11-20, 2026-12-20
+    Pruebas Integrales de Extremo a Extremo            :crit, dev_4, after dev_2, 15d
+
+    section Fase 3: Piloto Operativo & Gestión del Cambio
+    Talleres de Capacitación a Choferes y Depósito     :tr_1, after dev_4, 10d
+    Lanzamiento de Prueba Piloto (Sucursal Central)    :crit, pil_1, after tr_1, 20d
+    Ajustes Post-Piloto y Validación de Estabilidad    :pil_2, after pil_1, 10d
+
+    section Fase 4: Despliegue General & Go-Live
+    Despliegue a Flota Completa y Sedes Regionales     :crit, deploy_1, after pil_2, 15d
+    Apagado de Emisión de Remitos Triplicados Papel    :milestone, m_paper, after deploy_1, 0d
+
+    section Fase 5: Medición de KPIs & Cierre PDCA
+    Monitoreo Diario de Lead Time y Discrepancias      :active, mon_1, after deploy_1, 45d
+    Auditoría de Cumplimiento de Metas SMART (O1/O2)   :crit, mon_2, after mon_1, 15d
+    Entrega de Informe Final de Mejora de Procesos     :milestone, m_close, after mon_2, 0d

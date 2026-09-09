@@ -140,6 +140,8 @@ No emitas porcentajes de calidad ni veredictos `APPROVED/REJECTED` sin una rúbr
 
 ## Contrato de salida
 
+Utiliza la plantilla Markdown [templates/audit-report.md](templates/audit-report.md) y consulta el catálogo de discrepancias en [references/inconsistency-catalog.md](references/inconsistency-catalog.md). Para salidas JSON estructuradas de CI/CD, respeta estrictamente el esquema [templates/audit-report.schema.json](templates/audit-report.schema.json).
+
 ```markdown
 # Auditoría de consistencia
 
