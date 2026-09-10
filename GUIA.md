@@ -4,7 +4,7 @@
 
 Esta guía ayuda a elegir skills del repositorio según el **producto solicitado**, las
 fuentes disponibles y el nivel de avance. No describe una cadena obligatoria ni exige
-ejecutar las 22 skills: una tarea pequeña puede requerir una sola y un proyecto amplio
+ejecutar las 27 skills: una tarea pequeña puede requerir una sola y un proyecto amplio
 puede combinar varias con entregas intermedias aprobadas.
 
 Cada skill debe conservar su responsabilidad. Una skill downstream consume artefactos
@@ -51,18 +51,26 @@ flowchart LR
     EPC["EPC académico"] --> SELECT
 
     SELECT --> R["Relevamiento y requisitos"]
-    SELECT --> A["Análisis y modelos"]
+    SELECT --> A["Análisis y modelos (ASI)"]
     SELECT --> Q["Calidad y arquitectura"]
-    SELECT --> D["Diseño OO y persistencia"]
+    SELECT --> D["Diseño OO y persistencia (DSI)"]
     SELECT --> C["Construcción de API, UI u ORM"]
     SELECT --> T["Pruebas y auditoría"]
+    SELECT --> GMP["Gestión y Mejora de Procesos (GMP / PDCA)"]
+    SELECT --> DIA["Diagramación (diagramStudio)"]
+    SELECT --> SOP["Soporte transversal y Carrera"]
 
     R -. solo si es dependencia .-> A
+    R -. procesos organizacionales .-> GMP
     A -. solo si es dependencia .-> Q
     A -. solo si es dependencia .-> D
     Q -. decisiones aprobadas .-> D
     D -. contratos aprobados .-> C
     C -. comportamiento implementado .-> T
+    GMP -. BPD / SIPOC / Mapa de Procesos .-> DIA
+    A -. vistas conceptuales y flujos .-> DIA
+    Q -. C4 y topología .-> DIA
+    D -. clases y secuencias .-> DIA
 ```
 
 Las flechas punteadas muestran precedencias posibles, no pasos automáticos. Por
@@ -87,7 +95,7 @@ transversal guiado por la consigna, no una notación de interfaz. La carpeta her
 |---|---|---|---|
 | [`system-classifier`](systemClassifier/SKILL.md) | se pide clasificar el sistema, encuadrar alcance/viabilidad o planificar PUD | información organizacional y restricciones | diagnóstico o estudio solicitado, con supuestos y pendientes |
 | [`requirements-extractor`](requirementsExtractor/SKILL.md) | hay entrevistas, minutas o narrativa sin estructurar, o se pide un backlog de historias | fuentes de stakeholders | registro/ERS trazable o historias con conversación y confirmación |
-| [`bpmn-extractor`](bpmnExtractor/SKILL.md) | se necesita modelar un proceso de negocio | narrativa y participantes del proceso | ficha y especificación trazable; BPD gráfico solo si hay una herramienta BPMN disponible |
+| [`bpmn-extractor`](bpmnExtractor/SKILL.md) | se necesita modelar un proceso de negocio, validar concordancia SIPOC ↔ BPD (`sipoc-sync`) o comparar impacto operacional AS-IS vs TO-BE (`diff-as-is-to-be`) | narrativa, matriz SIPOC o modelos de proceso | ficha y especificación BPD trazable, matriz SIPOC-sync, reporte comparativo diff y JSON BPMN-IR exportable a Mermaid/Draw.io |
 | [`use-case-extractor`](useCaseExtractor/SKILL.md) | se necesitan el modelo o las descripciones de casos de uso | requisitos y reglas aprobados | inventario/diagrama o descripción institucional de CU |
 | [`domain-model-gen`](domainModelGen/SKILL.md) | se necesita un modelo conceptual o DCA | requisitos, CU y glosario | clases conceptuales, relaciones y diccionario |
 | [`crud-validator`](crudValidator/SKILL.md) | se quiere revisar cobertura de operaciones sobre entidades | CU/requisitos y modelo de dominio | matriz CRUD diagnóstica, excepciones y brechas propuestas |
@@ -98,17 +106,17 @@ transversal guiado por la consigna, no una notación de interfaz. La carpeta her
 |---|---|---|---|
 | [`quality-scenario-specifier`](qualityScenarioSpecifier/SKILL.md) | un atributo de calidad debe quedar observable y medible | RNF y evidencia de contexto | escenario de calidad; tácticas solo si corresponden al encargo |
 | [`microservice-decomposer`](microserviceDecomposer/SKILL.md) | se evalúan límites, topología o una posible descomposición | dominio, drivers y restricciones | decisión arquitectónica y modelo de límites; puede concluir no descomponer |
-| [`diagramStudio`](diagramStudio/SKILL.md) | se pide cualquier diagrama (flujo, secuencia, clases, ERD, estados, C4, mapa de procesos, SIPOC, gantt) o se infiere necesidad visual | especificación, código, modelo IR o solicitud textual | bloque Mermaid in-line, archivo `.drawio` editable o modo dual |
+| [`diagramStudio`](diagramStudio/SKILL.md) | se pide cualquier diagrama (flujo, secuencia, clases, ERD, estados, C4, mapa de procesos institucional de 3 niveles, SIPOC visual, gantt) o se infiere necesidad visual (activación automática) | especificación, código, modelo IR o solicitud textual | bloque Mermaid in-line, archivo `.drawio` editable o modo dual simultáneo con autolayout y sincronización incremental |
 
 ### Gestión y Mejora de Procesos (GMP / Ciclo PDCA)
 
 | Skill | Usar cuando | Entrada principal | Producto |
 |---|---|---|---|
-| [`process-workbench`](processWorkbench/SKILL.md) | se encuadra el negocio, aplican 5 criterios de selección, tendencias SDL, valor virtual, FODA o cruces CAME y filtro operativo | caso de negocio, relevamiento y diagnóstico de auditoría | matrices estructuradas de Etapas 1 a 3 y acciones de valor EERR |
-| [`process-auditor`](processAuditor/SKILL.md) | se audita el proceso actual AS-IS bajo los 4 ejes de GUI_U2 | entrevistas, minutas y evidencias de campo | RCM (COSO), matriz SoD, diagnóstico de ruta documental, ergonomía y silos TI |
-| [`bpmn-extractor`](bpmnExtractor/SKILL.md) | se modela BPD, audita consistencia SIPOC ↔ BPD o compara AS-IS vs TO-BE | narrativa, matriz SIPOC o modelos de proceso | ficha, especificación BPD, matriz SIPOC-sync y reporte comparativo diff |
-| [`kpi-designer`](kpiDesigner/SKILL.md) | se definen métricas, indicadores y tableros en Operaciones, Negocio, DevOps o Producto | objetivos SMART, acciones de valor o acuerdos de servicio | fichas técnicas de KPIs con fórmulas dimensionales y procedencia del dato |
-| [`process-improvement-planner`](processImprovementPlanner/SKILL.md) | se orquesta el ciclo PDCA completo y se requiere informe consolidado sin Excel | artefactos de Etapas 1 a 4 | informe técnico maestro en Markdown, Gantt en Mermaid y matriz E1->E4 |
+| [`process-workbench`](processWorkbench/SKILL.md) | se encuadra el negocio, aplican los 5 criterios de selección ponderada del proceso crítico, tendencias SDL, cadena de valor virtual, matriz de stakeholders, FODA o cruces CAME y filtro de restricciones operativas | caso de negocio, relevamiento y diagnóstico de auditoría | matrices estructuradas de Etapas 1 a 3, selección ponderada y acciones de valor EERR con procesos afectados |
+| [`process-auditor`](processAuditor/SKILL.md) | se audita el proceso actual AS-IS bajo los 4 ejes obligatorios de GUI_U2 | entrevistas, minutas y evidencias de campo | RCM de control interno (COSO), matriz SoD, diagnóstico de ruta documental, ergonomía/factores humanos y silos TI |
+| [`bpmn-extractor`](bpmnExtractor/SKILL.md) | se modela BPD descriptivo u operacional, audita consistencia SIPOC ↔ BPD (`sipoc-sync`) o compara AS-IS vs TO-BE (`diff-as-is-to-be`) | narrativa, matriz SIPOC o modelos de proceso | ficha institucional, especificación BPD, matriz SIPOC normalizada y reporte comparativo diff con métricas de racionalización |
+| [`kpi-designer`](kpiDesigner/SKILL.md) | se diseñan o auditan métricas, indicadores y tableros en Operaciones (O1 vs O2), Negocio (BSC, OKRs), DevOps/Software (DORA, SRE/SLO) o Producto (HEART) | objetivos SMART, acciones de valor o acuerdos de nivel de servicio | fichas técnicas de KPIs con validación sintáctica SMART en español, fórmulas dimensionales y procedencia exacta del dato |
+| [`process-improvement-planner`](processImprovementPlanner/SKILL.md) | se orquesta el ciclo PDCA completo en 4 etapas y se requiere informe consolidado sin Excel | artefactos de Etapas 1 a 4 | informe técnico maestro en Markdown (.md), cronograma Gantt en Mermaid y matriz de trazabilidad integral E1➔E4 |
 
 ### Diseño orientado a objetos y persistencia
 
@@ -139,7 +147,9 @@ usuario pidió cambios y existe un proyecto objetivo.
 |---|---|---|
 | [`notebooklmSourceNaming`](notebooklmSourceNaming/SKILL.md) | se preparan fuentes para NotebookLM | propuesta de nomenclatura |
 | [`notebooklm`](notebooklm/SKILL.md) | se consulta una libreta NotebookLM ya autorizada | respuesta grounded con citas |
-| [`oratoriaPnl`](pnlOratoria/SKILL.md) | se prepara una exposición oral | guion o plan de presentación |
+| [`oratoriaPnl`](pnlOratoria/SKILL.md) | se prepara una exposición oral | guion o plan de presentación con técnicas de PNL |
+| [`humanizer`](humanizer/SKILL.md) | se busca desintoxicar textos de patrones y clichés de IA | texto con cadencia rítmica (burstiness), perplejidad y tono adaptado |
+| [`cvOptimizer`](cvOptimizer/SKILL.md) | se requiere crear o modernizar un CV para postulaciones de alto impacto | CV ATS en LaTeX (Awesome-CV / fórmula Google X-Y-Z), PDF compilado y paquete multicanal |
 
 Estas skills no son prerrequisitos de requisitos, análisis ni diseño. Activarlas solo
 cuando el usuario solicita su producto específico.
@@ -198,6 +208,53 @@ Elegir de forma independiente `api-design`, `orm-master` o `design-ux-ui` según
 superficie a construir. Ejecutar `backend-testing` después solo para el comportamiento
 y riesgo afectados. No exigir frontend, API y ORM en todo sistema.
 
+### Ejecutar el ciclo de Gestión y Mejora de Procesos (GMP / PDCA)
+
+`process-workbench` (E1) → `bpmn-extractor` + `process-auditor` + `process-workbench` (E2) → `process-workbench` (E3) → `bpmn-extractor` + `kpi-designer` + `process-improvement-planner` (E4)
+
+1. **Etapa 1 — Situación Actual y Selección Ponderada del Proceso Crítico:**
+   - `process-workbench`: encuadre del negocio, análisis de tendencias del sector bajo Lógica Dominante del Servicio (SDL), Cadena de Valor Virtual (5 verbos de información: Recopilar, Organizar, Seleccionar, Sintetizar, Distribuir) y matriz de selección ponderada del proceso crítico mediante los 5 criterios de cátedra (Estrategia, Tendencias, Costos/Problemas, Cliente, Producto).
+   - `diagramStudio`: genera el Mapa de Procesos Institucional (3 niveles canónicos: Estratégicos, Clave/Operativos, Soporte) con flechas de requisitos y satisfacción del cliente.
+2. **Etapa 2 — Diagnóstico AS-IS, Auditoría Forense y Modelado:**
+   - `bpmn-extractor`: modela el BPD AS-IS descriptivo u operacional y la matriz SIPOC; ejecuta el modo `sipoc-sync` para validar la concordancia matemática bidireccional entre la tabla SIPOC y los nodos/flujos del BPD.
+   - `process-auditor`: audita exhaustivamente los 4 ejes de `GUI_U2`: 1) Control Interno COSO (matriz RCM, salvaguarda de activos/mercaderías, matriz de segregación de funciones SoD, autorizaciones y doble registro), 2) Formularios y Ruta Documental (diseño, copias, archivo), 3) Factores Humanos y Condiciones Laborales (ergonomía, tiempos muertos, clima laboral), 4) Soporte Informático y Silos TI (integración ERP, recaptura manual, fallas de interfaz).
+   - `process-workbench`: formula la Matriz de Stakeholders (Resultados, Expectativas, Obstáculos) y sintetiza el diagnóstico en la Matriz FODA del proceso.
+3. **Etapa 3 — Propuesta de Mejora y Alineación Estratégica:**
+   - `process-workbench`: construye los cruces de la Matriz CAME (FO, FA, DO, DA) y deriva las Acciones de Valor aplicando las 4 palancas (Crear, Eliminar, Reducir, Incrementar) bajo el Filtro de Restricciones Operativas (Plazos, Presupuesto, Dependencia TI, Resistencia al Cambio) e identifica los procesos afectados.
+4. **Etapa 4 — Rediseño TO-BE, Medición Cuantitativa y Planificación:**
+   - `bpmn-extractor`: modela el BPD TO-BE y ejecuta `diff-as-is-to-be` para cuantificar la optimización operativa (reducción de actividades, tareas manuales automatizadas, eliminación de handoffs).
+   - `kpi-designer`: diseña el sistema de medición formalizando objetivos SMART (`[Verbo] + [Variable] + [Base -> Meta] + [Plazo]`), clasificando Indicadores de Resultado (O1 / Eficacia) vs Indicadores de Proceso (O2 / Eficiencia), validando fórmulas dimensionales y fijando la Fuente Primaria del Dato (evento exacto de captura en el BPD TO-BE). Ejecutar el validador CLI `python scripts/validate_kpi.py` para asegurar consistencia determinista.
+   - `process-improvement-planner`: orquesta y ensambla la entrega consolidada en un Informe Técnico Maestro en Markdown (`.md`), diagrama de Gantt en Mermaid (`gantt`) con fases (Diseño, Piloto, Despliegue, Evaluación) e hitos, y la Matriz de Trazabilidad Integral de Extremo a Extremo (E1 ➔ E2 ➔ E3 ➔ E4) sin dependencia de Excel.
+   - `diagramStudio`: exporta los diagramas del proceso a formato editable `.drawio` y/o bloques Mermaid in-line.
+
+### Diagramación técnica y visual con diagramStudio
+
+`diagramStudio` se activa de forma automática e implícita siempre que se solicita un diagrama en texto o se infiere necesidad visual:
+1. **Selección de modo:**
+   - `mode: "mermaid"`: bloque in-line para lectura inmediata en chat, PRs o documentación Markdown.
+   - `mode: "drawio"`: archivo XML editable `.drawio` con estilos, formas nativas y autolayout determinista para diagrams.net.
+   - `mode: "dual"`: previsualización Mermaid en chat y persistencia editable `.drawio` en una sola acción.
+2. **Presets de alto nivel:**
+   - *Procesos:* Mapa de Procesos Institucional (3 niveles), Diagrama SIPOC Visual, BPMN Pools/Lanes.
+   - *Arquitectura y Software:* C4 (Contexto, Contenedores, Componentes), ERD, Secuencia, Clases, Estados, SysML, Cloud (AWS, Azure, GCP, K8s).
+3. **Mantenimiento incremental:**
+   - Usar `diagramctl.py sync` para actualizar diagramas generados a partir de cambios en código, infraestructura o modelos sin perder las coordenadas y diagramación manual previa.
+
+### Diseño y auditoría universal de métricas con kpiDesigner
+
+`kpi-designer` formaliza y audita sistemas de medición métrica en cualquier dominio:
+1. **Seleccionar marco según dominio:**
+   - *Operaciones y Procesos:* Eficacia (O1) vs Eficiencia (O2), Lead Time, Cycle Time, Scrap, OEE, First Pass Yield.
+   - *Estrategia y Negocio:* Balanced Scorecard (Kaplan & Norton: Financiera, Cliente, Procesos Internos, Aprendizaje/Crecimiento), OKRs, ROI, EBITDA.
+   - *Ingeniería de Software & DevOps:* Métricas DORA (Deployment Frequency, Lead Time for Changes, MTTR, Change Failure Rate), SRE (SLAs, SLOs, SLIs, Error Budgets).
+   - *Producto y UX:* Framework HEART (Happiness, Engagement, Adoption, Retention, Task Success), North Star Metric, Churn, LTV, CAC.
+2. **Formalizar contrato métrico:**
+   - Redactar objetivo SMART: `[Verbo infinitivo] + [Variable] + [de Valor Inicial a Valor Meta] + [Plazo o Fecha]`.
+   - Especificar fórmula matemática dimensional ($\frac{\text{Numerador}}{\text{Denominador}} \times 100$) con unidades explícitas.
+   - Definir polaridad (mayor mejor / menor mejor), periodicidad y la Fuente Primaria del Dato (evento/transacción de origen).
+3. **Validar deterministamente:**
+   - Ejecutar el script `python scripts/validate_kpi.py <archivo.json>` para verificar automáticamente conformidad de regex SMART en español y consistencia matemática de fórmulas.
+
 ## Contrato de handoff entre skills
 
 Cuando una salida alimenta otra:
@@ -207,7 +264,7 @@ Cuando una salida alimenta otra:
 - enumerar supuestos y pendientes sin convertirlos en hechos downstream;
 - no regenerar el artefacto upstream salvo pedido explícito;
 - registrar cualquier contradicción antes de continuar con la parte afectada;
-- elegir una sola notación de diagrama, salvo necesidad expresa de interoperabilidad.
+- elegir una sola notación de diagrama, salvo necesidad expresa de interoperabilidad; con `diagramStudio` es posible emitir simultáneamente Mermaid (chat/Markdown) y `.drawio` (editable).
 
 ## Compuertas de calidad proporcionales
 
