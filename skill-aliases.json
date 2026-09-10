@@ -19,6 +19,7 @@
     "epcFlowGen": { "canonical_name": "epc-flow-gen", "skill_file": "epcFlowGen/SKILL.md" },
     "gofAdviser": { "canonical_name": "gof-adviser", "skill_file": "gofAdviser/SKILL.md" },
     "graspSequenceRealizer": { "canonical_name": "grasp-sequence-realizer", "skill_file": "graspSequenceRealizer/SKILL.md" },
+    "humanizer": { "canonical_name": "humanizer", "skill_file": "humanizer/SKILL.md" },
     "kpi-designer": { "canonical_name": "kpi-designer", "skill_file": "kpiDesigner/SKILL.md" },
     "kpiDesigner": { "canonical_name": "kpi-designer", "skill_file": "kpiDesigner/SKILL.md" },
     "mermaid-diagram-gen": { "canonical_name": "diagram-studio", "skill_file": "diagramStudio/SKILL.md" },

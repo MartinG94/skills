@@ -23,8 +23,10 @@ Estas habilidades están diseñadas para ser consumidas y ejecutadas por agentes
   - [5. Modelado Visual y Diagramación Universal](#5-modelado-visual-y-diagramación-universal)
   - [6. Experiencia de Usuario, UI y Diseño Generativo](#6-experiencia-de-usuario-ui-y-diseño-generativo)
   - [7. Productividad y Gestión del Conocimiento](#7-productividad-y-gestión-del-conocimiento)
-  - [8. Comunicación y Oratoria Profesional](#8-comunicación-y-oratoria-profesional)
+  - [8. Comunicación, Redacción y Oratoria Profesional](#8-comunicación-redacción-y-oratoria-profesional)
   - [9. Construcción de Backend y Pruebas](#9-construcción-de-backend-y-pruebas)
+  - [10. Gestión y Mejora de Procesos (GMP / Ciclo PDCA)](#10-gestión-y-mejora-de-procesos-gmp--ciclo-pdca)
+  - [11. Ingeniería de Carrera y Optimización Curricular](#11-ingeniería-de-carrera-y-optimización-curricular)
 - [Anatomía de una Skill](#-anatomía-de-una-skill)
 - [Compatibilidad de nombres y agentes](#-compatibilidad-de-nombres-y-agentes)
 - [Guía de Integración y Uso](#-guía-de-integración-y-uso)
@@ -97,9 +99,11 @@ flowchart TD
         PIP[processImprovementPlanner<br/><i>Orquestador PDCA E1-E4 & Gantt</i>]
     end
 
-    subgraph Soporte_Cognitivo["Gestión & Comunicación"]
+    subgraph Soporte_Cognitivo["Gestión, Comunicación & Carrera"]
         NLM[notebooklm / notebooklmSourceNaming<br/><i>MCP, Citas & Nomenclatura</i>]
         PNL[oratoriaPnl<br/><i>Oratoria con PNL & 5Q</i>]
+        HUM[humanizer<br/><i>Desintoxicación IA & Burstiness</i>]
+        CVO[cvOptimizer<br/><i>CV ATS en LaTeX & Google X-Y-Z</i>]
     end
 
     SC --> RE
@@ -139,6 +143,8 @@ flowchart TD
     GSR -.-> DS
     DMG -.-> DS
     DD -.-> DS
+    HUM -. pautas anti-IA & verbos .-> CVO
+    HUM -. cadencia & oratoria .-> PNL
 ```
 
 `epc-flow-gen` es un orquestador para un **Ejercicio Práctico Complementario** de ASI/DSI. Lee la consigna y deriva solo los ítems solicitados a las skills especialistas; no representa una etapa de interfaz ni obliga a recorrer las ramas ilustradas.
@@ -147,7 +153,7 @@ flowchart TD
 
 ## 📚 Catálogo de Skills
 
-El repositorio cuenta actualmente con **27 skills especializadas**, distribuidas en las siguientes áreas de competencia:
+El repositorio cuenta actualmente con **30 skills especializadas**, distribuidas en las siguientes áreas de competencia:
 
 Las skills migradas muestran en la etiqueta su `name` invocable en hyphen-case.
 Algunos paquetes y enlaces conservan nombres o carpetas históricas en camelCase para
@@ -220,11 +226,12 @@ no romper compatibilidad; ante cualquier diferencia, prevalece el frontmatter.
 
 ---
 
-### 8. Comunicación y Oratoria Profesional
+### 8. Comunicación, Redacción y Oratoria Profesional
 
 | Skill | Descripción | Estándares y Técnicas Clave | Artefactos |
 | :--- | :--- | :--- | :--- |
 | [**oratoriaPnl**](pnlOratoria/SKILL.md) | Estructuración y preparación de presentaciones orales de alto impacto basadas en Programación Neurolingüística y retórica persuasiva. | Análisis de audiencia 5Q, sistemas representacionales VAK (Visual, Auditivo, Kinestésico), metaprogramas, encuadres, calibración y feedback. | `references/` (01 a 05: el presentador PNL, diseño 5Q, audiencia, voz/cuerpo, feedback) |
+| [**humanizer**](humanizer/SKILL.md) | Desintoxicación y humanización de textos generados por IA; restauración de cadencia rítmica (*burstiness*), perplejidad y erradicación de clichés sintéticos. | 24 patrones de IA, matriz de intensidad (`light`, `medium`, `aggressive`), modos general/técnico/académico y detector automatizado. | Texto pulido con reporte diagnóstico, `scripts/` (detector, analizador, regresión) y catálogo de patrones. |
 
 ---
 
@@ -247,6 +254,14 @@ no romper compatibilidad; ante cualquier diferencia, prevalece el frontmatter.
 | [**bpmnExtractor**](bpmnExtractor/SKILL.md) | Extracción y modelado BPMN 2.0, validación SIPOC ↔ BPD y análisis diferencial cuantitativo. | BPMN-IR acíclico, modo `sipoc-sync` para coherencia de fronteras y modo `diff-as-is-to-be` para balance cuantitativo de mejora. | Ficha institucional, especificación BPD, matriz SIPOC-sync y reporte comparativo diff. |
 | [**kpiDesigner**](kpiDesigner/SKILL.md) | Diseño y auditoría universal de sistemas de medición, métricas y tableros en 4 dominios. | Sintaxis SMART obligatoria, consistencia dimensional matemática, data provenance y validación automatizada por script. | Fichas técnicas de KPIs (O1 vs O2, DORA, SRE, HEART, Balanced Scorecard) y catálogo validado. |
 | [**processImprovementPlanner**](processImprovementPlanner/SKILL.md) | Orquestador metodológico del ciclo PDCA de 4 etapas y generador de entregables finales sin Excel. | Compilación de informes maestros en Markdown, cronogramas Gantt visuales en Mermaid y matriz de trazabilidad E1->E4. | Informe Técnico Maestro (.md), diagrama de Gantt Mermaid y matriz integral de consistencia. |
+
+---
+
+### 11. Ingeniería de Carrera y Optimización Curricular
+
+| Skill | Descripción | Estándares y Técnicas Clave | Artefactos |
+| :--- | :--- | :--- | :--- |
+| [**cvOptimizer**](cvOptimizer/SKILL.md) | Elaboración, modernización y adaptación de CVs ATS de alto impacto en LaTeX con base de datos incremental y entrega multicanal. | Fórmula Google X-Y-Z canónica, memoria viva `profile_data.json`, topología lineal ATS (1-2 páginas holgadas), modularidad LaTeX (Awesome-CV, Jake's Resume, ModernCV) y render PNG con PyMuPDF. | PDF compilado (`<Apellido Nombre>CV_<Puesto>.pdf`), `preview.png`, `profile_data.json` enriquecido y cuadros de postulación copiables (RRHH, LinkedIn, pitch). |
 
 ---
 
@@ -339,6 +354,16 @@ un resultado satisfactorio.
   ```text
   <python-3> designUxUi/scripts/serve_preview.py --root path/to/frontend --port 0
   ```
+- **Detección de patrones de IA y métricas de burstiness (`humanizer`):**
+  ```text
+  <python-3> humanizer/scripts/ai_detector.py path/to/documento.txt --json
+  <python-3> humanizer/scripts/text_analyzer.py original.txt revisado.txt --compare
+  ```
+- **Compilación modular de CV en LaTeX y render PNG (`cvOptimizer`):**
+  ```text
+  <python-3> cvOptimizer/scripts/build_cv.py --project-dir cv_Analista_IT/ --candidate-name "Nombre Candidato" --target-role "Analista IT"
+  <python-3> cvOptimizer/scripts/update_profile.py --input-profile profile_data.json
+  ```
 
 Sustituí las rutas de ejemplo por artefactos existentes. El validador de diseño puede
 requerir que `npx` obtenga `@google/design.md`; el servidor exige un directorio que
@@ -361,6 +386,8 @@ Las directrices metodológicas implementadas en este repositorio se basan en lit
 - **Calidad de Software:** ISO/IEC 25010 / 25000 (SQuaRE - System and Software Quality Requirements and Evaluation).
 - **Diseño de Interfaz y Accesibilidad:** Jakob Nielsen (10 Heurísticas de Usabilidad), W3C WCAG 2.2 Nivel AA y sistemas de tokens cuando el producto los requiere.
 - **Comunicación Persuasiva:** Programación Neurolingüística (PNL) aplicada a oratoria técnica.
+- **Desintoxicación y Refinamiento de Salidas de IA:** Estilometría y lingüística computacional aplicada a modelos de lenguaje (cadencia rítmica, perplejidad, variación métrica / *burstiness*, riqueza léxica TTR), directivas de claridad técnica y manuales de estilo.
+- **Ingeniería Curricular y Evaluación de Talento:** Metodología Google X-Y-Z de impacto cuantificado (*Laszlo Bock - Work Rules!*), estándares de legibilidad y topologías de parseo para sistemas de seguimiento de candidatos (ATS Parsing Algorithms - Workday, Greenhouse, Taleo, Lever).
 
 ---
 
