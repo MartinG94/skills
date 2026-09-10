@@ -6,6 +6,8 @@
     "bpmn-extractor": { "canonical_name": "bpmn-extractor", "skill_file": "bpmnExtractor/SKILL.md" },
     "bpmnExtractor": { "canonical_name": "bpmn-extractor", "skill_file": "bpmnExtractor/SKILL.md" },
     "crudValidator": { "canonical_name": "crud-validator", "skill_file": "crudValidator/SKILL.md" },
+    "cv-optimizer": { "canonical_name": "cv-optimizer", "skill_file": "cvOptimizer/SKILL.md" },
+    "cvOptimizer": { "canonical_name": "cv-optimizer", "skill_file": "cvOptimizer/SKILL.md" },
     "design-md": { "canonical_name": "design-ux-ui", "skill_file": "designUxUi/SKILL.md" },
     "designUxUi": { "canonical_name": "design-ux-ui", "skill_file": "designUxUi/SKILL.md" },
     "diagram-studio": { "canonical_name": "diagram-studio", "skill_file": "diagramStudio/SKILL.md" },

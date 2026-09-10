@@ -1,0 +1,118 @@
+% =========================================================================
+% JAKE'S RESUME - MINIMALISTA FAANG (1 Columna Estricta ATS)
+% Plantilla alternativa para cvOptimizer
+% =========================================================================
+
+\documentclass[letterpaper,10.5pt]{article}
+
+\usepackage{latexsym}
+\usepackage[empty]{fullpage}
+\usepackage{titlesec}
+\usepackage{marvosym}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{verbatim}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyhdr}
+\usepackage[english,spanish]{babel}
+\usepackage{tabularx}
+
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% Ajuste de márgenes
+\addtolength{\oddsidemargin}{-0.5in}
+\addtolength{\evensidemargin}{-0.5in}
+\addtolength{\textwidth}{1in}
+\addtolength{\topmargin}{-.5in}
+\addtolength{\textheight}{1.0in}
+
+\urlstyle{same}
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+
+% Formato de secciones con línea horizontal fina
+\titleformat{\section}{
+  \vspace{-4pt}\scshape\raggedright\large\bfseries
+}{}{0em}{}[\color{black}\titlerule \vspace{-5pt}]
+
+\newcommand{\resumeItem}[1]{
+  \item\small{
+    {#1 \vspace{-2pt}}
+  }
+}
+
+\newcommand{\resumeSubheading}[4]{
+  \vspace{-2pt}\item
+    \begin{tabular*}{0.97\textwidth}[t]{l@{\extracolsep{\fill}}r}
+      \textbf{#1} & #2 \\
+      \textit{\small#3} & \textit{\small #4} \\
+    \end{tabular*}\vspace{-7pt}
+}
+
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0.15in, label={}]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+\newcommand{\resumeItemListStart}{\begin{itemize}[leftmargin=0.2in, label={\tiny$\bullet$}]}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-5pt}}
+
+\begin{document}
+
+% --- ENCABEZADO ---
+\begin{center}
+    \textbf{\Huge \scshape Diego Gabriel Sánchez} \\ \vspace{2pt}
+    \small +54 9 351 8057455 $|$ \href{mailto:diegogabriel.stm@gmail.com}{diegogabriel.stm@gmail.com} $|$ 
+    \href{https://linkedin.com/in/diegogabrielsanchez}{linkedin.com/in/diegogabrielsanchez} $|$
+    \href{https://github.com/DiegoSanch18}{github.com/DiegoSanch18} $|$ Córdoba, Argentina
+\end{center}
+
+% --- EDUCACIÓN ---
+\section{Educación}
+  \resumeSubHeadingListStart
+    \resumeSubheading
+      {Universidad Tecnológica Nacional (UTN-FRC)}{Córdoba, Argentina}
+      {Ingeniería en Sistemas de Información (Título Intermedio: Analista en Sistemas)}{2020 -- Actualidad}
+      \resumeItemListStart
+        \resumeItem{Cursando 5to año $\cdot$ Promedio académico: 7.80 $\cdot$ 79\% materias aprobadas (30/38).}
+      \resumeItemListEnd
+    \resumeSubheading
+      {Instituto Técnico Villada}{Córdoba, Argentina}
+      {Técnico Electrónico (Automatización y Control Industrial)}{2013 -- 2019}
+  \resumeSubHeadingListEnd
+
+% --- EXPERIENCIA ---
+\section{Experiencia Laboral}
+  \resumeSubHeadingListStart
+    \resumeSubheading
+      {Analista Programador}{11/2023 -- Actualidad}
+      {UEPC (Unión de Educadores de la Provincia de Córdoba)}{Córdoba, Argentina}
+      \resumeItemListStart
+        \resumeItem{Desarrolló módulos de software y reportes institucionales utilizando VB/.NET y Frontend en HTML/JS, optimizando procedimientos en Oracle SQL para acelerar tiempos de respuesta.}
+        \resumeItem{Integró servicios y APIs REST asegurando consistencia transaccional y disponibilidad continua para los socios de la entidad.}
+        \resumeItem{Gestionó relevamiento de requerimientos con áreas de negocio y soporte de segundo nivel.}
+      \resumeItemListEnd
+
+    \resumeSubheading
+      {Gestión y Liderazgo Institucional}{2024 -- Actualidad}
+      {AVEIT (Asociación Vocacional de Estudiantes e Ingenieros Tecnológicos)}{Córdoba, Argentina}
+      \resumeItemListStart
+        \resumeItem{Secretario General (2025) y Líder Social/Ambiental (2026), coordinando asambleas y convenios.}
+        \resumeItem{Planificó iniciativas solidarias aplicando tableros Trello y diagramas de Gantt.}
+        \resumeItem{Implementó metodologías de gestión de proyectos, análisis VAN/TIR y control EVM.}
+      \resumeItemListEnd
+  \resumeSubHeadingListEnd
+
+% --- HABILIDADES TÉCNICAS ---
+\section{Habilidades Técnicas}
+ \begin{itemize}[leftmargin=0.15in, label={}]
+    \small{\item{
+     \textbf{Lenguajes y Backend}{: VB, .NET, C\#, Python, SQL (Oracle SQL, Stored Procedures), HTML5, JavaScript} \\
+     \textbf{Infraestructura y Redes}{: Soporte L1/L2, Redes TCP/IP, Cableado estructurado, Conectividad, Hardware} \\
+     \textbf{Herramientas y Gestión}{: Git, GitHub, Trello, Diagramas de Gantt, Microsoft 365, Google Workspace} \\
+     \textbf{Certificaciones Clave}{: Gestión Integral de Proyectos (RefiTraining), Oratoria con PNL (Accresio)}
+    }}
+ \end{itemize}
+
+\end{document}

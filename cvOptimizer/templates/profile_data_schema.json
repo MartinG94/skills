@@ -1,0 +1,143 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "UserProfileData",
+  "description": "Base de datos persistente e incremental del perfil profesional para cvOptimizer",
+  "type": "object",
+  "required": ["personal", "experience", "education", "skills"],
+  "properties": {
+    "personal": {
+      "type": "object",
+      "required": ["fullName", "email", "phone", "location"],
+      "properties": {
+        "fullName": { "type": "string" },
+        "title": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "phone": { "type": "string" },
+        "location": { "type": "string" },
+        "linkedin": { "type": "string" },
+        "github": { "type": "string" },
+        "portfolio": { "type": "string" },
+        "photoPath": { "type": "string" }
+      }
+    },
+    "summary": { "type": "string" },
+    "experience": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["company", "role", "period", "highlights"],
+        "properties": {
+          "company": { "type": "string" },
+          "role": { "type": "string" },
+          "period": { "type": "string" },
+          "location": { "type": "string" },
+          "highlights": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "metrics": {
+            "type": "object",
+            "additionalProperties": { "type": "string" }
+          }
+        }
+      }
+    },
+    "education": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["degree", "institution", "period"],
+        "properties": {
+          "degree": { "type": "string" },
+          "institution": { "type": "string" },
+          "period": { "type": "string" },
+          "details": { "type": "string" },
+          "gpa": { "type": "string" },
+          "status": { "type": "string" }
+        }
+      }
+    },
+    "skills": {
+      "type": "object",
+      "properties": {
+        "hard": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "soft": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "tools": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "languages": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["language", "level"],
+            "properties": {
+              "language": { "type": "string" },
+              "level": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    "certifications": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "issuer"],
+        "properties": {
+          "name": { "type": "string" },
+          "issuer": { "type": "string" },
+          "year": { "type": "string" },
+          "url": { "type": "string" },
+          "description": { "type": "string" }
+        }
+      }
+    },
+    "activities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["role", "organization"],
+        "properties": {
+          "role": { "type": "string" },
+          "organization": { "type": "string" },
+          "period": { "type": "string" },
+          "description": { "type": "string" }
+        }
+      }
+    },
+    "projects": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "description"],
+        "properties": {
+          "name": { "type": "string" },
+          "description": { "type": "string" },
+          "technologies": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "link": { "type": "string" }
+        }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "lastUpdated": { "type": "string" },
+        "interviewCount": { "type": "integer" },
+        "targetRoles": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    }
+  }
+}

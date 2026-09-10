@@ -1,0 +1,120 @@
+\ProvidesPackage{config}[2026/09/09 v3.0 Awesome-CV Executive Package for cvOptimizer]
+
+% --- Codificación y Tipografía Awesome-CV (Roboto) ---
+\RequirePackage[utf8]{inputenc}
+\RequirePackage[T1]{fontenc}
+\RequirePackage[sfdefault]{roboto}
+\RequirePackage{microtype}
+\RequirePackage{etoolbox}
+
+% Interlineado balanceado para 1 página estricta sin espacios muertos
+\linespread{1.06}
+
+% --- Geometría de Página (1 Página A4 Balanceada) ---
+\RequirePackage[
+    a4paper,
+    left=1.1cm,
+    right=1.1cm,
+    top=0.75cm,
+    bottom=0.75cm,
+    footskip=0cm,
+    headheight=0pt,
+    headsep=0pt
+]{geometry}
+\pagestyle{empty}
+
+% --- Paleta Corporativa Awesome-CV ---
+\RequirePackage{xcolor}
+\definecolor{primary}{RGB}{10, 37, 64}        % Midnight Navy (Encabezados y Nombres)
+\definecolor{secondary}{RGB}{74, 85, 104}     % Slate Gray (Subtítulos y Metadatos)
+\definecolor{textcol}{RGB}{30, 38, 48}        % Charcoal Profundo (Cuerpo de texto legible)
+\definecolor{accent}{RGB}{29, 78, 216}        % Vivid Sapphire Blue (Acento de Marca y Barras)
+\definecolor{rulecolor}{RGB}{219, 228, 238}   % Línea divisoria suave
+\definecolor{highlight}{RGB}{220, 38, 38}     % Marcador de métricas [X%]
+
+% --- Gráficos y Fotografía ---
+\RequirePackage{graphicx}
+\RequirePackage{tikz}
+
+\newif\ifshowphoto
+\showphototrue % Switch de foto activo por defecto (cambiar a \showphotofalse para 100% texto ATS internacional)
+
+\newcommand{\renderphoto}[2][2.1cm]{%
+    \ifshowphoto
+        \begin{tikzpicture}
+            \clip (0,0) circle (#1/2);
+            \node at (0,0) {\includegraphics[width=#1]{#2}};
+            \draw[accent, line width=1.5pt] (0,0) circle (#1/2);
+        \end{tikzpicture}%
+    \fi
+}
+
+% --- Hipervínculos e Iconos ---
+\RequirePackage{fontawesome5}
+\RequirePackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=accent,
+    urlcolor=accent,
+    citecolor=accent,
+    pdfauthor={Diego Gabriel Sanchez},
+    pdftitle={Curriculum Vitae},
+    pdfsubject={Curriculum Vitae Optimizado para ATS}
+}
+
+% --- Encabezados de Sección Estilo Awesome-CV ---
+\newcommand{\cvsection}[1]{%
+    \vspace{6pt}%
+    \noindent{\color{accent}\rule{3.5pt}{10pt}}\hspace{5pt}%
+    {\color{primary}\large\bfseries\MakeUppercase{#1}}\hspace{6pt}%
+    {\color{rulecolor}\leaders\hrule height 1pt\hfill}\par%
+    \vspace{3pt}%
+}
+
+% --- Subsecciones internas (ej. Capacitaciones dentro de Educación) ---
+\newcommand{\cvsubsection}[1]{%
+    \vspace{5pt}%
+    \noindent{\bfseries\color{primary}\normalsize #1}\par\vspace{2pt}%
+}
+
+% --- Entornos de Listas con Viñeta Estilizada ATS-safe ---
+\RequirePackage{enumitem}
+\newenvironment{cvitems}{
+    \begin{itemize}[
+        leftmargin=1.15em,
+        labelsep=0.45em,
+        topsep=0.5pt,
+        partopsep=0pt,
+        itemsep=1.2pt,
+        parsep=0pt,
+        label={\color{accent}\footnotesize\faCaretRight}
+    ]
+}{
+    \end{itemize}
+}
+
+% --- Entradas de Experiencia ---
+% #1: Puesto/Rol, #2: Empresa/Organización, #3: Período, #4: Ubicación
+\newcommand{\cvexperience}[4]{%
+    \noindent{\bfseries\color{primary}#1} \hfill {\small\color{secondary}\textbf{#3}}\\%
+    \textit{\color{secondary}#2}\ifstrempty{#4}{}{ \hfill {\small\color{secondary}\textit{#4}}}\par\vspace{1pt}%
+}
+
+% --- Entradas de Educación ---
+% #1: Título, #2: Institución, #3: Período, #4: Detalle
+\newcommand{\cveducation}[4]{%
+    \noindent{\bfseries\color{primary}#1} \hfill {\small\color{secondary}\textbf{#3}}\\%
+    \textit{\color{secondary}#2}%
+    \ifstrempty{#4}{}{\par\vspace{0.8pt}\noindent{\small\color{textcol}#4}}\par\vspace{1.5pt}%
+}
+
+% --- Categorías de Habilidades ---
+\newcommand{\cvskillcategory}[2]{%
+    \noindent\textbf{\color{primary}#1:} {\small\color{textcol}#2}\par\vspace{1.5pt}%
+}
+
+% Marcador de métricas
+\newcommand{\metric}[1]{\textbf{\color{highlight}#1}}
+
+\setlength{\parindent}{0pt}
+\color{textcol}

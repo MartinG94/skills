@@ -1,0 +1,69 @@
+{
+  "$schema": "./profile_data_schema.json",
+  "personal": {
+    "fullName": "Nombre y Apellido",
+    "title": "Título Profesional | Especialidad Principal",
+    "email": "correo@ejemplo.com",
+    "phone": "+54 9 11 00000000",
+    "location": "Ciudad, País",
+    "linkedin": "linkedin.com/in/usuario",
+    "github": "github.com/usuario",
+    "portfolio": "",
+    "photoPath": "assets/profile.jpg"
+  },
+  "summary": "Perfil profesional sintético de 2-3 líneas enfocado en valor demostrable, especialidad y metodologías de trabajo.",
+  "experience": [
+    {
+      "company": "Empresa / Organización",
+      "role": "Puesto Desempeñado",
+      "period": "01/2023 - Presente",
+      "location": "Ciudad, País",
+      "highlights": [
+        "Logró [X: impacto de negocio/técnico], medido por [Y: % o métrica], mediante [Z: acción o tecnología]."
+      ],
+      "metrics": {
+        "eficiencia": "0%"
+      }
+    }
+  ],
+  "education": [
+    {
+      "degree": "Carrera o Título Universitario / Terciario",
+      "institution": "Universidad o Instituto",
+      "period": "2020 - Actualidad",
+      "details": "Detalle relevante (promedio, avance, menciones)",
+      "status": "En curso / Graduado"
+    }
+  ],
+  "skills": {
+    "hard": ["Tecnología 1", "Tecnología 2", "Base de datos"],
+    "soft": ["Liderazgo", "Negociación", "Comunicación"],
+    "tools": ["Git", "Jira/Trello", "Docker"],
+    "languages": [
+      { "language": "Español", "level": "Nativo" },
+      { "language": "Inglés", "level": "Intermedio B2" }
+    ]
+  },
+  "certifications": [
+    {
+      "name": "Nombre de Certificación o Curso",
+      "issuer": "Institución Emisora",
+      "year": "2024",
+      "description": "Alcance y horas del curso"
+    }
+  ],
+  "activities": [
+    {
+      "role": "Rol de Liderazgo o Voluntariado",
+      "organization": "Organización",
+      "period": "2023 - 2024",
+      "description": "Impacto y responsabilidades asumidas"
+    }
+  ],
+  "projects": [],
+  "metadata": {
+    "lastUpdated": "2026-09-09",
+    "interviewCount": 1,
+    "targetRoles": ["Rol Inicial"]
+  }
+}
