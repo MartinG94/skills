@@ -42,3 +42,6 @@ Un indicador infalible de IA es la uniformidad métrica: todas las viñetas tien
    - En lugar de decir *"mejoró el rendimiento"*, indicar la tecnología y el proceso: *"optimizó los índices y procedimientos almacenados en Oracle SQL"*.
 3. **Equilibrio entre Humildad y Firmeza:**
    - Enaltecer las habilidades reales ("darle color") implica resaltar el impacto real en el negocio y la responsabilidad asumida, sin adjudicarse tareas ajenas ni inventar logros ficticios.
+4. **Estilo Sintáctico Nominalizado (Sustantivos de Acción en Español):**
+   - *Evitar la monotonía de tercera persona en pasado:* *"Relevó requisitos...", "Coordinó el equipo...", "Lideró el proyecto..."* (genera sensación de informe biográfico ajeno y repetitivo).
+   - *Usar estilo nominal de acción:* *"Relevamiento y análisis de requerimientos...", "Coordinación del equipo y planificación...", "Dirección y gestión de proyectos..."*. Pone la función, la competencia y el alcance en primer plano con máxima sobriedad ejecutiva.

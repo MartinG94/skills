@@ -26,11 +26,12 @@ metadata: {"author":"Diego Sanchez / Antigravity","version":"1.0.0","category":"
    Toda información profesional del usuario (experiencias, logros, métricas, certificaciones, tecnologías) se consolida y persiste en el archivo `profile_data.json` en la raíz del espacio de trabajo. En cada postulación o entrevista, este archivo se enriquece de forma acumulativa y nunca pierde datos previos.
 2. **Anti-Alucinación Estricta:**
    Está terminantemente prohibido inventar métricas, roles, tecnologías o porcentajes de impacto. Se permite enaltecer ("darle color") y jerarquizar habilidades reales demostrables, pero si falta un número o dato cuantitativo, se debe interrogar al usuario o insertar el marcador explícito `\metric{[X%]}` para su posterior validación humana.
-3. **Fórmula Google X-Y-Z Canónica:**
-   Cada viñeta de experiencia laboral debe formularse bajo la estructura:
-   $$\text{“Logró [X: resultado/impacto], medido por [Y: métrica/volumen], mediante [Z: acción técnica/herramienta]”}$$
+3. **Fórmula Google X-Y-Z y Estilo Nominalizado:**
+   Cada viñeta de experiencia laboral debe formularse bajo la estructura de impacto medible. En español, se adopta preferentemente el **estilo sustantivado de acción** en lugar de verbos conjugados en pretérito:
+   $$\text{“[Sustantivo de acción + Objeto/Alcance X], medido por [Y: métrica/volumen], mediante [Z: acción técnica/herramienta]”}$$
+   *(Ejemplos: Relevamiento, análisis y formalización de...; Coordinación del ciclo de vida...; Diseño de modelos de datos...; Dirección administrativa y planificación... En inglés se mantiene la voz verbal activa en pasado: Led, Designed, Coordinated).*
 4. **Desintoxicación de IA (`humanizer`):**
-   Erradicar clichés sintéticos de LLMs (*spearheaded*, *pivotal*, *delve*, *vibrant*, *seamlessly*). Utilizar verbos de acción empíricos (*Desarrolló, Optimizó, Redujo, Coordinó, Diseñó*), variar la longitud de oraciones (*burstiness*) y mantener voz activa directa.
+   Erradicar clichés sintéticos de LLMs (*spearheaded*, *pivotal*, *delve*, *vibrant*, *seamlessly*). Utilizar construcciones empíricas precisas (*Relevamiento, Optimización, Reducción, Coordinación, Diseño*), variar la longitud de oraciones (*burstiness*) y mantener tono profesional sin andamiaje abstracto.
 5. **Topología ATS y Paginación Balanceada (1 a 2 Páginas):**
    El cuerpo del CV debe mantener un orden de lectura lineal de una sola columna sin tablas complejas ni columnas paralelas. La extensión no debe forzarse artificialmente a una sola página si eso compromete la holgura visual o genera un aspecto apretado; se prioriza la prolijidad, legibilidad ejecutiva, interlineado cómodo y distribución balanceada (1 página para perfiles iniciales compactos, o 2 páginas bien distribuidas sin encabezados huérfanos para perfiles con experiencia técnica, liderazgo y formación continua).
 6. **Entrega Multicanal en Cuadros de Texto Copiables:**
