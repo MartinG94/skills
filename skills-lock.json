@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "skills": {
+    "human-writing": {
+      "source": "factory-ai/factory-plugins",
+      "sourceType": "github",
+      "skillPath": "plugins/droid-evolved/skills/human-writing/SKILL.md",
+      "computedHash": "d372429eaff4bfa891d89e9b2cecd1edde6147c6b4a143d5a039fbfac0605968"
+    },
+    "humanize": {
+      "source": "humanizerai/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/humanize/SKILL.md",
+      "computedHash": "61115d7795d7395076998ebc78c5636802aff22c5895e4b6b099eaaee53c1245"
+    },
+    "humanize-academic-writing": {
+      "source": "momo2young/humanize-academic-writing",
+      "sourceType": "github",
+      "skillPath": "SKILL.md",
+      "computedHash": "60d66b9f157175db9672952cd6d47df6b6a6c77379daa64496a2cc1b6821f18b"
+    },
+    "humanizer": {
+      "source": "zed-industries/zed",
+      "sourceType": "github",
+      "skillPath": ".factory/skills/humanizer/SKILL.md",
+      "computedHash": "fc8bb136102bf9e1e9730530094f606d55241049b6e8cc26fedfb8b366428a7d"
+    },
+    "technical-writing": {
+      "source": "vercel/eve",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/technical-writing/SKILL.md",
+      "computedHash": "2f09117fc48e8710838c41f8f496f69f63b43e6e8b4475494cab90e87a0adee5"
+    }
+  }
+}
