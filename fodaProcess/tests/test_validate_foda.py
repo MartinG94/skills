@@ -1,0 +1,13 @@
+import importlib.util
+import os
+import unittest
+
+script_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "scripts", "test_validate_foda.py"))
+spec = importlib.util.spec_from_file_location("foda_script_tests", script_path)
+mod = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(mod)
+
+TestFodaValidator = mod.TestFodaValidator
+
+if __name__ == "__main__":
+    unittest.main()
