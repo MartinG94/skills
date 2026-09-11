@@ -1,0 +1,121 @@
+{
+  "process_name": "Despacho y Distribución Farmacéutica con Cadena de Frío",
+  "process_owner": "Gerencia de Logística y Calidad Farmacéutica",
+  "client_principal": "Farmacias Hospitalarias y Centros de Salud",
+  "process_objective": "Asegurar la entrega íntegra, oportuna y térmicamente conforme de medicamentos termolábiles desde la recepción en depósito hasta su dispensación en destino.",
+  "process_scope": "Abarca desde el arribo del lote con transporte refrigerado hasta la confirmación de entrega en las farmacias de la región centro.",
+  "start_boundary": "Recepción y validación de orden de pedido autorizada por droguería con crédito activo",
+  "end_boundary": "Entrega de medicamentos conformes con remito digital firmado y telemetría térmica auditada en destino",
+  "regulatory_framework": {
+    "external": "Disposición ANMAT N° 2069/18 sobre Buenas Prácticas de Distribución de Medicamentos, Normas IRAM-ISO 9001:2015",
+    "internal": "Manual de Procedimientos de Cadena de Frío (PO-LOG-04), Política de Liberación de Lotes y Trazabilidad Farmacéutica"
+  },
+  "value_created": "Garantizar la estabilidad farmacológica y eficacia terapéutica de medicamentos críticos, eliminando el riesgo de rotura de cadena de frío y brindando trazabilidad en tiempo real para la seguridad del paciente.",
+  "suppliers": [
+    {
+      "id": "S1",
+      "name": "Laboratorios Fabricantes",
+      "type": "externo"
+    },
+    {
+      "id": "S2",
+      "name": "Clientes Solicitantes (Farmacias)",
+      "type": "externo"
+    },
+    {
+      "id": "S3",
+      "name": "Proceso de Gestión de TI e Infraestructura (ERP SAP)",
+      "type": "proceso_mapa"
+    },
+    {
+      "id": "S4",
+      "name": "Operadores Logísticos de Transporte Refrigerado",
+      "type": "externo"
+    }
+  ],
+  "inputs": [
+    {
+      "id": "I1",
+      "name": "Lote de Medicamentos Termolábiles",
+      "supplier": "Laboratorios Fabricantes",
+      "requirement": "Certificado de liberación de lote conforme, temperatura previa verificada entre 2°C y 8°C, embalaje primario inviolable"
+    },
+    {
+      "id": "I2",
+      "name": "Orden de Pedido Farmacéutica",
+      "supplier": "Clientes Solicitantes (Farmacias)",
+      "requirement": "Autorización médica/droguería, CUIT habilitado por ANMAT, detalle de ítems y dirección validada"
+    },
+    {
+      "id": "I3",
+      "name": "Plan de Carga y Ruteo Vehicular",
+      "supplier": "Proceso de Gestión de TI e Infraestructura (ERP SAP)",
+      "requirement": "Secuencia optimizada de entregas, asignación de vehículo con sensor IoT calibrado, ventana horaria de recepción"
+    },
+    {
+      "id": "I4",
+      "name": "Contenedores Isotérmicos y Data Loggers",
+      "supplier": "Operadores Logísticos de Transporte Refrigerado",
+      "requirement": "Aislación térmica certificada (72h retención térmica), registradores de temperatura con calibración vigente < 6 meses"
+    }
+  ],
+  "process_steps": [
+    {
+      "id": "P1",
+      "name": "Recepcionar e Inspeccionar Lote Termolábil"
+    },
+    {
+      "id": "P2",
+      "name": "Almacenar en Cámara de Frío Controlada"
+    },
+    {
+      "id": "P3",
+      "name": "Preparar y Embalar Pedidos con Sensores IoT"
+    },
+    {
+      "id": "P4",
+      "name": "Consolidar Carga y Despachar a Transporte Refrigerado"
+    },
+    {
+      "id": "P5",
+      "name": "Monitorear Telemetría y Entregar en Destino"
+    }
+  ],
+  "outputs": [
+    {
+      "id": "O1",
+      "name": "Medicamentos Conformes Entregados en Destino",
+      "customer": "Farmacias Hospitalarias y Centros de Salud",
+      "requirement": "Rango térmico continuo entre 2°C y 8°C sin desvíos > 30 min, entrega en ventana pactada (< 24h)"
+    },
+    {
+      "id": "O2",
+      "name": "Remito Digital de Entrega Firmado",
+      "customer": "Proceso de Gestión Financiera y Facturación",
+      "requirement": "Firma digital o biométrica del farmacéutico responsable, geolocalización de entrega y timestamp certificado"
+    },
+    {
+      "id": "O3",
+      "name": "Registro de Trazabilidad y Curva Térmica ANMAT",
+      "customer": "Dirección Técnica de Calidad y Ente Regulador",
+      "requirement": "Log continuo de telemetría IoT exportado en PDF inmutable con hash SHA-256 de integridad"
+    }
+  ],
+  "customers": [
+    {
+      "id": "C1",
+      "name": "Farmacias Hospitalarias y Centros de Salud",
+      "type": "cliente_principal"
+    },
+    {
+      "id": "C2",
+      "name": "Proceso de Gestión Financiera y Facturación",
+      "type": "proceso_mapa"
+    },
+    {
+      "id": "C3",
+      "name": "Dirección Técnica de Calidad y Ente Regulador (ANMAT)",
+      "type": "externo_regulador"
+    }
+  ]
+}
