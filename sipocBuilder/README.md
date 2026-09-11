@@ -87,7 +87,7 @@ python -m unittest sipocBuilder/scripts/test_validate_sipoc.py
 ### Entradas (Inputs)
 - Narrativas de proceso, minutas de relevamiento o entrevistas operativas.
 - Mapa de Procesos de la Organización (`SLI_U1_C03` / `diagramStudio`).
-- Proceso Crítico seleccionado en Etapa 1 (`processWorkbench` / `processCriticalSelector`).
+- Proceso Crítico seleccionado en Etapa 1 (`processWorkbench` / `processMap`).
 
 ### Salidas (Outputs)
 - **Artefacto Canónico Primario:** `sipoc.md` (guardado obligatoriamente en el directorio de trabajo actual).

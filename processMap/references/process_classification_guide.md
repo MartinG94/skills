@@ -11,7 +11,7 @@ Un **Mapa de Procesos** es la representación gráfica y estructural que muestra
 2. **Visualizar las relaciones sistémicas:** Mapear cómo interactúan los flujos de información, control y recursos entre procesos.
 3. **Comprender el flujo de valor de punta a punta:** Seguir el recorrido desde las necesidades y requisitos del cliente (a la izquierda) hasta su satisfacción y valor entregado (a la derecha).
 4. **Alinear procesos con la estrategia:** Traducir los objetivos institucionales en operaciones tangibles y controlables.
-5. **Identificar y priorizar el proceso crítico:** Servir de base analítica para la matriz multicriterio de selección (`processCriticalSelector`).
+5. **Identificar y priorizar el proceso crítico:** Servir de base analítica para la matriz multicriterio de selección ponderada incorporada en `processMap`.
 
 ---
 
