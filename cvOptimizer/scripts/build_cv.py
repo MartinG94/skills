@@ -86,23 +86,27 @@ def compile_latex(project_dir: Path, engine: str, compiler_path: str):
 
     print(f"[INFO] Compilando con {engine} ({compiler_path})...")
 
+    import tempfile
+    out_dir = Path(tempfile.mkdtemp(prefix="cv_build_"))
+
     if engine == "tectonic":
-        cmd = [compiler_path, str(main_tex)]
+        cmd = [compiler_path, "-o", str(out_dir), str(main_tex)]
         res = subprocess.run(cmd, cwd=str(project_dir), capture_output=True, text=True)
         if res.returncode != 0:
             print("[ERROR] Falló la compilación con Tectonic:")
             print(res.stderr or res.stdout)
-            return False
+            return False, None
+        return True, out_dir / "main.pdf"
     elif engine == "pdflatex":
-        # Ejecutar pdflatex dos veces para resolver hipervínculos y referencias cruzadas
         for i in range(2):
-            cmd = [compiler_path, "-interaction=nonstopmode", "main.tex"]
+            cmd = [compiler_path, f"-output-directory={out_dir}", "-interaction=nonstopmode", "main.tex"]
             res = subprocess.run(cmd, cwd=str(project_dir), capture_output=True, text=True)
             if res.returncode != 0:
                 print(f"[ERROR] Falló la pasada {i+1} de pdflatex:")
                 print(res.stdout[-1500:])
-                return False
-    return True
+                return False, None
+        return True, out_dir / "main.pdf"
+    return False, None
 
 def main():
     parser = argparse.ArgumentParser(description="Compilador y exportador de CV para cvOptimizer")
@@ -128,15 +132,15 @@ def main():
         print("[TIP] Puedes instalar Tectonic con: winget install Tectonic.Tectonic o cargo install tectonic")
         sys.exit(1)
 
-    success = compile_latex(project_dir, engine, compiler_path)
-    if not success:
+    success, compiled_pdf = compile_latex(project_dir, engine, compiler_path)
+    if not success or not compiled_pdf or not compiled_pdf.exists():
         sys.exit(1)
 
-    # Identificar el PDF generado en el directorio del proyecto
-    compiled_pdf = project_dir / "main.pdf"
-    if not compiled_pdf.exists():
-        print(f"[ERROR] No se encontró main.pdf generado en {project_dir}")
-        sys.exit(1)
+    # Intento de actualizar main.pdf en la carpeta del proyecto (ignora si está bloqueado por visor)
+    try:
+        shutil.copy2(compiled_pdf, project_dir / "main.pdf")
+    except PermissionError:
+        print("[WARN] main.pdf está abierto en un visor externo; se omite sobreescritura local.")
 
     # Construir nombre estandarizado: <Apellido Nombre>CV_<Puesto>.pdf
     # Sanitizar nombres para archivos válidos

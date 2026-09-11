@@ -2,7 +2,7 @@
 
 Popularizada por **Laszlo Bock** (ex-SVP de People Operations en Google), la fórmula Google X-Y-Z es el estándar de oro en la industria tecnológica para demostrar impacto concreto y medible en lugar de simples descripciones pasivas de tareas:
 
-$$\text{“Logró [X], medido por [Y], mediante [Z]”}$$
+$$\text{“Logró [X], medido por [Y], mediante [Z]” \quad \longrightarrow \quad \text{En ES preferente: “[Sustantivo de acción + Alcance X], [Métrica Y], mediante [Z]”}}$$
 $$\text{“Accomplished [X], as measured by [Y], by doing [Z]”}$$
 
 ---
@@ -27,19 +27,24 @@ $$\text{“Accomplished [X], as measured by [Y], by doing [Z]”}$$
 
 ---
 
-## 3. Banco de Verbos de Acción Fuerte (Español e Inglés)
-
-### Desarrollo y Arquitectura Técnica
-- **ES:** *Desarrolló, Diseñó, Implementó, Arquitecturó, Automatizó, Refactorizó, Desplegó, Integró, Migró, Depuró.*
-- **EN:** *Developed, Engineered, Architected, Automated, Refactored, Deployed, Integrated, Migrated, Debugged.*
-
-### Optimización y Métricas
-- **ES:** *Optimizó, Redujo, Minimizó, Maximizó, Duplicó, Estandarizó, Consolidó, Aceleró.*
-- **EN:** *Optimized, Reduced, Minimized, Maximized, Doubled, Standardized, Consolidated, Accelerated.*
-
-### Liderazgo, Gestión y Gobernanza
-- **ES:** *Lideró, Coordinó, Condujo, Articuló, Negoció, Planificó, Presupuestó, Capacitó.*
-- **EN:** *Led, Coordinated, Directed, Articulated, Negotiated, Planned, Budgeted, Mentored.*
+## 3. Banco de Sustantivos y Verbos de Acción
+ 
+ En español se prioriza el **estilo sustantivado de acción** para otorgar neutralidad, concisión y formalidad ejecutiva. En inglés se mantiene la convención de verbos en pasado simple activo (*Past Simple*).
+ 
+ ### Comparativa de Redacción (Verbal vs. Nominal en Español):
+ | Área Funcional | Verbo en Pretérito (Estilo Anterior) | Sustantivo de Acción (Estilo Preferente) |
+ |---|---|---|
+ | **Requerimientos y Procesos** | *Relevó, analizó y formalizó...* | **Relevamiento, análisis y formalización de...** |
+ | **Ingeniería y Arquitectura** | *Diseñó, arquitecturó y modeló...* | **Diseño de arquitectura, modelado y especificación de...** |
+ | **Desarrollo y Software** | *Desarrolló, implementó y desplegó...* | **Desarrollo, implementación y despliegue de...** |
+ | **Optimización y Datos** | *Optimizó, redujo y aceleró...* | **Optimización de consultas y reducción de tiempos de...** |
+ | **Coordinación y Proyectos** | *Coordinó, planificó y controló...* | **Coordinación, planificación y control de...** |
+ | **Liderazgo y Gobernanza** | *Dirigió, administró y lideró...* | **Dirección administrativa, liderazgo y gestión de...** |
+ | **Calidad y Soporte** | *Supervisó, testeó y verificó...* | **Supervisión técnica, control de calidad y testeo de...** |
+ 
+ ### Banco de Términos por Idioma:
+ - **Español (Sustantivos de Acción):** *Relevamiento, Análisis, Diseño, Arquitectura, Desarrollo, Implementación, Automatización, Optimización, Reducción, Coordinación, Dirección, Planificación, Gestión, Integración, Supervisión.*
+ - **English (Action Verbs):** *Led, Coordinated, Engineered, Architected, Designed, Developed, Automated, Optimized, Reduced, Accelerated, Integrated, Deployed, Standardized.*
 
 ---
 
