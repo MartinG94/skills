@@ -10,14 +10,14 @@ import unittest
 from pathlib import Path
 
 SKILL_ROOT = Path(__file__).resolve().parent.parent
-VALIDATOR_SCRIPT = SKILL_ROOT / "scripts" / "validate_virtual_value_chain.py"
+VALIDATOR_SCRIPT = SKILL_ROOT / "scripts" / "validate_organization_analysis.py"
 EXAMPLE_FILE = SKILL_ROOT / "examples" / "bio_trace_cadena_virtual.md"
 
 sys.path.insert(0, str(SKILL_ROOT / "scripts"))
-from validate_virtual_value_chain import validate_content
+from validate_organization_analysis import validate_content
 
 
-class TestValidateVirtualValueChain(unittest.TestCase):
+class TestValidateOrganizationAnalysis(unittest.TestCase):
     def setUp(self):
         self.assertTrue(EXAMPLE_FILE.exists(), f"El archivo de ejemplo {EXAMPLE_FILE} debe existir.")
         self.example_content = EXAMPLE_FILE.read_text(encoding="utf-8")

@@ -142,7 +142,7 @@ python -m unittest tests/test_validate_selection.py
 ```
 [Etapa 1: Situación Actual]
        │
-       ├── virtualValueChain        ──> cadena_valor_virtual.md
+       ├── organizationAnalysis     ──> cadena_valor_virtual.md
        └── processCriticalSelector ──> seleccion_proceso.md
                                               │
        ┌──────────────────────────────────────┴──────────────────────────────────────┐

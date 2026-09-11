@@ -1,5 +1,5 @@
 ---
-name: came-strategizer
+name: cameStrategizer
 description: >-
   Construye, audita y valida la Matriz CAME (Corregir, Afrontar, Mantener, Explotar) en la Etapa 3
   de Gestión y Mejora de Procesos (GMP). Formula cruces estratégicos explícitos en sus cuatro cuadrantes

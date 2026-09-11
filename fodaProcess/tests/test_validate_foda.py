@@ -1,14 +1,13 @@
-#!/usr/bin/env python3
-"""Punto de entrada de pruebas unitarias para fodaProcess en carpeta tests/."""
-
+import importlib.util
 import os
-import sys
 import unittest
 
-# Asegurar importación determinista
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "scripts")))
+script_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "scripts", "test_validate_foda.py"))
+spec = importlib.util.spec_from_file_location("foda_script_tests", script_path)
+mod = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(mod)
 
-from test_validate_foda import TestFodaValidator
+TestFodaValidator = mod.TestFodaValidator
 
 if __name__ == "__main__":
     unittest.main()

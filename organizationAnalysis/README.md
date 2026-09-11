@@ -1,19 +1,19 @@
-# virtualValueChain
+# organizationAnalysis
 
-Skill atómica especialista para el modelado, diagnóstico, diseño y validación de la **Cadena de Valor Virtual** (Rayport & Sviokla, 1995; apunte de cátedra oficial `APU_U1_Cadena_de_Valor_Virtual.pdf` e Ing. Gabriela Bratti) en la **Etapa 1 de Gestión y Mejora de Procesos (GMP)**.
+Skill atómica especialista para el encuadre institucional, definición organizacional y el modelado, diagnóstico, diseño y validación de la **Cadena de Valor Virtual** (Rayport & Sviokla, 1995; apunte de cátedra oficial `APU_U1_Cadena_de_Valor_Virtual.pdf` e Ing. Gabriela Bratti) en la **Etapa 1 de Gestión y Mejora de Procesos (GMP)**.
 
 ---
 
 ## 1. Propósito General
 
-`virtualValueChain` proporciona un marco operativo y analítico para diagnosticar cómo los datos operativos generados a lo largo de las actividades físicas de una organización pueden transformarse en una fuente independiente de valor digital, desmaterializando tareas burocráticas y habilitando nuevos modelos de servicio.
+`organizationAnalysis` proporciona un marco operativo y analítico para caracterizar a la organización bajo estudio (Matriz 1 de cátedra) y diagnosticar cómo los datos operativos generados a lo largo de las actividades físicas pueden transformarse en una fuente independiente de valor digital, desmaterializando tareas burocráticas y habilitando nuevos modelos de servicio.
 
 El modelo articula la interacción entre dos mundos económicos paralelos:
 - **Marketplace (Espacio Físico):** Donde operan los activos tangibles, plantas de manufactura, vehículos, almacenes e infraestructura física bajo la Cadena de Valor Tradicional de Michael Porter (1985).
 - **Marketspace (Espacio Virtual):** Donde la información deja de ser un costo administrativo secundario para convertirse en el **activo estratégico central**.
 
 Dentro del ciclo metodológico de GMP, esta skill opera en la **Etapa 1 (Situación Actual y Encuadre)** para:
-1. Extraer y formalizar el **Encuadre Organizacional de Cátedra (Matriz 1)** de la *Planilla de Matrices TPI 2026*.
+1. Extraer y formalizar el **Encuadre Organizacional de Cátedra (Matriz 1)** de la *Planilla de Matrices TPI 2026* (Nombre, Rubro, Misión, Visión, Objetivos SMART, Cliente, Propuesta de Valor).
 2. Mapear de qué forma la cadena física se proyecta en una cadena de información paralela mediante **La Matriz del Valor** (cruce de las 5 actividades físicas de Porter con los 5 procesos de información).
 3. Evaluar el nivel de madurez digital actual de los flujos de datos en las **3 fases evolutivas de Rayport & Sviokla** (Visibilidad, Proyección de la Capacidad / Capacidad de Reflejo, y La Matriz del Valor / Nuevas Relaciones con Clientes).
 4. Servitizar las operaciones tradicionales bajo los principios de la **Lógica Dominante del Servicio (SDL — Vargo & Lusch)**, transitando de *recursos operandos* (bienes físicos estáticos) a *recursos operantes* (conocimiento y algoritmos que actúan dinámicamente para co-crear valor con el beneficiario).
@@ -31,7 +31,7 @@ Como building block del catálogo de skills GMP:
 El módulo sigue la arquitectura estandarizada de documentación dual, progressive disclosure y validación automatizada:
 
 ```
-virtualValueChain/
+organizationAnalysis/
 ├── SKILL.md                               # Contrato operacional consumido por el LLM (YAML Frontmatter + Flujo)
 ├── README.md                              # Guía metodológica integral para el desarrollador y usuario humano
 ├── templates/                             # Plantillas institucionales normalizadas
@@ -41,8 +41,9 @@ virtualValueChain/
 ├── examples/                              # Casos prácticos resueltos de referencia
 │   └── bio_trace_cadena_virtual.md        # Caso práctico BioTrace Logística Farmacéutica con cadena de frío
 ├── scripts/                               # Herramientas deterministas de auditoría y validación
-│   └── validate_virtual_value_chain.py    # Validador CLI determinista de estructura, 5 etapas, 3 fases y gobernanza
+│   └── validate_organization_analysis.py  # Validador CLI determinista de estructura, 5 etapas, 3 fases y gobernanza
 └── tests/                                 # Suite de pruebas automatizadas
+```
     └── test_validate_virtual_value_chain.py # Tests unitarios de validación y CLI
 ```
 
@@ -104,7 +105,7 @@ La información deja de ser un costo para transformarse en un **recurso operante
 7. Ejecuta la validación CLI determinista.
 
 ### Caso 2: Invocación Orquestada dentro de `processWorkbench`
-En el encuadre de la Etapa 1 de GMP, `processWorkbench` delega en `virtualValueChain` para construir la Matriz de la Cadena de Valor Virtual y su diagnóstico de madurez antes de proceder a la Matriz Multicriterio de Selección Ponderada del Proceso Crítico.
+En el encuadre de la Etapa 1 de GMP, `processWorkbench` delega en `organizationAnalysis` para construir la Matriz de Definición de la Organización y Cadena de Valor Virtual con su diagnóstico de madurez antes de proceder a la Matriz Multicriterio de Selección Ponderada del Proceso Crítico.
 
 ---
 
@@ -133,7 +134,7 @@ En el encuadre de la Etapa 1 de GMP, `processWorkbench` delega en `virtualValueC
 │                              GMP ETAPA 1                                   │
 │                                                                            │
 │   ┌───────────────────────────┐         ┌──────────────────────────────┐   │
-│   │    virtualValueChain      │ ──────> │       processWorkbench       │   │
+│   │   organizationAnalysis    │ ──────> │       processWorkbench       │   │
 │   │ (cadena_valor_virtual.md) │         │ (Encuadre & Selección 5 Cri) │   │
 │   └───────────────────────────┘         └──────────────────────────────┘   │
 └────────────────────────────────────────────────────────────────────────────┘

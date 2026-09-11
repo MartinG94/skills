@@ -118,7 +118,7 @@ python "skills/stakeholderMatrix/scripts/validate_stakeholders.py" --check-templ
 ```
 [processWorkbench] (Orquestador E1-E3) / [processImprovementPlanner] (Orquestador E1-E4)
        │
-       ├──► Etapa 1: [virtualValueChain] ──► cadena_valor_virtual.md
+       ├──► Etapa 1: [organizationAnalysis] ──► cadena_valor_virtual.md
        │
        ├──► Etapa 2: [processAuditor] ──► Evidencia fáctica (EV-xx)
        │           ▼

@@ -1,20 +1,20 @@
 ---
-name: virtual-value-chain
+name: organizationAnalysis
 description: >-
-  Analiza y estructura la Cadena de Valor Virtual (Rayport & Sviokla) en la Etapa 1 de Gestión
-  y Mejora de Procesos (GMP). Mapea la transformación de datos operativos en valor a lo largo de las
-  5 etapas canónicas (Recopilar, Organizar, Seleccionar, Sintetizar, Distribuir) y las 3 fases de madurez
-  digital de cátedra (Visibilidad, Proyección de la Capacidad / Reflejo, La Matriz del Valor / Nuevas Relaciones).
-  Incorpora el encuadre organizacional de Matriz 1 de PlanillaMATRICES y genera deterministamente el entregable
-  en 'cadena_valor_virtual.md'.
+  Define institucionalmente a la organización bajo estudio (misión actual, visión futura,
+  objetivos estratégicos SMART, cliente, producto/servicio) y modela la Cadena de Valor Virtual
+  (Rayport & Sviokla) en la Etapa 1 de Gestión y Mejora de Procesos (GMP). Mapea los 5 procesos
+  de información (Recopilar, Organizar, Seleccionar, Sintetizar, Distribuir), el cruce físico-virtual
+  de Porter (La Matriz del Valor) y las 3 fases de madurez digital bajo SDL. Genera deterministamente
+  el entregable en 'cadena_valor_virtual.md'.
 license: MIT
 allowed-tools: [Bash, Read, Write]
-metadata: {"author":"Agents365-ai / Antigravity","version":"1.1.0","category":"process-atomic","platforms":["windows","macos","linux"]}
+metadata: {"author":"Agents365-ai / Antigravity","version":"1.2.0","category":"process-atomic","platforms":["windows","macos","linux"]}
 ---
 
-# Cadena de Valor Virtual (Rayport & Sviokla — GMP Etapa 1)
+# organizationAnalysis: Definición Institucional y Cadena de Valor Virtual (GMP Etapa 1)
 
-Skill atómica especialista para el modelado, auditoría y diseño de la **Cadena de Valor Virtual** (Rayport & Sviokla, 1995; apunte de cátedra oficial `APU_U1_Cadena_de_Valor_Virtual.pdf` e Ing. Gabriela Bratti). Analiza cómo la información generada en las operaciones físicas de una organización se captura, procesa y distribuye en el *marketspace* para crear nuevas fuentes de valor digital, desmaterializar actividades burocráticas y habilitar la **Lógica Dominante del Servicio (SDL)**.
+Skill atómica especialista para el encuadre institucional y el modelado, auditoría y diseño de la **Cadena de Valor Virtual** (Rayport & Sviokla, 1995; apunte de cátedra oficial `APU_U1_Cadena_de_Valor_Virtual.pdf` e Ing. Gabriela Bratti). Define la circunstancia de la organización en el mercado (Matriz 1 de `PlanillaMATRICES-TPI 2026`) y analiza cómo la información generada en las operaciones físicas se captura, procesa y distribuye en el *marketspace* para crear nuevas fuentes de valor digital, desmaterializar actividades burocráticas y habilitar la **Lógica Dominante del Servicio (SDL)**.
 
 ---
 
