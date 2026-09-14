@@ -21,8 +21,10 @@ Basada en los materiales oficiales de cátedra (*SLI_U3_C04_Matriz_CAME* y *Plan
 
 ## Límites de Autoridad y Reglas Invariables
 
-1. **Persistencia Determinista Obligatoria:**
-   - El resultado debe persistirse obligatoriamente en el archivo Markdown `came.md` en el directorio de trabajo donde se invoque la skill.
+1. **Persistencia Determinista Obligatoria y Resolución de Carpeta de Etapa:**
+   - El resultado debe persistirse obligatoriamente en el archivo Markdown `came.md`.
+   - **Pre-Save Check:** Antes de guardar, corroborar si existe una carpeta para la Etapa 3 (ej. `Etapa_3_Propuesta_Mejora/` o patrón `*Etapa_3*`). Si existe, usarla; si no, crear la carpeta `Etapa_3_Propuesta_Mejora/` y guardar allí el archivo.
+   - **Prohibición de raíz:** Queda terminantemente prohibido guardar el entregable en la raíz del proyecto/workspace o dejar copias duplicadas en la raíz.
 2. **Trazabilidad Estricta y Citación Explícita de Factores (Regla de Oro de Cátedra):**
    - Todo cruce estratégico DEBE citar obligatoriamente los identificadores unívocos de los factores FODA que relaciona (ej. `F1 x O2`, `D2 x O1`, `F2 x A1`, `D1 x A2`).
    - Queda estrictamente prohibida la formulación de cruces abstractos o huérfanos sin respaldo en los IDs del FODA.
@@ -128,11 +130,12 @@ Cada registro de la matriz debe cumplir con el formato tabular estandarizado de 
    - Mapear procesos afectados y expectativas de stakeholders.
 4. **Fase 4: Persistencia Determinista:**
    - Instanciar la plantilla [templates/came_matrix_template.md](templates/came_matrix_template.md).
-   - Guardar obligatoriamente el artefacto resultante en `came.md`.
+   - Ejecutar el Pre-Save Check: ubicar la carpeta de Etapa 3 (o crearla si no existe).
+   - Guardar obligatoriamente el artefacto resultante en `came.md` dentro de la carpeta de Etapa 3. Queda prohibido dejar copias en la raíz.
 5. **Fase 5: Verificación y Validación:**
-   - Ejecutar el script determinista de validación:
+   - Ejecutar el script determinista de validación pasando la ruta explícita al archivo dentro de su carpeta de etapa:
      ```bash
-     python scripts/validate_came.py came.md
+     python skills/cameStrategizer/scripts/validate_came.py "<ruta_a_etapa>/came.md"
      ```
    - Confirmar que no existan advertencias ni cruces mal formateados.
 

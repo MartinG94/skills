@@ -18,9 +18,12 @@ Habilidad atómica de agente para la construcción, auditoría y validación de 
   motivaciones.md
   ```
 - **Sin Dependencia de Hojas de Cálculo:** La skill produce tablas Markdown legibles y estructuradas con trazabilidad causal completa hacia la selección del proceso crítico y la matriz FODA.
-- **Validación Automática:** Toda salida generada debe someterse a verificación mediante el script determinista:
+- **Resolución de Carpeta de Etapa (Pre-Save Check):**
+  - Antes de guardar `motivaciones.md`, corroborar si existe una carpeta para la Etapa 1 (ej. `Etapa_1_Situacion_Actual/` o patrón `*Etapa_1*`). Si existe, usarla; si no, crear la carpeta `Etapa_1_Situacion_Actual/` y guardar allí el archivo.
+  - Queda terminantemente prohibido guardar o duplicar el entregable en la raíz del espacio de trabajo.
+- **Validación Automática:** Toda salida generada debe someterse a verificación determinista pasando la ruta explícita al archivo:
   ```bash
-  python "skills/organizationalMotivations/scripts/validate_motivations.py" motivaciones.md
+  python "skills/organizationalMotivations/scripts/validate_motivations.py" "<ruta_a_etapa_1>/motivaciones.md"
   ```
 
 ---
@@ -101,10 +104,11 @@ Relevar y formalizar:
 - **Trazabilidad directa:** Establecer el vínculo que alimentará el **Factor 2 ("Tendencias del Entorno y Mercado / SDL")** en la Matriz de Selección Crítica (`seleccion_proceso.md`) y las **Oportunidades** en la Matriz FODA (`foda.md`).
 
 ### Paso 5: Persistencia en `motivaciones.md` y Validación Automática
-- Escribir el entregable completo en el archivo `motivaciones.md` respetando la plantilla oficial (`templates/motivations_template.md`).
-- Ejecutar el script validador:
+- Ejecutar el Pre-Save Check: ubicar la carpeta de Etapa 1 (o crearla si no existe).
+- Escribir el entregable completo en el archivo `motivaciones.md` dentro de la carpeta de Etapa 1 respetando la plantilla oficial (`templates/motivations_template.md`). Queda prohibido dejar copias en la raíz.
+- Ejecutar el script validador pasando la ruta explícita:
   ```bash
-  python "skills/organizationalMotivations/scripts/validate_motivations.py" motivaciones.md
+  python "skills/organizationalMotivations/scripts/validate_motivations.py" "<ruta_a_etapa_1>/motivaciones.md"
   ```
 - Corregir cualquier omisión de secciones, tablas o perspectiva SDL reportada por el script.
 

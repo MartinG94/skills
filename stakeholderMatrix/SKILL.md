@@ -20,8 +20,11 @@ Skill atómica especialista para el relevamiento, categorización y análisis de
 
 ## Límites de Autoridad y Reglas Invariables
 
-1. **Persistencia Determinista Obligatoria:**  
-   El resultado final del análisis debe guardarse obligatoriamente en el archivo Markdown `stakeholders.md` en el directorio de trabajo del caso o proyecto actual. No usar nombres alternativos.
+1. **Persistencia Determinista Obligatoria y Resolución de Carpeta de Etapa:**  
+   El resultado final del análisis debe guardarse obligatoriamente en el archivo Markdown `stakeholders.md`.
+   - **Pre-Save Check:** Antes de guardar, corroborar si existe una carpeta para la Etapa 2 (ej. `Etapa_2_Analisis_AS-IS/` o patrón `*Etapa_2*`). Si existe, usarla; si no, crear la carpeta `Etapa_2_Analisis_AS-IS/` y guardar allí el archivo.
+   - **Prohibición de raíz:** Queda terminantemente prohibido guardar el entregable en la raíz del proyecto/workspace o dejar copias duplicadas en la raíz.
+   - No usar nombres alternativos.
 
 2. **Principio Rector de Bidireccionalidad (Cátedra GMP):**  
    El relevamiento nunca debe limitarse a cómo el actor impacta pasivamente al proceso. Debe formularse de manera bidireccional:
@@ -92,9 +95,10 @@ Skill atómica especialista para el relevamiento, categorización y análisis de
 
 ### Paso 6: Persistencia Determinista y Validación
 - Instanciar la plantilla canónica [templates/stakeholder_matrix_template.md](templates/stakeholder_matrix_template.md).
-- Guardar el resultado en `stakeholders.md`.
-- Validar la integridad del entregable ejecutando el script:
-  `python "skills/stakeholderMatrix/scripts/validate_stakeholders.py" stakeholders.md`
+- Ejecutar el Pre-Save Check: ubicar la carpeta de Etapa 2 (o crearla si no existe).
+- Guardar el resultado en `stakeholders.md` dentro de la carpeta de Etapa 2. Queda prohibido dejar copias en la raíz.
+- Validar la integridad del entregable ejecutando el script pasando la ruta explícita:
+  `python "skills/stakeholderMatrix/scripts/validate_stakeholders.py" "<ruta_a_etapa>/stakeholders.md"`
 
 ---
 

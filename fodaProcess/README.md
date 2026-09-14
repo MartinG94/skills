@@ -63,8 +63,8 @@ El agente ejecuta `fodaProcess`:
 
 ### 4.2 Validación Sintáctica y Metodológica por CLI
 ```bash
-# Validar el entregable foda.md generado
-python scripts/validate_foda.py foda.md
+# Validar el entregable foda.md generado dentro de la carpeta de etapa
+python scripts/validate_foda.py "<ruta_a_etapa_2>/foda.md"
 
 # Validar la plantilla institucional
 python scripts/validate_foda.py templates/foda_process_template.md
@@ -101,7 +101,7 @@ ESTADO: EXITOSO. La matriz cumple con todos los estándares canónicos.
 - **Análisis de Entorno y Sector:** Tendencias de Lógica Dominante del Servicio (SDL), benchmarking tecnológico y marco regulatorio aplicable.
 
 ### Salidas (Outputs)
-- **Archivo Canónico Obligatorio:** `foda.md` (guardado deterministamente en la raíz del espacio de trabajo).
+- **Archivo Canónico Obligatorio:** `foda.md` (guardado deterministamente dentro de la carpeta de Etapa 2, ej. `Etapa_2_Analisis_AS-IS/foda.md`; nunca en la raíz).
 - **Contenido Estructurado:**
   1. Metadatos del proceso y fuentes primarias auditadas.
   2. Resumen ejecutivo de balance situacional AS-IS.
