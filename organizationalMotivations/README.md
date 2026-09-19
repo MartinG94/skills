@@ -30,7 +30,7 @@ La skill genera y persiste obligatoriamente el entregable en el archivo canónic
 ```text
 motivaciones.md
 ```
-Ubicado en la raíz del proyecto o en el directorio de trabajo del usuario.
+Ubicado dentro de la carpeta de Etapa 1 (ej. `Etapa_1_Situacion_Actual/motivaciones.md`; nunca en la raíz).
 
 ---
 

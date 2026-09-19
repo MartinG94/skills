@@ -26,6 +26,10 @@ Orquestador metodológico del ciclo de mejora de procesos organizacionales. Aseg
    - No se diseña el TO-BE de Etapa 4 sin que las Acciones de Valor hayan superado el Filtro de Restricciones Operativas.
 3. **Invariante de Trazabilidad Total ($E_1 \rightarrow E_2 \rightarrow E_3 \rightarrow E_4$):**
    Todo cambio introducido en el proceso TO-BE debe rastrearse inequívocamente hacia una Acción de Valor (E3), originada en un cruce CAME (E3), justificada por una debilidad de auditoría (E2) y alineada a los criterios estratégicos (E1).
+4. **Resolución de Carpeta de Etapa (Pre-Save Check) y Raíz Limpia:**
+   - Todo artefacto atómico debe residir en su subcarpeta de etapa (`*Etapa_1*`, `*Etapa_2*`, `*Etapa_3*`, `*Etapa_4*`).
+   - Antes de guardar cualquier entregable, corroborar si la carpeta de etapa existe; si existe usarla, si no crearla y guardar allí. Queda terminantemente prohibido dejar entregables o copias duplicadas en la raíz.
+   - El informe consolidado y plan de implantación se alojan dentro de la carpeta de Etapa 4 (`Etapa_4_TO-BE_y_Plan/`).
 
 ---
 

@@ -20,8 +20,11 @@ Skill atómica especializada en el diagnóstico estratégico situacional del pro
 
 ## Límites de Autoridad y Reglas Invariables
 
-1. **Persistencia Determinista Obligatoria:**
-   El entregable final debe guardarse siempre en el archivo Markdown [`foda.md`](file:///c:/Users/Diego/.gemini/config/skills/fodaProcess/templates/foda_process_template.md) en la raíz del espacio de trabajo o directorio activo del proyecto. No usar nombres alternativos (`foda_proceso.md`, `swot.md`, `matriz_foda.md`).
+1. **Persistencia Determinista Obligatoria y Resolución de Carpeta de Etapa:**
+   El entregable final debe guardarse siempre en el archivo Markdown [`foda.md`](file:///c:/Users/Diego/.gemini/config/skills/fodaProcess/templates/foda_process_template.md).
+   - **Pre-Save Check:** Antes de guardar, corroborar si existe una carpeta para la Etapa 2 (ej. `Etapa_2_Analisis_AS-IS/` o patrón `*Etapa_2*`). Si existe, usarla; si no, crear la carpeta `Etapa_2_Analisis_AS-IS/` y guardar allí el archivo.
+   - **Prohibición de raíz:** Queda terminantemente prohibido guardar el entregable en la raíz del proyecto/workspace o dejar copias duplicadas en la raíz.
+   - No usar nombres alternativos (`foda_proceso.md`, `swot.md`, `matriz_foda.md`).
 
 2. **Cardinalidad Canónica por Cuadrante (Regla 4-6):**
    Cada cuadrante debe contener obligatoriamente entre **4 y 6 factores** significativos ($4 \le N \le 6$), conforme a la regla de diseño de cátedra (`SLI_U3_C03_Analisis_FODA.pdf`, diapositiva 6). Menos de 4 factores denota superficialidad analítica; más de 6 diluye el foco estratégico e imposibilita cruces CAME viables.
@@ -122,10 +125,13 @@ Para evitar sesgos y clasificaciones erróneas, aplicar el siguiente **Test de C
 
 6. **Paso 6: Persistencia Determinista:**
    - Cargar los factores en la plantilla oficial [`templates/foda_process_template.md`](file:///c:/Users/Diego/.gemini/config/skills/fodaProcess/templates/foda_process_template.md).
-   - Generar y escribir el archivo canónico `foda.md` en el directorio de trabajo.
+   - Ejecutar el Pre-Save Check: ubicar la carpeta de Etapa 2 (o crearla si no existe).
+   - Generar y escribir el archivo canónico `foda.md` dentro de la carpeta de Etapa 2. Queda prohibido dejar copias en la raíz.
 
 7. **Paso 7: Ejecución del Validador Automatizado:**
-   - Ejecutar el validador determinista: `python scripts/validate_foda.py foda.md` y verificar estado `EXITOSO`.
+   - Ejecutar el validador determinista pasando la ruta explícita al archivo dentro de la carpeta de etapa:
+     `python skills/fodaProcess/scripts/validate_foda.py "<ruta_a_etapa>/foda.md"`
+     y verificar estado `EXITOSO`.
 
 ---
 

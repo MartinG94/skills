@@ -103,7 +103,7 @@ python "skills/stakeholderMatrix/scripts/validate_stakeholders.py" --check-templ
 - **Diagrama de Proceso / SIPOC (`sipocBuilder` / `bpmnExtractor`):** Proveedores, entradas, salidas y clientes directos.
 
 ### Salidas (Outputs)
-- **Archivo persistido:** `stakeholders.md` (guardado deterministamente en la raíz de trabajo).
+- **Archivo persistido:** `stakeholders.md` (guardado deterministamente en la carpeta de Etapa 2, ej. `Etapa_2_Analisis_AS-IS/stakeholders.md`; nunca en la raíz).
 - **Contenido estructurado:**
   1. **Encuadre y Alcance:** Metadatos del proceso, sponsor y alcance operativo.
   2. **Matriz Canónica de Triple Columna:** Tabla formal con ID, actor, categoría, rol, resultados tangibles, expectativas intangibles, obstáculos actuales vs riesgos potenciales y anclaje fáctico (`EV-xx`).

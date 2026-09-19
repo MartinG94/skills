@@ -20,7 +20,9 @@ Skill atómica especialista para el encuadre institucional y el modelado, audito
 
 ## Límites de Autoridad y Reglas Invariables
 
-1. **Persistencia Determinista Obligatoria:** El entregable final debe persistirse obligatoriamente en el archivo Markdown `cadena_valor_virtual.md` en el directorio de trabajo del usuario o proyecto.
+1. **Persistencia Determinista Obligatoria y Resolución de Carpeta de Etapa:** El entregable final debe persistirse obligatoriamente en el archivo Markdown `cadena_valor_virtual.md`.
+   - **Pre-Save Check:** Antes de guardar, corroborar si existe una carpeta para la Etapa 1 (ej. `Etapa_1_Situacion_Actual/` o patrón `*Etapa_1*`). Si existe, usarla; si no, crear la carpeta `Etapa_1_Situacion_Actual/` y guardar allí el archivo.
+   - **Prohibición de raíz:** Queda terminantemente prohibido guardar el entregable en la raíz del proyecto/workspace o dejar copias duplicadas en la raíz.
 2. **Encuadre Organizacional de Cátedra (Matriz 1):** Todo entregable debe comenzar con el encuadre formal extraído de la pestaña *'Etapa 1 Situación actual'* Matriz 1 de `PlanillaMATRICES-TPI 2026 con ejemplo.xlsx`:
    - Nombre de la organización, rubro/actividad, ámbito o alcance de negocio, tipo/modelo de negocio.
    - Misión (qué hace HOY, foco interno), Visión (aspiración a futuro de mediano/largo plazo) y Objetivos Estratégicos (SMART).
@@ -39,7 +41,9 @@ Skill atómica especialista para el encuadre institucional y el modelado, audito
 5. **Cruce Matricial Físico-Virtual ("La Matriz del Valor" — APU_U1 Secc. 10.c y 18):** Se debe representar el cruce matricial entre las 5 etapas físicas de Porter (en un eje) y los 5 procesos de información (en el otro eje), mostrando cómo cada actividad material nutre el flujo digital.
 6. **No invención de infraestructura ni datos:** Los sistemas, formatos de datos y problemas actuales (AS-IS) deben basarse estrictamente en la evidencia provista en el caso o relevamiento. Si faltan datos técnicos, indicar explícitamente `TBD`.
 7. **Articulación Obligatoria con SDL (Vargo & Lusch):** Evaluar explícitamente el paso de *recursos operandos* (bienes físicos) a *recursos operantes* (información y conocimiento dinámicos) y la transición de *Value-in-Exchange* a *Value-in-Use* (co-creación).
-8. **Validación Automática de Gobernanza:** Antes de dar por concluida la tarea, debe ejecutarse el validador oficial `python scripts/validate_virtual_value_chain.py cadena_valor_virtual.md` confirmando 0 errores críticos.
+8. **Validación Automática de Gobernanza:** Antes de dar por concluida la tarea, debe ejecutarse el validador oficial pasando la ruta explícita al archivo:
+   `python skills/organizationAnalysis/scripts/validate_virtual_value_chain.py "<ruta_a_etapa_1>/cadena_valor_virtual.md"`
+   confirmando 0 errores críticos.
 
 ---
 

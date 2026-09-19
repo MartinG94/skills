@@ -76,8 +76,8 @@ Se formulan los cruces canónicos:
 
 ### Validación CLI Determinista
 ```bash
-# Validar el archivo came.md generado:
-python cameStrategizer/scripts/validate_came.py came.md
+# Validar el archivo came.md generado dentro de la carpeta de Etapa 3:
+python cameStrategizer/scripts/validate_came.py "<ruta_a_etapa_3>/came.md"
 
 # Salida esperada:
 # [OK] Archivo 'came.md' verificado exitosamente.
@@ -98,7 +98,7 @@ python cameStrategizer/scripts/validate_came.py came.md
   - Identificadores alfanuméricos asignados (`F1`, `F2`, `D1`, `D2`, `O1`, `O2`, `A1`, `A2`).
 
 ### Salida (Output)
-- Archivo canónico obligatorio: `came.md`.
+- Archivo canónico obligatorio: `came.md` (guardado dentro de la carpeta de Etapa 3, ej. `Etapa_3_Propuesta_Mejora/came.md`; nunca en la raíz).
 - Secciones requeridas:
   1. `Encuadre y Metadatos`: Proceso analizado, fecha, equipo, documento fuente.
   2. `Registro de Factores de Entrada`: Tabla normalizada de $F, D, O, A$ con descripción fáctica.

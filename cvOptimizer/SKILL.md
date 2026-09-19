@@ -2,13 +2,12 @@
 name: cvOptimizer
 description: >-
   Elabora, moderniza y optimiza Currículums Vitae (CV) de alto impacto en LaTeX compatibles al 100% con
-  filtros ATS (Applicant Tracking Systems) y basados en la fórmula Google X-Y-Z. Administra una memoria
-  viva incremental del perfil profesional (profile_data.json), investiga la empresa y puesto de destino,
+  filtros ATS (Applicant Tracking Systems) y basados en la fórmula Google X-Y-Z con anonimización de BD y sistemas.
+  Administra una memoria viva incremental del perfil profesional (profile_data.json), investiga la empresa y puesto de destino,
   ejecuta análisis de brecha (Gap Analysis) y entrevista interactiva estructurada sin alucinaciones,
   maqueta con diseño modular ejecutivo (Awesome-CV por defecto, con catálogo para Jake's Resume y ModernCV),
   compila localmente el PDF <Apellido Nombre>CV_<Puesto>.pdf junto a su previsualización PNG y genera
-  el paquete de postulación multicanal (correo formal RRHH, mensaje LinkedIn, elevator pitch) en cuadros
-  de texto copiables.
+  bajo demanda o petición explícita el paquete de postulación multicanal (correo formal RRHH, mensaje LinkedIn, elevator pitch).
 license: MIT
 allowed-tools: [Bash, Read, Write, WebSearch]
 metadata: {"author":"Diego Sanchez / Antigravity","version":"1.0.0","category":"career-engineering","platforms":["windows","macos","linux"]}
@@ -34,8 +33,12 @@ metadata: {"author":"Diego Sanchez / Antigravity","version":"1.0.0","category":"
    Erradicar clichés sintéticos de LLMs (*spearheaded*, *pivotal*, *delve*, *vibrant*, *seamlessly*). Utilizar construcciones empíricas precisas (*Relevamiento, Optimización, Reducción, Coordinación, Diseño*), variar la longitud de oraciones (*burstiness*) y mantener tono profesional sin andamiaje abstracto.
 5. **Topología ATS y Paginación Balanceada (1 a 2 Páginas):**
    El cuerpo del CV debe mantener un orden de lectura lineal de una sola columna sin tablas complejas ni columnas paralelas. La extensión no debe forzarse artificialmente a una sola página si eso compromete la holgura visual o genera un aspecto apretado; se prioriza la prolijidad, legibilidad ejecutiva, interlineado cómodo y distribución balanceada (1 página para perfiles iniciales compactos, o 2 páginas bien distribuidas sin encabezados huérfanos para perfiles con experiencia técnica, liderazgo y formación continua).
-6. **Entrega Multicanal en Cuadros de Texto Copiables:**
-   Al finalizar, el agente debe proporcionar siempre el paquete de postulación (correo formal para RRHH, mensaje de LinkedIn y elevator pitch) en bloques de texto formateados para ser copiados con un solo clic.
+6. **Entrega Condicional y Bajo Demanda del Paquete Multicanal:**
+   El paquete de postulación (correo formal para RRHH, mensaje de LinkedIn y elevator pitch) **NO** se genera ni entrega por defecto en cada compilación o interacción. Se producirá **exclusivamente** si:
+   - El usuario lo solicita explícitamente en el prompt o conversación (ej. *"dame el correo para RRHH"*, *"generá el paquete multicanal"*, *"escribe el mensaje de LinkedIn"*).
+   - O bien durante la fase de entrevista interactiva (Fase 3, Bloque C), donde **es obligatorio consultar al usuario** si desea que se elabore dicho paquete junto con el CV.
+7. **Anonimización y Generalización Conceptual de Bases de Datos y Sistemas Internos:**
+   Queda terminantemente prohibido exponer en las viñetas del CV nombres propios de tablas (ej. `UEPCCONTACTOS`, `OCCUENTASCORRIENTES`), nombres específicos de packages, procedimientos almacenados o funciones (ej. `CCCTACTE6`, `TURRESERVA`), directivas internas de bajo nivel (ej. `PRAGMA AUTONOMOUS_TRANSACTION`), identificadores de incidencias o tickets (ej. `Bug #9505`, `Ticket #1234`) y nombres de plataformas internas cerradas (ej. `Pandora`, `Caja Central`, `Turismo`). En su lugar, se debe emplear siempre una descripción funcional y arquitectónica orientada al negocio (ej. *"plataforma principal"*, *"sistema central de caja y subsistema de turismo"*, *"tablas temporales de staging"*, *"rutinas en packages PL/SQL"*, *"logs de auditoría"*). Esto asegura confidencialidad, comprensión inmediata por reclutadores externos y máxima elegancia ejecutiva.
 
 ---
 
@@ -70,10 +73,11 @@ Presentar la tabla diagnóstica y ejecutar un interrogatorio estructurado:
    Consultar si alguna de las tecnologías o requerimientos "faltantes" se domina en la práctica pero se había omitido en el CV anterior.
 2. **Bloque B - Cuantificación de Métricas X-Y-Z:**
    Preguntar por órdenes de magnitud o estimaciones reales para los logros clave (ej. tiempos reducidos, volumen de transacciones, usuarios atendidos, presupuestos o personas coordinadas).
-3. **Bloque C - Preferencias de Formato:**
+3. **Bloque C - Preferencias de Formato y Entregables:**
    - Preguntar si desea incluir **Fotografía de Perfil** (`\showphototrue`/`\showphotofalse`).
    - Preguntar el **Idioma del CV** (Español formal o Inglés).
    - Confirmar si prefiere la plantilla por defecto (**Awesome-CV Executive Tech**) o alguna alternativa (**Jake's Resume FAANG** o **ModernCV Suizo**).
+   - **Consultar obligatoriamente si desea generar el Paquete de Postulación Multicanal** (correo formal para RRHH, mensaje de LinkedIn y elevator pitch de 3 líneas) o únicamente el documento curricular compilado.
 4. **Persistencia Inmediata:**
    Toda respuesta del usuario que aporte nuevas habilidades, datos o métricas debe actualizarse de inmediato en `profile_data.json` mediante `python cvOptimizer/scripts/update_profile.py`.
 
@@ -104,8 +108,10 @@ Presentar la tabla diagnóstica y ejecutar un interrogatorio estructurado:
    - Genera la imagen `preview.png` en la carpeta del proyecto.
 3. Informar la ruta absoluta del PDF al usuario y embeber la previsualización gráfica si corresponde.
 
-### Fase 6: Paquete de Postulación Multicanal (Cuadros de Texto Copiables)
-Generar y entregar al usuario en el chat tres cuadros de texto independientes (bloques de código Markdown formateados para copiar con 1 clic):
+### Fase 6: Paquete de Postulación Multicanal (Condicional / Bajo Demanda)
+*Esta fase se ejecuta ÚNICAMENTE si el usuario lo solicitó explícitamente en su instrucción o si respondió afirmativamente durante la entrevista previa (Fase 3, Bloque C). En caso contrario, se omite silenciosamente y solo se entrega el PDF y su previsualización.*
+
+Si corresponde por solicitud o confirmación, generar y entregar al usuario en el chat tres cuadros de texto independientes (bloques de código Markdown formateados para copiar con 1 clic):
 
 ```text
 [Cuadro 1: Correo Electrónico Formal para RRHH / Portal de Empleo]
