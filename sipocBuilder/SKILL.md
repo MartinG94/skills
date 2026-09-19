@@ -21,8 +21,11 @@ Delimita quirúrgicamente el alcance y las fronteras de los procesos de negocio,
 
 ## 1. Límites de Autoridad y Reglas Invariables
 
-1. **Persistencia Determinista Obligatoria:**
-   - El resultado debe persistirse obligatoriamente en el archivo Markdown `sipoc.md` en el directorio de trabajo actual. Queda prohibido usar nombres alternativos (`matriz_sipoc.md`, `tabla_sipoc.md`, etc.).
+1. **Persistencia Determinista Obligatoria y Resolución de Carpeta de Etapa:**
+   - El resultado debe persistirse obligatoriamente en el archivo Markdown `sipoc.md`.
+   - **Pre-Save Check:** Antes de guardar, corroborar si existe una carpeta para la Etapa 2 (ej. `Etapa_2_Analisis_AS-IS/` o patrón `*Etapa_2*`). Si existe, usarla; si no, crear la carpeta `Etapa_2_Analisis_AS-IS/` y guardar allí el archivo.
+   - **Prohibición de raíz:** Queda terminantemente prohibido guardar el entregable en la raíz del proyecto/workspace o dejar copias duplicadas en la raíz.
+   - Queda prohibido usar nombres alternativos (`matriz_sipoc.md`, `tabla_sipoc.md`, etc.).
 2. **Estructura Canónica de Cátedra (Etapa 2 Matriz 1):**
    Toda matriz debe contener obligatoriamente los 6 campos de encuadre institucional definidos en la guía oficial de GMP:
    - **Nombre del Proceso:** Redactado en infinitivo (`[Verbo] + [Objeto Sustantivo]`).
@@ -87,9 +90,9 @@ Delimita quirúrgicamente el alcance y las fronteras de los procesos de negocio,
 3. Formular los **Requisitos Técnicos** de cada insumo: formatos admitidos, completitud y criterios de aceptación.
 
 ### Paso 5: Validación Metodológica Determinista
-Ejecutar el script de validación determinista para certificar el cumplimiento de todas las reglas:
+Ejecutar el script de validación determinista pasando la ruta explícita al archivo:
 ```bash
-python sipocBuilder/scripts/validate_sipoc.py sipoc.md
+python sipocBuilder/scripts/validate_sipoc.py "<ruta_a_etapa_2>/sipoc.md"
 ```
 O probar directamente el conteo de macroetapas:
 ```bash
@@ -104,7 +107,7 @@ Incrustar la representación visual en Mermaid conforme al preset oficial de `di
 - Clases de estilo canónicas (`sStyle`, `iStyle`, `pStyle`, `oStyle`, `cStyle`).
 
 ### Paso 7: Persistencia y Generación del Entregable
-Instanciar la plantilla [templates/sipoc_template.md](templates/sipoc_template.md) y guardar obligatoriamente en `sipoc.md`.
+Instanciar la plantilla [templates/sipoc_template.md](templates/sipoc_template.md), ejecutar el Pre-Save Check y guardar obligatoriamente en `sipoc.md` dentro de la carpeta de Etapa 2. Queda prohibido dejar copias en la raíz.
 
 ---
 

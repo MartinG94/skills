@@ -24,7 +24,9 @@ Este módulo implementa con estricta fidelidad las heurísticas, definiciones y 
 
 ## Límites de Autoridad y Reglas Invariables de Cátedra
 
-1. **Persistencia Determinista Obligatoria:** El resultado debe persistirse obligatoriamente en el archivo Markdown `acciones_valor.md` en el directorio de trabajo actual.
+1. **Persistencia Determinista Obligatoria y Resolución de Carpeta de Etapa:** El resultado debe persistirse obligatoriamente en el archivo Markdown `acciones_valor.md`.
+   - **Pre-Save Check:** Antes de guardar, corroborar si existe una carpeta para la Etapa 3 (ej. `Etapa_3_Propuesta_Mejora/` o patrón `*Etapa_3*`). Si existe, usarla; si no, crear la carpeta `Etapa_3_Propuesta_Mejora/` y guardar allí el archivo.
+   - **Prohibición de raíz:** Queda terminantemente prohibido guardar el entregable en la raíz del proyecto/workspace o dejar copias duplicadas en la raíz.
 2. **Trazabilidad CAME Estricta (Disparador):** Ninguna Acción de Valor puede formularse de manera aislada o arbitraria. Toda acción debe originarse en una estrategia explícita de la Matriz CAME (`FO`, `FA`, `DO`, `DA`), la cual conecta directamente con los factores FODA del diagnóstico AS-IS (`F`, `D`, `O`, `A`).
 3. **No Abstracción — Intervención Concreta en el Proceso:** Según la regla de oro de cátedra (*SLI_U3_C05, Diapositiva 5*):
    > *"Una acción de valor no es una 'idea abstracta'. Es una intervención en el proceso actual."*
@@ -112,10 +114,11 @@ flowchart TD
 - Si se emite `APROBADA CON MITIGACIÓN`, redactar obligatoriamente la contingencia o ajuste requerido (ej. *"Plan de capacitación intensivo de 2 semanas y soporte presencial en marcha blanca"*).
 
 ### Paso 7: Persistencia y Control de Calidad
-- Estructurar el entregable formal en `acciones_valor.md` utilizando la plantilla de referencia.
-- Ejecutar el validador automatizado:
+- Ejecutar el Pre-Save Check: ubicar la carpeta de Etapa 3 (o crearla si no existe).
+- Estructurar el entregable formal en `acciones_valor.md` dentro de la carpeta de Etapa 3 utilizando la plantilla de referencia. Queda prohibido dejar copias en la raíz.
+- Ejecutar el validador automatizado pasando la ruta explícita al archivo:
   ```bash
-  python "skills/valueActionsBuilder/scripts/validate_value_actions.py" acciones_valor.md
+  python "skills/valueActionsBuilder/scripts/validate_value_actions.py" "<ruta_a_etapa_3>/acciones_valor.md"
   ```
 
 ---

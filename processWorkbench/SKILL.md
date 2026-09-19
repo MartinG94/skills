@@ -27,6 +27,7 @@ Herramienta rectora del análisis metodológico en proyectos de Gestión y Mejor
    - Dependencia tecnológica (factibilidad según infraestructura y madurez TI).
    - Resistencia al cambio (gestión del factor humano).
 3. **No invención de cifras:** Las ponderaciones y datos del caso deben basarse en la narrativa o caso práctico provisto; donde falte información, explicitá el supuesto o marcá `TBD`.
+4. **Resolución de Carpeta de Etapa (Pre-Save Check) y Raíz Limpia:** Todo entregable atómico debe guardarse directamente en la carpeta de su etapa correspondiente (`*Etapa_1*`, `*Etapa_2*`, `*Etapa_3*`). Antes de guardar, corroborar si dicha carpeta existe; si existe usarla, si no crearla previamente. Queda terminantemente prohibido guardar o duplicar entregables en la raíz.
 
 ---
 

@@ -19,15 +19,17 @@ Habilidad atómica especialista para la construcción, modelado, auditoría y va
 
 ## 1. Contrato Operativo Determinista
 
-- **Entregable Canónico Obligatorio:** Toda invocación de esta skill debe generar y persistir el entregable estructurado exclusivamente en el archivo:
+- **Entregable Canónico Obligatorio y Resolución de Carpeta de Etapa:** Toda invocación de esta skill debe generar y persistir el entregable estructurado exclusivamente en el archivo:
   ```text
   mapa_procesos.md
   ```
+  - **Pre-Save Check:** Antes de guardar, corroborar si existe una carpeta para la Etapa 1 (ej. `Etapa_1_Situacion_Actual/` o patrón `*Etapa_1*`). Si existe, usarla; si no, crear la carpeta `Etapa_1_Situacion_Actual/` y guardar allí el archivo (y su diagrama asociado `.drawio`).
+  - **Prohibición de raíz:** Queda terminantemente prohibido guardar el entregable en la raíz del espacio de trabajo o dejar copias duplicadas en la raíz.
   *(Nota de interoperabilidad: si el usuario o un orquestador solicita específicamente `seleccion_proceso.md`, la skill exporta también la sección multicriterio a dicho archivo).*
 - **Sin Dependencia de Software Propietario ni Excel:** Produce el inventario institucional completo, el bloque visual Mermaid y la matriz multicriterio con justificación en Markdown puro.
-- **Validación Automática:** Toda salida debe someterse a verificación determinista mediante:
+- **Validación Automática:** Toda salida debe someterse a verificación determinista pasando la ruta explícita al archivo:
   ```bash
-  python "skills/processMap/scripts/validate_process_map.py" mapa_procesos.md
+  python "skills/processMap/scripts/validate_process_map.py" "<ruta_a_etapa_1>/mapa_procesos.md"
   ```
 
 ---
@@ -139,9 +141,9 @@ flowchart TD
 
 ## 5. Verificación Determinista
 
-Antes de dar por concluido el artefacto, ejecutar:
+Antes de dar por concluido el artefacto, ejecutar pasando la ruta explícita:
 ```bash
-python "skills/processMap/scripts/validate_process_map.py" mapa_procesos.md
+python "skills/processMap/scripts/validate_process_map.py" "<ruta_a_etapa_1>/mapa_procesos.md"
 ```
 El validador confirmará que:
 1. Las 5 secciones requeridas estén presentes.
