@@ -27,6 +27,7 @@ Estas habilidades están diseñadas para ser consumidas y ejecutadas por agentes
   - [9. Construcción de Backend y Pruebas](#9-construcción-de-backend-y-pruebas)
   - [10. Gestión y Mejora de Procesos (GMP / Ciclo PDCA)](#10-gestión-y-mejora-de-procesos-gmp--ciclo-pdca)
   - [11. Ingeniería de Carrera y Optimización Curricular](#11-ingeniería-de-carrera-y-optimización-curricular)
+  - [12. Inteligencia Artificial Estructurada (TypeSafe)](#12-inteligencia-artificial-estructurada-typesafe)
 - [Anatomía de una Skill](#-anatomía-de-una-skill)
 - [Compatibilidad de nombres y agentes](#-compatibilidad-de-nombres-y-agentes)
 - [Guía de Integración y Uso](#-guía-de-integración-y-uso)
@@ -114,6 +115,10 @@ flowchart TD
         CVO[cvOptimizer<br/><i>CV ATS en LaTeX & Google X-Y-Z</i>]
     end
 
+    subgraph IA_Estructurada["Inteligencia Artificial Estructurada"]
+        TSA[typesafe-ai<br/><i>Primitivas IA tipadas: Choice, Score & Noul</i>]
+    end
+
     SC --> RE
     RE --> BPMN
     RE --> UCE
@@ -161,7 +166,7 @@ flowchart TD
 
 ## 📚 Catálogo de Skills
 
-El repositorio cuenta actualmente con **30 skills especializadas**, distribuidas en las siguientes áreas de competencia:
+El repositorio cuenta actualmente con **31 skills especializadas**, distribuidas en las siguientes áreas de competencia:
 
 Las skills migradas muestran en la etiqueta su `name` invocable en hyphen-case.
 Algunos paquetes y enlaces conservan nombres o carpetas históricas en camelCase para
@@ -278,6 +283,16 @@ no romper compatibilidad; ante cualquier diferencia, prevalece el frontmatter.
 | Skill | Descripción | Estándares y Técnicas Clave | Artefactos |
 | :--- | :--- | :--- | :--- |
 | [**cvOptimizer**](cvOptimizer/SKILL.md) | Elaboración, modernización y adaptación de CVs ATS de alto impacto en LaTeX con base de datos incremental y entrega multicanal. | Fórmula Google X-Y-Z canónica, memoria viva `profile_data.json`, topología lineal ATS (1-2 páginas holgadas), modularidad LaTeX (Awesome-CV, Jake's Resume, ModernCV) y render PNG con PyMuPDF. | PDF compilado (`<Apellido Nombre>CV_<Puesto>.pdf`), `preview.png`, `profile_data.json` enriquecido y cuadros de postulación copiables (RRHH, LinkedIn, pitch). |
+
+---
+
+### 12. Inteligencia Artificial Estructurada (TypeSafe)
+
+> **Instalada via:** `npx skills add typesafe-ai/skills --skill typesafe-ai` · [skills.sh/typesafe-ai/skills](https://skills.sh/typesafe-ai/skills) · [Docs](https://docs.typesafe.ai/introduction)
+
+| Skill | Descripción | Primitivas y Modelo | Artefactos |
+| :--- | :--- | :--- | :--- |
+| [**typesafe-ai**](typesafeAi/SKILL.md) | Integra el modelo **Jev** de TypeSafe — el primer *System One model* — para construir software con unidades de inteligencia AI tipadas y componibles. En lugar de generar texto libre, Jev evalúa un *estado* (texto, JSON, arrays) contra preguntas tipadas y retorna respuestas estructuradas con probabilidades y confianza que el código puede consumir directamente (branch, sort, route). Usar cuando una feature necesita sentido común programable, cuando un paso LLM prompt-and-parse podría convertirse en una decisión estructurada, o para explorar qué puede hacer la IA en una aplicación. | **Primitivas:** `Choice` (selecciona una opción de una lista → `choice + probabilities + confidence`), `Score` (puntúa el estado contra una rúbrica → `score + probabilities + confidence`), `Noul` (¿es verdadera esta afirmación? → `noul` 0–1). **Modelo:** `jev-latest` (SDK default). **Casos:** routing, ranking, extracción, verificación, experiencias interactivas. | Código de integración via Python SDK, JavaScript SDK o `POST /v1/systemone`. Lee documentación viva en [docs.typesafe.ai/llms.txt](https://docs.typesafe.ai/llms.txt). |
 
 ---
 
