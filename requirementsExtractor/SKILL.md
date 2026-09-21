@@ -1,5 +1,5 @@
 ---
-name: requirements-extractor
+name: requirementsExtractor
 description: Extrae y normaliza requisitos trazables desde entrevistas, minutas, documentos, formularios o notas de relevamiento. Úsala para construir un registro de RF/RNF, reglas, historias de usuario opcionales y preguntas abiertas; no para inventar una solución ni diseñar casos de uso, dominio o arquitectura.
 ---
 

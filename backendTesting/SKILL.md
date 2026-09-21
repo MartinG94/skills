@@ -1,5 +1,5 @@
 ---
-name: backend-testing
+name: backendTesting
 description: >-
   Diseña, implementa o audita pruebas automatizadas de backend a partir del
   comportamiento, los riesgos y el stack existentes. Selecciona el nivel de prueba y

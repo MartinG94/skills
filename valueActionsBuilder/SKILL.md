@@ -1,5 +1,5 @@
 ---
-name: value-actions-builder
+name: valueActionsBuilder
 description: >-
   Formula y estructura el Inventario de Acciones de Valor en la Etapa 3 de Gestión y Mejora
   de Procesos (GMP) a partir de los cruces estratégicos CAME (FO, FA, DO, DA), según los materiales oficiales

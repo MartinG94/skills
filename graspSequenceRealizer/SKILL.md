@@ -1,5 +1,5 @@
 ---
-name: grasp-sequence-realizer
+name: graspSequenceRealizer
 description: >-
   Deriva realizaciones de casos de uso y diagramas de secuencia trazables, separando
   análisis BCE/GRASP de diseño detallado. Úsala cuando se pide una RCU, una secuencia o

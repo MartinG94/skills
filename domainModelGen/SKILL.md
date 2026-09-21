@@ -1,5 +1,5 @@
 ---
-name: domain-model-gen
+name: domainModelGen
 description: Genera un modelo conceptual del dominio en UML a partir de requisitos, procesos o relatos del negocio, con clases, atributos, responsabilidades y relaciones trazables. Úsala para comprender el problema y aplicar patrones de dominio ASI cuando correspondan; no para diseñar tablas, servicios, controladores ni arquitectura.
 ---
 

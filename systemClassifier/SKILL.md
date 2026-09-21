@@ -1,5 +1,5 @@
 ---
-name: system-classifier
+name: systemClassifier
 description: Analiza un sistema de información, clasifica sus capacidades como TPS/MIS/DSS/ESS/KMS/AI, evalúa prefactibilidad técnica-económica-operativa o ubica artefactos en PUD. Selecciona un modo según la pregunta y basa todo dictamen en evidencia; no crea arquitectura, cifras, cronogramas ni tecnología faltante.
 ---
 

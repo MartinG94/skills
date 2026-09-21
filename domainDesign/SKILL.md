@@ -1,5 +1,5 @@
 ---
-name: domain-design
+name: domainDesign
 description: >-
   Transforma modelos de análisis y realizaciones de casos de uso en un Diagrama de
   Clases de Diseño trazable. Úsala para decidir clases, responsabilidades, interfaces

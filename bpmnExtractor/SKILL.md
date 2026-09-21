@@ -1,5 +1,5 @@
 ---
-name: bpmn-extractor
+name: bpmnExtractor
 description: >-
   Modela procesos de negocio a partir de narrativas, entrevistas o fichas mediante el perfil BPMN
   usado en Análisis de Sistemas. Produce una ficha institucional y una especificación trazable del BPD

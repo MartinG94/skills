@@ -1,5 +1,5 @@
 ---
-name: mermaid-diagram-gen
+name: mermaidDiagramGen
 description: >-
   Genera, corrige y valida diagramas Mermaid a partir de contenido ya definido: flujos, secuencias,
   clases, ERD, estados, arquitectura, cronogramas y otras familias soportadas. También puede expresar

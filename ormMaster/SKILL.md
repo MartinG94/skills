@@ -1,5 +1,5 @@
 ---
-name: orm-master
+name: ormMaster
 description: >-
   Audita, diseña u optimiza el mapeo y el acceso a datos de un ORM existente, usando
   el framework, la base y los requisitos del proyecto. Diagnostica carga de grafos,

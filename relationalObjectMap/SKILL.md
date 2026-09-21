@@ -1,5 +1,5 @@
 ---
-name: relational-object-map
+name: relationalObjectMap
 description: >-
   Traduce un DCD o modelo de objetos a decisiones de mapeo relacional trazables. Genera
   esquema o DDL sólo si se solicita y existe un motor objetivo; no implementa acceso a

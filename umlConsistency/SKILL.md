@@ -1,5 +1,5 @@
 ---
-name: uml-consistency
+name: umlConsistency
 description: >-
   Audita trazabilidad y consistencia entre realizaciones o diagramas de secuencia, diagramas de
   clases, máquinas de estados y código. Detecta contradicciones de firmas, receptores, creación,

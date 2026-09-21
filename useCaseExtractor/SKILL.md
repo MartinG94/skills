@@ -1,5 +1,5 @@
 ---
-name: use-case-extractor
+name: useCaseExtractor
 description: Descubre, estructura y describe casos de uso de sistema trazables desde requisitos o procesos. Úsala para el modelo y las descripciones institucionales de CU; no para realizar secuencias BCE, asignar responsabilidades de diseño ni introducir interfaz, persistencia o tecnología no documentadas.
 ---
 

@@ -1,5 +1,5 @@
 ---
-name: quality-scenario-specifier
+name: qualityScenarioSpecifier
 description: >-
   Convierte requisitos no funcionales en escenarios de calidad verificables sin
   inventar umbrales. Usa el formato de cátedra atributo–estímulo–respuesta por defecto

@@ -1,5 +1,5 @@
 ---
-name: crud-validator
+name: crudValidator
 description: Construye una matriz de trazabilidad CRUD entre clases de dominio y casos de uso o requisitos, mostrando evidencia, cobertura y vacíos. Úsala como diagnóstico de consistencia; no presupone que toda clase necesite C, R, U y D ni genera requisitos o casos de uso para completar la matriz.
 ---
 

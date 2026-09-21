@@ -1,5 +1,5 @@
 ---
-name: microservice-decomposer
+name: microserviceDecomposer
 description: >-
   Evalúa monolito modular frente a microservicios y, cuando se justifican, propone
   límites de servicios trazables al negocio y a atributos de calidad. Úsala para

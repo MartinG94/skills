@@ -1,5 +1,5 @@
 ---
-name: design-ux-ui
+name: designUxUi
 description: >-
   Diseña, audita o implementa experiencias e interfaces web a partir de requisitos y
   contexto visual aprobados. Respeta el stack y sistema de diseño existentes, ajusta

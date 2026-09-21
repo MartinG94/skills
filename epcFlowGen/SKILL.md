@@ -1,5 +1,5 @@
 ---
-name: epc-flow-gen
+name: epcFlowGen
 description: >-
   Analiza y coordina la resolución de Ejercicios Prácticos Complementarios (EPC) de
   Análisis o Diseño de Sistemas: descompone la consigna, identifica los artefactos

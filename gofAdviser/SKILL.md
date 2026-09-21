@@ -1,5 +1,5 @@
 ---
-name: gof-adviser
+name: gofAdviser
 description: >-
   Evalúa si un problema de diseño justifica un patrón GoF y compara alternativas y
   consecuencias. Úsala para asesorar o refactorizar diseño existente; no para añadir

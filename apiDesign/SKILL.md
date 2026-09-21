@@ -1,5 +1,5 @@
 ---
-name: api-design
+name: apiDesign
 description: >-
   Diseña o audita contratos HTTP/REST y especificaciones OpenAPI a partir de casos de
   uso y requisitos aprobados. Define recursos, operaciones, errores, idempotencia y
