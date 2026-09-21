@@ -67,6 +67,8 @@
     "cameStrategizer": { "canonical_name": "cameStrategizer", "skill_file": "cameStrategizer/SKILL.md" },
     "came-strategizer": { "canonical_name": "cameStrategizer", "skill_file": "cameStrategizer/SKILL.md" },
     "organizational-motivations": { "canonical_name": "organizational-motivations", "skill_file": "organizationalMotivations/SKILL.md" },
-    "organizationalMotivations": { "canonical_name": "organizational-motivations", "skill_file": "organizationalMotivations/SKILL.md" }
+    "organizationalMotivations": { "canonical_name": "organizational-motivations", "skill_file": "organizationalMotivations/SKILL.md" },
+    "typesafeAi": { "canonical_name": "typesafe-ai", "skill_file": "typesafeAi/SKILL.md" },
+    "typesafe-ai": { "canonical_name": "typesafe-ai", "skill_file": "typesafeAi/SKILL.md" }
   }
 }

@@ -30,6 +30,12 @@
       "sourceType": "github",
       "skillPath": ".agents/skills/technical-writing/SKILL.md",
       "computedHash": "2f09117fc48e8710838c41f8f496f69f63b43e6e8b4475494cab90e87a0adee5"
+    },
+    "typesafe-ai": {
+      "source": "typesafe-ai/skills",
+      "sourceType": "github",
+      "skillPath": "skills/typesafe-ai/SKILL.md",
+      "computedHash": "a6ed7d8a3d2b2d962f8e44b17663767c433b7d1fc32d1ed0349a44f7372513e8"
     }
   }
 }
