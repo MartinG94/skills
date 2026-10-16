@@ -19,3 +19,11 @@
 
 - **Exploración y Diagnóstico Rápido:** Delegar en `explorer-low` (`model: flash_lite`) para grep, búsqueda masiva de archivos o filtrado de logs sin gastar tokens de pensamiento.
 - **Implementación de Código:** Delegar en `code-executor` (`model: flash`) para aplicar cambios quirúrgicos siguiendo el plan aprobado.
+
+## 4. Orquestación en Equipos de Trabajo Multiagente (/teamwork-preview y Cascada Jerárquica)
+
+- **Nivel del Orquestador:** Al estructurar o invocar equipos de trabajo (`Coordinator`, `Project Orchestrator`, `Auditor`), el orquestador debe ser un modelo inteligente (`pro` o de frontera).
+- **Gestión de Contexto del Orquestador:** Los orquestadores deben mantener su contexto liviano y estructurado (requisitos, criterios de aceptación, contratos de interfaces y reportes de estado); nunca deben saturarse leyendo código completo ni volcados masivos de terminal.
+- **Decisión Dinámica de Inteligencia Operativa:** El orquestador es la autoridad facultada para evaluar la dificultad técnica de cada subtarea y decidir el nivel de inteligencia asignado al trabajador:
+  * **Gemini 3.8 Flash Medium (`flash`):** Para lógica de negocio, edición de código acoplado, resolución de tipos y desarrollo de pruebas unitarias.
+  * **Gemini 3.8 Flash Low (`flash_lite`):** Para búsquedas sintácticas, grep, inspección de rutas, generación de boilerplate repetitivo y ejecución básica de scripts.
