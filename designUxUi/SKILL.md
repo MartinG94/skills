@@ -89,6 +89,9 @@ existente por esas plantillas.
 Si se diseña un producto nuevo sin marca ni referencias, puede consultarse
 [references/taste-design-guide.md](references/taste-design-guide.md) y usar
 `DESIGN-taste.template.md` como punto de partida editable, nunca como norma universal.
+Si el usuario solicita una dirección estética de referencia (Linear, Vercel/Geist,
+Stripe, Supabase, Apple HIG, Notion) o si el servidor MCP `better-design` está disponible,
+consultar [references/design-systems-catalog.md](references/design-systems-catalog.md).
 
 ### 3. Diseñar la interfaz
 
@@ -101,7 +104,8 @@ Si se diseña un producto nuevo sin marca ni referencias, puede consultarse
   nombres, imágenes o métricas que falten.
 - No prometer acciones que el prototipo o la implementación no realizan.
 
-Para decisiones de layout, controles, responsive y contraste, leer
+Para decisiones de layout (Bento grids, command palettes, sticky progressive disclosure),
+controles, responsive, contraste y el checklist de pre-entrega, leer
 [references/interface-craft.md](references/interface-craft.md) solo en trabajos de
 diseño visual o implementación.
 
@@ -114,6 +118,12 @@ En modo Implementación:
 3. implementar el menor conjunto de archivos que complete la tarea;
 4. conectar acciones a comportamiento real o declarar claramente el alcance de demo;
 5. no iniciar servidores ni abrir previews si no aportan a la verificación solicitada.
+
+Para microinteracciones, animaciones físicas con resortes, textos sin sobrecarga JS
+o efectos de cursor con compuertas de puntero, consultar
+[references/motion-and-microinteractions.md](references/motion-and-microinteractions.md).
+Para capas generativas WebGL o fondos dinámicos en Canvas con aislamiento de interacción,
+consultar [references/shaders-and-canvas.md](references/shaders-and-canvas.md).
 
 Un HTML autocontenido es apropiado para una demo aislada, no el valor por defecto de
 todo frontend. Los mecanismos de incrustación y las URLs de assets dependen del host;
@@ -132,6 +142,8 @@ Para una implementación, comprobar como mínimo lo afectado por el cambio:
 - reflow, overflow y legibilidad en viewports relevantes;
 - carga, vacío, error y éxito que formen parte del flujo;
 - acciones principales y ausencia de controles inertes;
+- verificación de reglas de pre-entrega de Better Design (alineación óptica de iconos,
+  `tabular-nums` en métricas y consistencia de alturas de controles);
 - lint, types y pruebas existentes relacionadas.
 
 WCAG 2.2 AA es la referencia por defecto cuando no existe otra exigencia, pero no

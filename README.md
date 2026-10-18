@@ -28,6 +28,7 @@ Estas habilidades están diseñadas para ser consumidas y ejecutadas por agentes
   - [10. Gestión y Mejora de Procesos (GMP / Ciclo PDCA)](#10-gestión-y-mejora-de-procesos-gmp--ciclo-pdca)
   - [11. Ingeniería de Carrera y Optimización Curricular](#11-ingeniería-de-carrera-y-optimización-curricular)
   - [12. Inteligencia Artificial Estructurada (TypeSafe)](#12-inteligencia-artificial-estructurada-typesafe)
+  - [13. Ingeniería Agéntica, Comprensión de Código y Diseño Avanzado (Top 10 OpenCode)](#13-ingeniería-agéntica-comprensión-de-código-y-diseño-avanzado-top-10-opencode)
 - [Anatomía de una Skill](#-anatomía-de-una-skill)
 - [Compatibilidad de nombres y agentes](#-compatibilidad-de-nombres-y-agentes)
 - [Guía de Integración y Uso](#-guía-de-integración-y-uso)
@@ -226,7 +227,9 @@ no romper compatibilidad; ante cualquier diferencia, prevalece el frontmatter.
 
 | Skill | Descripción | Estándares y Técnicas Clave | Artefactos |
 | :--- | :--- | :--- | :--- |
-| [**design-ux-ui**](designUxUi/SKILL.md) | Diseño, auditoría o implementación de UX/UI con un artefacto proporcional al pedido y al sistema existente. | Flujos y estados, reutilización de componentes/tokens, accesibilidad WCAG 2.2 AA y verificación condicional. | Especificación, prototipo, código o informe según el modo; `references/` y `scripts/` se cargan solo cuando aplican. |
+| [**design-ux-ui**](designUxUi/SKILL.md) | Diseño, auditoría o implementación de UX/UI proporcional al pedido y al sistema existente, potenciada con sistemas de diseño de referencia, primitivas de movimiento y capas de shaders/WebGL. | Flujos y estados, reutilización de componentes/tokens, integración con `better-design` MCP (Linear, Vercel, Stripe, Apple), física de resortes (`motion-primitives`), animaciones CSS zero-runtime (`trickle-UI-kit`), cursores (`cursify`), shaders (`paper-design/shaders`, `canvas-ui`) y WCAG 2.2 AA. | Especificación, prototipo, `DESIGN.md`, código o informe; `references/` y `scripts/` bajo progressive disclosure. |
+| [**uiUxProMax**](uiUxProMax/SKILL.md) | Motor de inteligencia de diseño UI/UX multiplataforma con bases de datos curadas de estilos visuales, paletas cromáticas por industria y escalas tipográficas. | Matriz de 7 estilos (Editorial Minimalism, Technical Dark, Bento, Swiss, Neo-Brutalism, Glassmorphism, Spatial), paletas Hex/OKLCH con WCAG AAA, escalas Display/Sans/Mono y selección de gráficos DataViz. | Sistemas de tokens, dirección de arte, tablas de estilo y guías multiplataforma (Web, iOS HIG, Material 3, Desktop). |
+| [**impeccable**](impeccable/SKILL.md) | Lenguaje de diseño de alta precisión y auditor visual anti-slop para interfaces web y landing pages. | Detector de 8 anti-patrones de IA (*AI Slop Detector*), ley matemática de radios concéntricos ($R_{ext} = R_{int} + d$), bordes de luminancia `1px`, alineación óptica, `tabular-nums` y modos `detect`, `polish`, `distill`, `animate`. | Informe `IMPECCABLE_AUDIT.md` o refinamiento quirúrgico de CSS/componentes. |
 
 ---
 
@@ -245,6 +248,7 @@ no romper compatibilidad; ante cualquier diferencia, prevalece el frontmatter.
 | :--- | :--- | :--- | :--- |
 | [**oratoriaPnl**](pnlOratoria/SKILL.md) | Estructuración y preparación de presentaciones orales de alto impacto basadas en Programación Neurolingüística y retórica persuasiva. | Análisis de audiencia 5Q, sistemas representacionales VAK (Visual, Auditivo, Kinestésico), metaprogramas, encuadres, calibración y feedback. | `references/` (01 a 05: el presentador PNL, diseño 5Q, audiencia, voz/cuerpo, feedback) |
 | [**humanizer**](humanizer/SKILL.md) | Desintoxicación y humanización de textos generados por IA; restauración de cadencia rítmica (*burstiness*), perplejidad y erradicación de clichés sintéticos. | 24 patrones de IA, matriz de intensidad (`light`, `medium`, `aggressive`), modos general/técnico/académico y detector automatizado. | Texto pulido con reporte diagnóstico, `scripts/` (detector, analizador, regresión) y catálogo de patrones. |
+| [**caveman**](caveman/SKILL.md) | Comunicación ultra-concisa con poda léxica agresiva (~75% menos tokens de salida) preservando el 100% de exactitud técnica. | Niveles `lite`, `full`, `ultra`, `wenyan` y sub-modos especializados para commits, code reviews y prompts. | Respuestas telegráficas de alta densidad técnica. |
 
 ---
 
@@ -293,6 +297,21 @@ no romper compatibilidad; ante cualquier diferencia, prevalece el frontmatter.
 | Skill | Descripción | Primitivas y Modelo | Artefactos |
 | :--- | :--- | :--- | :--- |
 | [**typesafe-ai**](typesafeAi/SKILL.md) | Integra el modelo **Jev** de TypeSafe — el primer *System One model* — para construir software con unidades de inteligencia AI tipadas y componibles. En lugar de generar texto libre, Jev evalúa un *estado* (texto, JSON, arrays) contra preguntas tipadas y retorna respuestas estructuradas con probabilidades y confianza que el código puede consumir directamente (branch, sort, route). Usar cuando una feature necesita sentido común programable, cuando un paso LLM prompt-and-parse podría convertirse en una decisión estructurada, o para explorar qué puede hacer la IA en una aplicación. | **Primitivas:** `Choice` (selecciona una opción de una lista → `choice + probabilities + confidence`), `Score` (puntúa el estado contra una rúbrica → `score + probabilities + confidence`), `Noul` (¿es verdadera esta afirmación? → `noul` 0–1). **Modelo:** `jev-latest` (SDK default). **Casos:** routing, ranking, extracción, verificación, experiencias interactivas. | Código de integración via Python SDK, JavaScript SDK o `POST /v1/systemone`. Lee documentación viva en [docs.typesafe.ai/llms.txt](https://docs.typesafe.ai/llms.txt). |
+
+---
+
+### 13. Ingeniería Agéntica, Comprensión de Código y Diseño Avanzado (Top 10 OpenCode)
+
+> Índice externo complementario: [**ComposioHQ/awesome-claude-skills**](https://github.com/ComposioHQ/awesome-claude-skills) (directorio curado de la comunidad).
+
+| Skill | Descripción | Estándares y Técnicas Clave | Artefactos |
+| :--- | :--- | :--- | :--- |
+| [**superpowers**](superpowers/SKILL.md) | Metodología agéntica de ciclo de vida de desarrollo (SDLC) disciplinado inspirada en `obra/superpowers`. | 5 fases obligatorias: Brainstorming & Design Gate, Plan de tareas atómicas (2–5 min), Ciclo TDD estricto (Red ➔ Green ➔ Refactor), Debugging sistemático en 4 pasos y Revisión de código pre-merge. | Especificación de diseño, plan atómico ejecutable, suites TDD y dictamen de revisión. |
+| [**ponytail**](ponytail/SKILL.md) | Filosofía del *"Lazy Senior Developer"* (`DietrichGebert/ponytail`): el mejor código es el que nunca escribiste. | Preferencia por Net LOC negativo, prioridad de APIs nativas del runtime sobre dependencias externas, erradicación de wrappers de un solo uso (YAGNI), control de radio de impacto y modos `implement`, `review`, `audit`. | Implementación minimalista o informe `/ponytail-review` / `/ponytail-audit` con presupuesto de complejidad. |
+| [**addyOsmaniSkills**](addyOsmaniSkills/SKILL.md) | Estándares de ingeniería de software de grado productivo basados en `addyosmani/agent-skills`. | Modos `interview-me` (desambiguación interactiva), `spec-driven` (`SPEC.md` con contratos y máquinas de estados), `incremental` (tajadas verticales pequeñas) y `web-performance` (Core Web Vitals: LCP < 2.5s, INP < 200ms, CLS < 0.1). | Documento `SPEC.md`, entregas incrementales verificadas y auditorías Core Web Vitals. |
+| [**graphify**](graphify/SKILL.md) | Extracción de grafos de conocimiento persistentes a partir de código, documentación, papers, imágenes o videos (`Graphify-Labs/graphify`). | Detección de comunidades (Leiden), identificación de *god nodes*, análisis AST + semántico y consultas sobre `graphify-out/`. | `GRAPH_REPORT.md`, `graph.json` y visualización `graph.html`. |
+| [**understandAnything**](understandAnything/SKILL.md) | Comprensión profunda de repositorios, trazabilidad arquitectónica extremo a extremo y onboarding acelerado (`Egonex-AI/Understand-Anything`). | Modos `map` (mapa de dominios, capas y entrypoints), `explain` (traza de ejecución con citas `archivo:línea`) y `onboard` (guía de lectura e invariantes), integrado con `codebase-memory` MCP y `graphify`. | `CODEBASE_MAP.md`, `FLOW_TRACE.md` y `ONBOARDING.md`. |
+| [**archify**](archify/SKILL.md) | Generación de documentación arquitectónica interactiva en HTML autónomo sin dependencias externas (`tt-a1i/archify`). | Explorador visual de arquitectura zero-dependency standalone HTML con filtros por capa, búsqueda en vivo, inspector de nodos, matrices de dependencias y diagramas Mermaid/SVG embebidos. | `architecture.html` interactivo autocontenido y `ARCHITECTURE_SUMMARY.md`. |
 
 ---
 

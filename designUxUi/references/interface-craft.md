@@ -19,6 +19,11 @@ La estética debe sostener la tarea. Evita el uso automático de tarjetas, gradi
 
 - Diseña desde el contenido y las prioridades. Usa grilla, alineación, proximidad, espacio y región común para comunicar relaciones.
 - Prefiere dimensiones fluidas, `min()`, `max()`, `clamp()`, flexbox, grid y container queries cuando sean compatibles con el proyecto.
+- **Patrones Modernos de Layout (UI Layouts & Hyperiux):**
+  - **Bento Grids Asimétricos:** Emplear grillas Bento con celdas de tamaño diferenciado para destacar la característica principal (tarjeta hero 2x2) combinada con tarjetas secundarias (1x1 o 2x1), guiando la mirada de forma natural.
+  - **Paneles Sticky con Progressive Disclosure:** Mantener anclado el resumen de acción o navegación lateral mientras el contenido largo fluye, asegurando que el control de acción principal permanezca siempre accesible.
+  - **Split-Screens y Command Palettes (`Cmd+K`):** Para flujos técnicos o de navegación densa, estructurar divisiones limpias entre listado y detalle, y ofrecer acceso rápido por teclado mediante command palettes accesibles (role `combobox` / `dialog`).
+  - **Scrollytelling Contenido:** Si la narrativa del producto exige avance progresivo por scroll, sincronizar estados mediante `IntersectionObserver` evitando secuestros agresivos de scroll (*scroll-jacking*).
 - Elige breakpoints donde el contenido deja de funcionar, no por una lista fija de dispositivos.
 - Decide qué debe reordenarse, resumirse, desplazarse o cambiar de patrón; responsive no significa solo reducir tamaños.
 - Verifica zoom, texto ampliado, orientación, altura reducida, teclado virtual, safe areas y scroll anidado cuando sean pertinentes. Un panel `sticky` o `fixed` no debe volver inaccesible su propia acción.
@@ -99,8 +104,20 @@ Un scanner automatizado no prueba conformidad. Combínalo con teclado, zoom, ins
 
 - Anima para explicar relación, continuidad o estado; no por decoración automática.
 - Respeta reducción de movimiento y evita `transition: all`.
+- Para físicas con resortes (*springs*), morphing de diálogos, revelado tipográfico en CSS y microinteracciones de cursor, consultar [references/motion-and-microinteractions.md](motion-and-microinteractions.md).
+- Para capas generativas en Canvas / WebGL y fondos animados con compuertas de rendimiento, consultar [references/shaders-and-canvas.md](shaders-and-canvas.md).
 - Mantén estable el layout durante carga. Elige skeleton, placeholder, spinner, progreso o texto según duración conocida, cantidad de contenido y riesgo de distracción.
 - Optimiza imágenes, fuentes y JavaScript. Revisa que el acabado visual no degrade interacción, carga o batería.
+
+## Checklist de Pre-entrega de Frontend (Better Design Review Rules)
+
+Antes de dar por concluida cualquier implementación o prototipo visual, verificar:
+
+1. **Foco Accesible y Visible (`:focus-visible`):** Todo botón, enlace e input debe tener un anillo de foco nítido y con contraste perceptible al navegar por teclado.
+2. **Alineación Óptica:** Los iconos junto a texto deben estar alineados ópticamente mediante `inline-flex` y compensación en línea base, nunca desfasados verticalmente.
+3. **Consistencia de Alturas:** Controles interactivos hermanos (ej. botón primario junto a un input de texto) deben compartir la misma altura (`h-9` / `36px` o `h-10` / `40px`).
+4. **Prevención de Layout Shift (CLS):** Todas las imágenes, avatares e iconos SVG deben declarar explícitamente sus dimensiones (`width` y `height`), y las métricas numéricas deben usar `tabular-nums`.
+5. **Estilo y Perfil de Referencia:** Si se diseñó con un perfil específico (Linear, Vercel, Stripe, Supabase, Apple, Notion), validar coherencia con [references/design-systems-catalog.md](design-systems-catalog.md).
 
 ## Calibración de heurísticas
 

@@ -10,8 +10,11 @@ Herramienta integral de diseño, auditoría y prototipado de interfaces de usuar
 
 ### Capacidades Principales:
 - **Sistemas de Diseño y Tokens (`DESIGN.md`):** Genera y audita especificaciones tipográficas, paletas de color semánticas, espaciados y jerarquías visuales.
+- **Catálogo de Sistemas de Referencia:** Incorpora perfiles de alta gama (Linear, Vercel/Geist, Stripe, Supabase, Apple HIG, Notion) y consulta opcional del servidor MCP `better-design`.
+- **Microinteracciones y Movimiento Físico:** Física de resortes (*springs*), morphing de diálogos (`layoutId`), animaciones tipográficas zero-runtime en CSS y microinteracciones de cursor.
+- **Shaders y Superficies Generativas:** Integración de WebGL/Canvas (`MeshGradient`, `DotOrbit`, `NeuroNoise`) desacoplados con compuertas de accesibilidad y contraste WCAG 2.2 AA.
 - **Matrices de Diálogo Pantalla-Gestor (DSI):** Mapea la interacción entre pantallas de usuario y controladores/gestores del sistema.
-- **Auditoría Heurística de Usabilidad:** Evalúa interfaces según las 10 heurísticas de Nielsen, accesibilidad WCAG 2.1 y directivas de usabilidad.
+- **Auditoría Heurística de Usabilidad y Anti-Slop:** Evalúa interfaces según las 10 heurísticas de Nielsen, accesibilidad WCAG 2.2 y reglas anti-clichés de IA.
 - **Widgets Interactivos Embebidos:** Genera componentes web interactivos (`<agent-embed>`) con soporte para temas, variables CSS de host y Tailwind CSS.
 
 ---
@@ -26,14 +29,17 @@ designUxUi/
 │   └── openai.yaml
 ├── references/                             # Manuales y normativas de experiencia de usuario
 │   ├── course-source-map.md                # Trazabilidad académica DSI
+│   ├── design-systems-catalog.md           # Perfiles Linear, Vercel, Stripe, Supabase, Apple, Notion y MCP
 │   ├── design-tokens-spec.md               # Especificación técnica de tokens de diseño
 │   ├── designmd-cli.md                     # Directivas de integración CLI
 │   ├── dsi-dialog-matrix.md                # Matriz de diálogo Pantalla-Gestor
 │   ├── extract-code-guide.md               # Guía de extracción de código frontend
-│   ├── interface-craft.md                  # Pautas de diseño y microinteracciones
+│   ├── interface-craft.md                  # Criterios de layout (Bento), controles y checklist de pre-entrega
+│   ├── motion-and-microinteractions.md     # Física de resortes, CSS zero-runtime y compuertas de cursor
 │   ├── preview-and-runtime.md              # Entorno de previsualización y widgets
 │   ├── quality-gates.md                    # Criterios de aceptación y accesibilidad
-│   ├── taste-design-guide.md               # Pautas estilísticas y de refinamiento visual
+│   ├── shaders-and-canvas.md               # Arquitectura WebGL/Canvas, velo de contraste y compuertas
+│   ├── taste-design-guide.md               # Pautas estilísticas, protocolo Anti-AI-Slop y matemática óptica
 │   └── ux-method.md                        # Metodología de investigación y diseño UX
 ├── resources/templates/                    # Plantillas de artefactos visuales
 │   ├── DESIGN-minimal.template.md          # Plantilla básica de diseño
@@ -53,7 +59,9 @@ designUxUi/
 
 ## 3. Prerequisitos de Entorno
 
-- Python 3.8+ (para `serve_preview.py` y `extract_tokens.py`).\n- PowerShell 5.1+ (para scripts `.ps1`).
+- Python 3.8+ (para `serve_preview.py` y `extract_tokens.py`).
+- PowerShell 5.1+ (para scripts `.ps1`).
+- Node.js 20+ (opcional, para consultar el servidor MCP de Better Design si está configurado).
 
 ---
 

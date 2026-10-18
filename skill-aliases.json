@@ -1,4 +1,4 @@
-﻿{
+{
     "schema_version":  1,
     "aliases":  {
                     "apiDesign":  {
@@ -276,6 +276,58 @@
                     "typesafe-ai":  {
                                         "canonical_name":  "typesafe-ai",
                                         "skill_file":  "typesafeAi/SKILL.md"
-                                    }
+                                    },
+                    "superpowers":  {
+                                        "canonical_name":  "superpowers",
+                                        "skill_file":  "superpowers/SKILL.md"
+                                    },
+                    "ponytail":  {
+                                     "canonical_name":  "ponytail",
+                                     "skill_file":  "ponytail/SKILL.md"
+                                 },
+                    "uiUxProMax":  {
+                                       "canonical_name":  "ui-ux-pro-max",
+                                       "skill_file":  "uiUxProMax/SKILL.md"
+                                   },
+                    "ui-ux-pro-max":  {
+                                          "canonical_name":  "ui-ux-pro-max",
+                                          "skill_file":  "uiUxProMax/SKILL.md"
+                                      },
+                    "addyOsmaniSkills":  {
+                                             "canonical_name":  "addy-osmani-skills",
+                                             "skill_file":  "addyOsmaniSkills/SKILL.md"
+                                         },
+                    "addy-osmani-skills":  {
+                                               "canonical_name":  "addy-osmani-skills",
+                                               "skill_file":  "addyOsmaniSkills/SKILL.md"
+                                           },
+                    "agent-skills":  {
+                                         "canonical_name":  "addy-osmani-skills",
+                                         "skill_file":  "addyOsmaniSkills/SKILL.md"
+                                     },
+                    "understandAnything":  {
+                                               "canonical_name":  "understand-anything",
+                                               "skill_file":  "understandAnything/SKILL.md"
+                                           },
+                    "understand-anything":  {
+                                                "canonical_name":  "understand-anything",
+                                                "skill_file":  "understandAnything/SKILL.md"
+                                            },
+                    "archify":  {
+                                    "canonical_name":  "archify",
+                                    "skill_file":  "archify/SKILL.md"
+                                },
+                    "impeccable":  {
+                                       "canonical_name":  "impeccable",
+                                       "skill_file":  "impeccable/SKILL.md"
+                                   },
+                    "graphify":  {
+                                     "canonical_name":  "graphify",
+                                     "skill_file":  "graphify/SKILL.md"
+                                 },
+                    "caveman":  {
+                                    "canonical_name":  "caveman",
+                                    "skill_file":  "caveman/SKILL.md"
+                                }
                 }
 }

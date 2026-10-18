@@ -20,14 +20,32 @@ Definir explícitamente tres ejes antes de elegir tokens:
    - densa: monitoreo, tablas y herramientas expertas.
 2. **Composición**
    - regular: comparación rápida, familiaridad y previsibilidad;
-   - desplazada/asimétrica: énfasis editorial o jerarquía deliberada.
+   - desplazada/asimétrica: énfasis editorial o jerarquía deliberada (flujo tipo Canvas de Superdesign).
 3. **Movimiento**
    - mínimo: tareas frecuentes, información crítica o preferencia de movimiento
      reducido;
    - expresivo: transiciones que aclaran continuidad o identidad de marca.
 
-Elegir un punto por eje y justificarlo con audiencia, tarea y contenido. No usar una
-escala numérica si no aporta una decisión comprobable.
+Para perfiles estéticos canónicos de referencia (Linear, Vercel/Geist, Stripe, Supabase, Apple HIG, Notion), consultar [references/design-systems-catalog.md](design-systems-catalog.md).
+
+## Protocolo Anti-AI-Slop (Auditoría Estética Crítica)
+
+Al diseñar o auditar interfaces generadas por modelos de lenguaje, erradicar activamente los clichés estéticos no justificados:
+
+1. **Eliminar el degradado violeta/índigo genérico:** No inyectar `from-purple-600 to-indigo-600` o violetas sobre negro salvo que la identidad de marca aprobada lo exija explícitamente.
+2. **Desterrar las tres tarjetas idénticas como plantilla universal:** No resolver todo layout con una fila de 3 cards repetitivas; variar jerarquías según la relevancia del contenido.
+3. **Erradicar emojis como iconos de sistema:** Usar sets vectoriales SVG consistentes y accesibles (Lucide, Heroicons, Radix) en lugar de emojis en navegación y acciones.
+4. **Reemplazar sombras sucias (*muddy shadows*):** No usar halos oscuros con gran desenfoque (`blur > 30px`) en negro puro; aplicar sombras de dos capas (ambiente + luz directa) entintadas sutilmente.
+
+## Matemática Espacial y Precisión Óptica
+
+- **Ley de Radios Concéntricos:** Al anidar contenedores con bordes redondeados, calcular el radio exterior en función del interior y el padding:
+  $$R_{outer} = R_{inner} + Padding$$
+  $$R_{inner} = \max(0, R_{outer} - Padding)$$
+  Evita el pinzamiento visual de las esquinas interiores.
+- **Bordes de Luminancia de 1px:** En modo oscuro o interfaces de alta definición, delimitar superficies elevadas con un borde sutil de 1px (`rgba(255, 255, 255, 0.08)` o `oklch`), sustituyendo sombras pesadas.
+- **Estabilidad Numérica:** Aplicar obligatoriamente `font-variant-numeric: tabular-nums` (o clase `tabular-nums`) en contadores, precios, tablas y métricas para prevenir vibraciones horizontales (*jitter*).
+- **Equilibrio Tipográfico:** Aplicar `text-wrap: balance` a encabezados ($H1-H4$) para evitar palabras huérfanas, y `text-wrap: pretty` a párrafos de lectura.
 
 ## Color
 
@@ -74,6 +92,8 @@ escala numérica si no aporta una decisión comprobable.
   animación.
 - Elegir duración y curva según plataforma y componente; no copiar parámetros físicos
   fijos en todos los proyectos.
+- Para animaciones físicas con resortes, textos sin runtime JS o microinteracciones de cursor, consultar [references/motion-and-microinteractions.md](motion-and-microinteractions.md).
+- Para integración de WebGL, lienzos y shaders generativos, consultar [references/shaders-and-canvas.md](shaders-and-canvas.md).
 
 ## Señales de una propuesta poco sustentada
 
