@@ -2,16 +2,16 @@
 
 ## 1. Escalamiento Progresivo de Modelos (Plan Pro - 4 Niveles)
 
-- **Nivel 1A (Diario y Ágil - 75%):** `Gemini 3.8 Flash (Medium)` como caballo de batalla predeterminado para navegación, chat, generación y subagente `code-executor`.
-- **Nivel 1B (Planificación y Arquitectura Estándar - 10%):** `Gemini 3.8 Flash (High)` (tope de ~10K tokens de pensamiento) para formular planes interactivos (`/plan`) o abordar diseño moderado dentro del pool estándar de Gemini, **sin gastar el cupo semanal de Argon ni el de Claude**. Luego se desciende a `Medium` para ejecutar.
+- **Nivel 1A (Diario y Ágil - 75%):** `Gemini 3.8 Flash (Medium)` como caballo de batalla predeterminado para navegación, chat, generación, sesiones TDD `/pair` y subagente `code-executor`.
+- **Nivel 1B (Planificación y Arquitectura Estándar - 10%):** `Gemini 3.8 Flash (High)` (tope de ~10K tokens de pensamiento) para formular planes interactivos (`/plan`, `/backlog`, `/story`) o abordar diseño moderado dentro del pool estándar de Gemini, **sin gastar el cupo semanal de Argon ni el de Claude**. Luego se desciende a `Medium` para ejecutar.
 - **Nivel 2 (Frontera y Consola - 10%):** `Gemini 4 Argon (Medium)` para refactorizaciones en múltiples archivos, trazas extensas, depuración pesada y comandos de terminal (57.4% en Terminal-Bench). Utiliza su propio pool semanal (`Gemini 4 Argon Weekly Limit`) sin gastar la cuota de Claude ni saturar Flash. Aplica el patrón "Plan en Archivo".
-- **Nivel 3 (Francotirador Crítico - 5%):** `Claude Opus 5.5 (Medium)` reservado para análisis de causa raíz y arquitectura extrema donde se requiera máxima comprensión semántica (51 pts), con salida directa a archivo de plan (`PLAN_FIX.md`).
+- **Nivel 3 (Francotirador Crítico - 5%):** `Claude Opus 5.5 (Medium)` reservado para análisis de causa raíz y arquitectura extrema donde se requiera máxima comprensión semántica (51 pts), con salida directa a archivo de plan (`PLAN_FIX.md` o `plan.md`).
 
 ## 2. Estrategia Operativa con Modelos de Frontera (Gemini 4 Argon y Claude Opus/Sonnet 5.5)
 
 - **Patrón "Plan en Archivo para Implementación con Flash":**
-  Cuando se utilice **Gemini 4 Argon** o **Claude** para arquitectura, resolución de bugs profundos, diseño complejo o diagnósticos críticos, la directiva principal es redactar la solución, causas raíz y especificación detallada en un archivo de plan (ej. `PLAN_FIX.md` o plan de implementación) sin implementar código masivo directamente en esa sesión.
-  Posteriormente, la implementación concreta, pruebas y tareas mecánicas se delegan a Gemini Flash (o al subagente `code-executor`), protegiendo el límite semanal de Argon (`Gemini 4 Argon Weekly Limit`) y la ventana de cuota de 5 horas de Claude.
+  Cuando se utilice **Gemini 4 Argon** o **Claude** para arquitectura, resolución de bugs profundos, diseño complejo o diagnósticos críticos, la directiva principal es redactar la solución, causas raíz y especificación detallada en un archivo de plan (ej. `PLAN_FIX.md` o `plan.md`) sin implementar código masivo directamente en esa sesión.
+  Posteriormente, la implementación concreta, pruebas y tareas mecánicas se delegan a Gemini Flash (mediante `/pair` en sesión limpia o al subagente `code-executor`), protegiendo el límite semanal de Argon (`Gemini 4 Argon Weekly Limit`) y la ventana de cuota de 5 horas de Claude.
 
 - **Blindaje Obligatorio de Subagentes:**
   Cuando el agente principal opere con Gemini 4 Argon o Claude, nunca delegar en subagentes con `model: inherit`. Se debe especificar explícitamente `model: flash` o `model: flash_lite` para evitar que la exploración o ejecución multiplique el consumo del pool de frontera de Argon o de terceros.
@@ -28,3 +28,13 @@
 - **Decisión Dinámica de Inteligencia Operativa:** El orquestador es la autoridad facultada para evaluar la dificultad técnica de cada subtarea y decidir el nivel de inteligencia asignado al trabajador:
   * **Gemini 3.8 Flash Medium (`flash`):** Para lógica de negocio, edición de código acoplado, resolución de tipos y desarrollo de pruebas unitarias.
   * **Gemini 3.8 Flash Low (`flash_lite`):** Para búsquedas sintácticas, grep, inspección de rutas, generación de boilerplate repetitivo y ejecución básica de scripts.
+
+## 5. Flujo de Desarrollo Híbrido Anti-SDD (ODD + XP Vertical Slices `hola-ai`)
+
+- **Enfoque ODD (Organic-Driven Development) para Bugs y Cambios Chicos:**
+  - Complejidad a demanda: resolver retoques o bugs acotados directamente con **Nivel 1A (`Gemini 3.8 Flash Medium`)** sin burocracia de especificación previa.
+  - Delegación determinista por tokens: delegar la fase `exploring` a `explorer-low` (`model: flash_lite`) antes de pasar a `implementing`, evitando contaminar el contexto principal.
+- **Enfoque XP / Vertical Slices (`backlog` ➔ `story` ➔ `pair`) para Features Nuevas o Complejas:**
+  - **Descubrimiento y Refinamiento (`/backlog` y `/story`):** Ejecutar con modelos de razonamiento (**Nivel 1B `Flash High`**, **Nivel 2 `Argon Medium`** o **Nivel 3 `Claude Opus Medium`**) para definir rebanadas verticales de una línea en `backlog.md` y refinar **una sola historia a la vez** (2-3 criterios *Given/When/Then*, mini-plan de máx. 5 puntos y *Out of Scope*) en `plan.md`.
+  - **Implementación TDD Guiada (`/pair`):** Abrir una **sesión limpia** leyendo únicamente `plan.md` con **Nivel 1A (`Gemini 3.8 Flash Medium`)**. Operar como *Driver* en micro-pasos (~50 líneas) bajo el ciclo **Turno A (Rojo: 1 test + freno) ➔ Turno B (Verde: código mínimo sin abstracciones especulativas + freno) ➔ Turno C (Refactor a pedido del Navigator)**.
+  - Ver reglas detalladas en [`xp-workflow.md`](xp-workflow.md).
