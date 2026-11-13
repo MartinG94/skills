@@ -38,3 +38,19 @@
   - **Descubrimiento y Refinamiento (`/backlog` y `/story`):** Ejecutar con modelos de razonamiento (**Nivel 1B `Flash High`**, **Nivel 2 `Argon Medium`** o **Nivel 3 `Claude Opus Medium`**) para definir rebanadas verticales de una línea en `backlog.md` y refinar **una sola historia a la vez** (2-3 criterios *Given/When/Then*, mini-plan de máx. 5 puntos y *Out of Scope*) en `plan.md`.
   - **Implementación TDD Guiada (`/pair`):** Abrir una **sesión limpia** leyendo únicamente `plan.md` con **Nivel 1A (`Gemini 3.8 Flash Medium`)**. Operar como *Driver* en micro-pasos (~50 líneas) bajo el ciclo **Turno A (Rojo: 1 test + freno) ➔ Turno B (Verde: código mínimo sin abstracciones especulativas + freno) ➔ Turno C (Refactor a pedido del Navigator)**.
   - Ver reglas detalladas en [`xp-workflow.md`](xp-workflow.md).
+
+## 6. Patrón Orquestador Nativo para Sesiones con Anthropic (Claude)
+
+Cuando el modelo principal de la sesión sea de **Anthropic** (Claude Opus / Sonnet), replicar la arquitectura del orquestador nativo de Antigravity (`swarm` / Argon) con separación estricta entre **Coordinador (Anthropic)** y **Workers (Gemini)**:
+
+1. **El Coordinador NO ejecuta trabajo mecánico ("Do not do the work"):**
+   - El modelo Anthropic se reserva exclusivamente para planificar, descomponer subtareas, redactar el plan en archivo (`PLAN_FIX.md`), juzgar resultados y tomar decisiones de diseño con turnos cortos.
+   - Toda investigación, lectura masiva, grep, edición de código, compilación y ejecución de tests se delega a workers/subagentes.
+2. **Override explícito de modelo en Workers (`swarm` e `invoke_subagent`):**
+   - **En `invoke_subagent`:** Nunca usar `Model: inherit`; especificar `Model: "flash"` (implementación/tests) o `Model: "flash_lite"` (búsqueda/lectura).
+   - **En `swarm` (`native_swarm`):** Consultar `swarm{action:"models"}` y fijar explícitamente el parámetro `model` en `swarm{action:"add"}` hacia modelos Gemini (Flash para ejecución/lectura; Argon solo si una subtarea pesada lo justifica), anulando la herencia por defecto de Anthropic.
+3. **Reglas operativas del Orquestador Nativo:**
+   - **Briefs autocontenidos:** Cada worker parte de cero; el brief debe indicar qué archivos posee, qué no tocar y cuál es la condición de "terminado".
+   - **Aislamiento de escritura:** Usar `workspace: "share"` para autores que editan o compilan en paralelo y `inherit` para lectores/verificadores.
+   - **Verificador independiente:** Incluir 1 worker verificador cada 2–4 ejecutores para correr tests y revisar diffs.
+   - **Higiene de contexto:** Referenciar reportes previos por `#seq` (en `swarm`) o pedir resúmenes de 3–5 líneas (en subagentes); nunca copiar volcados largos al hilo del coordinador Anthropic.
