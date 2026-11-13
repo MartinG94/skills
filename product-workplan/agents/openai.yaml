@@ -1,0 +1,3 @@
+interface:
+  display_name: "Product Workplan"
+  short_description: "Organiza el producto en hitos e incrementos"

@@ -32,6 +32,7 @@ Estas habilidades están diseñadas para ser consumidas y ejecutadas por agentes
 - [Anatomía de una Skill](#-anatomía-de-una-skill)
 - [Compatibilidad de nombres y agentes](#-compatibilidad-de-nombres-y-agentes)
 - [Guía de Integración y Uso](#-guía-de-integración-y-uso)
+- [Guía de uso: del producto a la entrega](#guía-de-uso-del-producto-a-la-entrega)
 - [Estándares y Fundamentos Académicos](#-estándares-y-fundamentos-académicos)
 - [Buenas Prácticas de Contribución](#-buenas-prácticas-de-contribución)
 
@@ -167,7 +168,7 @@ flowchart TD
 
 ## 📚 Catálogo de Skills
 
-El repositorio cuenta actualmente con **31 skills especializadas**, distribuidas en las siguientes áreas de competencia:
+El repositorio cuenta actualmente con **55 skills especializadas**, distribuidas en las siguientes áreas de competencia:
 
 Las skills migradas muestran en la etiqueta su `name` invocable en hyphen-case.
 Algunos paquetes y enlaces conservan nombres o carpetas históricas en camelCase para
@@ -200,6 +201,9 @@ no romper compatibilidad; ante cualquier diferencia, prevalece el frontmatter.
 | :--- | :--- | :--- | :--- |
 | [**quality-scenario-specifier**](qualityScenarioSpecifier/SKILL.md) | Convierte RNF en escenarios verificables sin inventar umbrales. | Perfil de cátedra atributo–estímulo–respuesta; seis partes y tácticas como modos condicionales. | Escenario del perfil pedido, pendientes y criterios de verificación. |
 | [**microservice-decomposer**](microserviceDecomposer/SKILL.md) | Evalúa monolito modular frente a microservicios y define límites solo si se justifican. | Drivers de negocio/calidad, bounded contexts, dependencias y capacidad operativa. | Decisión arquitectónica y vistas solicitadas; “no descomponer” es válido. |
+| [**product-workplan**](product-workplan/SKILL.md) | Crea, revisa o reprioriza el plan de evolución de un producto nuevo o existente. | Hitos de valor, recorte de alcance, dependencias, adopción y aceptación desde evidencia. | Workplan global y handoff al plan de cada feature, con formato adaptable y ejemplos. |
+| [**feature-plan**](feature-plan/SKILL.md) | Prepara, revisa o actualiza planes implementables de una feature concreta. | Evidencia del proyecto, decisiones, contratos compartidos, dependencias y aceptación proporcional. | Plan integrado y handoff; formato adaptable con ejemplos, sin imponer stack ni estructura documental. |
+| [**feature-delivery**](feature-delivery/SKILL.md) | Implementa, continúa, revisa o cierra un incremento autorizado. | Integración, validación proporcional, revisión de trabajo heredado y estados operacionales acreditados. | Cambio comprobado, hallazgos o handoff según el encargo; guía de revisión y cierre. |
 
 ---
 
@@ -421,6 +425,142 @@ un resultado satisfactorio.
 Sustituí las rutas de ejemplo por artefactos existentes. El validador de diseño puede
 requerir que `npx` obtenga `@google/design.md`; el servidor exige un directorio que
 contenga `index.html` y elige un puerto libre con `--port 0`.
+
+---
+
+## Guía de uso: del producto a la entrega
+
+Estas tres skills conectan necesidades, planificación y ejecución. Podés usarlas por separado, entrar por la etapa que corresponda o encadenarlas en un mismo pedido. No hace falta recorrer las tres para cada cambio.
+
+| Skill | Cuándo usarla | Contexto útil | Resultado |
+|---|---|---|---|
+| [product-workplan](product-workplan/SKILL.md) | Decidir qué entregar y en qué orden, crear un roadmap o revisar prioridades. | Necesidades, reglas, restricciones y evidencia del producto si existe. | Hitos e incrementos con alcance, dependencias y aceptación. |
+| [feature-plan](feature-plan/SKILL.md) | Preparar o revisar cómo implementar un incremento elegido. | Objetivo, decisiones, base actual y contratos afectados. | Plan ejecutable, tareas, validación y bloqueos localizados. |
+| [feature-delivery](feature-delivery/SKILL.md) | Implementar, continuar, revisar o cerrar una entrega concreta. | Encargo autorizado, plan o criterios suficientes, código y evidencia disponible. | Cambio comprobado, hallazgos de revisión o cierre con pendientes explícitos. |
+
+Los ejemplos nombran la skill en lenguaje natural; adaptá la invocación a tu agente. Si no la resuelve por nombre, indicá la ruta del `SKILL.md` enlazado. Reemplazá los campos entre corchetes por datos reales y referenciá las fuentes disponibles. Los nombres de documentos, el stack y la organización del trabajo se toman del proyecto.
+
+### Usarlas por separado
+
+**Workplan de producto.** Sirve desde una idea sin repositorio o para revisar un producto existente; agregá su ruta cuando lo haya.
+
+```text
+Usá product-workplan para organizar [producto y problema que resuelve].
+Las fuentes son [entrevistas, notas o documentos] y las restricciones aprobadas
+son [restricciones]. Proponé el primer alcance útil y la evolución posterior,
+con dependencias, criterios de aceptación y decisiones pendientes.
+Entregá el plan en [destino]. Por ahora sólo quiero planificación.
+```
+
+**Plan de una feature.** No requiere crear antes un roadmap si el incremento ya está definido.
+
+```text
+Usá feature-plan para preparar [incremento] en [ruta del proyecto].
+El resultado esperado es [escenario observable]; las reglas aprobadas están
+en [fuente] y quedan fuera [exclusiones]. Contrastá lo existente, conciliá
+los contratos y definí tareas y comprobaciones. Actualizá [plan existente
+o destino acordado]. No implementes todavía.
+```
+
+**Implementación o continuación.** Puede consumir un plan o criterios suficientes para un arreglo pequeño.
+
+```text
+Usá feature-delivery para completar [incremento] en [ruta], según [plan o criterios].
+Implementá todo el alcance indicado, preservá el trabajo previo y ejecutá
+las validaciones pertinentes. Actualizá la memoria según las reglas del proyecto.
+El encargo termina con el cierre técnico local; informá resultados y pendientes.
+```
+
+La misma skill admite pedidos con otro alcance:
+
+```text
+Usá feature-delivery para revisar [incremento/diff] contra [plan o criterios].
+Quiero hallazgos con evidencia e impacto, sin modificar código.
+```
+
+```text
+Usá feature-delivery para comprobar y documentar el cierre de [incremento].
+Contrastá [fuentes de evidencia] y actualizá [registro existente]. Distinguí
+implementación, pruebas, aceptación humana y estado de cada entorno cuando
+apliquen. Este pedido no incluye nuevas operaciones de publicación.
+```
+
+### Encadenarlas en un proyecto nuevo
+
+Ejemplo ficticio: una asociación quiere registrar préstamos y devoluciones de equipos. Los prompts siguientes son intervenciones sucesivas; cada una consume el resultado anterior.
+
+**1. Definir el producto y su primer corte.**
+
+```text
+Usá product-workplan. Queremos reemplazar el cuaderno de préstamos de equipos
+por una aplicación. Las notas y reglas confirmadas están en [fuentes].
+Definí un piloto útil, lo diferido, las dependencias y cómo aceptar cada entrega.
+No hay repositorio ni stack elegido todavía. Entregá la propuesta en la conversación
+y señalá las decisiones necesarias sin convertir hipótesis en reglas aprobadas.
+```
+
+**2. Elegir y detallar una entrega.**
+
+```text
+Tomemos [identificador y alcance del incremento] del workplan anterior.
+Estas son mis decisiones sobre los pendientes: [decisiones]. Usá feature-plan
+para detallar sus contratos, tareas y aceptación, conservando la relación con
+el hito. Usá [restricciones o decisiones técnicas disponibles]. Guardá el plan
+en [destino acordado]. Este pedido sigue siendo sólo de planificación.
+```
+
+**3. Implementar el incremento seleccionado.**
+
+```text
+Ahora usá feature-delivery para implementar [incremento] en [ruta del proyecto]
+conforme a [plan]. Las decisiones vigentes son [fuentes o decisiones adicionales].
+Continuá hasta completar el alcance y su validación local; si queda una decisión
+funcional pendiente, localizá su impacto y avanzá con lo independiente.
+Dejá evidencia y handoff según las convenciones del proyecto.
+```
+
+Las pausas entre estos ejemplos corresponden a la elección de alcance y decisiones del usuario. Si esas decisiones ya están tomadas y el pedido incluye implementación, se puede autorizar el recorrido completo en un único mensaje, acotándolo a un incremento concreto.
+
+### Encadenarlas en un proyecto existente
+
+Partí de lo que ya funciona y de la memoria disponible. Si el workplan sigue vigente y sólo cambia una feature, podés empezar directamente con `feature-plan` o `feature-delivery`.
+
+Este ejemplo autoriza planificación y ejecución en una misma intervención:
+
+```text
+En [ruta del proyecto], usá product-workplan para actualizar el plan con
+[necesidad nueva], contrastando dominio, estado, código y pruebas disponibles.
+Conservá las capacidades ya verificadas y los cambios locales.
+El incremento que quiero ejecutar es [identificador y alcance], con estas reglas
+aprobadas: [reglas]. Usá feature-plan para ajustar su diseño y luego
+feature-delivery para implementarlo y validarlo localmente, sin pedir otra
+confirmación por tareas internas ya incluidas. Detenete al completar ese incremento.
+Propagá las decisiones aprobadas a los documentos afectados y dejá el resto
+del roadmap como planificación. No incluye merge, migraciones remotas ni deploy.
+```
+
+Si también querés una liberación, indicá el alcance y destino de esa operación; se aplican los procedimientos del proyecto y las autorizaciones vigentes. Tener un plan listo, pruebas verdes o una aceptación funcional no equivale a haber publicado.
+
+### Incorporar feedback y retomar en otro chat
+
+El flujo también vuelve desde la entrega hacia los planes. Una decisión nueva puede cambiar reglas, contratos o dependencias; se actualizan las fuentes afectadas sin iniciar automáticamente otra feature.
+
+```text
+Durante la UAT de [incremento] decidí [cambio funcional concreto].
+Usá feature-plan para ajustar lo afectado y feature-delivery para implementarlo
+y revalidarlo. Actualizá la fuente funcional y el workplan si cambia su alcance
+o dependencias. [Otras observaciones] siguen siendo propuestas para después.
+Registrá las pruebas reales; todavía no di aceptación a la versión corregida.
+```
+
+Para continuar en otro chat, pasá el objetivo, las rutas de las fuentes y el alcance autorizado. El siguiente agente debe contrastar el estado vigente; un resumen anterior no sustituye la evidencia. Si no hay convención documental, el handoff puede quedar en la conversación.
+
+```text
+Continuá [incremento] usando feature-delivery en [ruta]. El plan está en [ruta],
+las decisiones en [fuente] y el último estado en [registro o resumen adjunto].
+El alcance autorizado es [alcance]; quedan pendientes [decisiones o comprobaciones].
+Verificá la base actual, preservá los cambios existentes y completá lo autorizado.
+```
 
 ---
 

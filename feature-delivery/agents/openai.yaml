@@ -1,0 +1,3 @@
+interface:
+  display_name: "Feature Delivery"
+  short_description: "Implementa incrementos y verifica su cierre"
