@@ -1,6 +1,14 @@
 {
     "schema_version": 1,
     "aliases": {
+        "ai-job-search": {
+            "canonical_name": "ai-job-search",
+            "skill_file": "aiJobSearch/SKILL.md"
+        },
+        "aiJobSearch": {
+            "canonical_name": "ai-job-search",
+            "skill_file": "aiJobSearch/SKILL.md"
+        },
         "apiDesign": {
             "canonical_name": "api-design",
             "skill_file": "apiDesign/SKILL.md"
@@ -20,14 +28,6 @@
         "crudValidator": {
             "canonical_name": "crud-validator",
             "skill_file": "crudValidator/SKILL.md"
-        },
-        "cv-optimizer": {
-            "canonical_name": "cv-optimizer",
-            "skill_file": "cvOptimizer/SKILL.md"
-        },
-        "cvOptimizer": {
-            "canonical_name": "cv-optimizer",
-            "skill_file": "cvOptimizer/SKILL.md"
         },
         "design-md": {
             "canonical_name": "design-ux-ui",
