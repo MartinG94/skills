@@ -340,6 +340,18 @@
         "pair": {
             "canonical_name": "pair",
             "skill_file": "pair/SKILL.md"
+        },
+        "supabase": {
+            "canonical_name": "supabase",
+            "skill_file": "supabase/SKILL.md"
+        },
+        "supabasePostgresBestPractices": {
+            "canonical_name": "supabasePostgresBestPractices",
+            "skill_file": "supabasePostgresBestPractices/SKILL.md"
+        },
+        "supabase-postgres-best-practices": {
+            "canonical_name": "supabasePostgresBestPractices",
+            "skill_file": "supabasePostgresBestPractices/SKILL.md"
         }
     }
 }
